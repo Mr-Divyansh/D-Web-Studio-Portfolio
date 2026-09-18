@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — DivyWebStudio</title>
+<meta name="description" content="Frontend developer from Himachal Pradesh, India — building websites for clients and side projects for himself.">
+<link rel="icon" href="assets/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .about-hero{ padding-top: 150px; padding-bottom: 20px; }
+  .about-hero h1{ font-size: clamp(32px,4.6vw,50px); line-height: 1.12; max-width: 780px; }
+  .about-hero .section-sub{ margin-top: 18px; max-width: 560px; }
+  .story-grid{ display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: start; }
+  .story-text p{ color: var(--muted); font-size: 15.5px; line-height: 1.85; margin-bottom: 18px; }
+  .story-text strong{ color: var(--paper); }
+  .story-aside{ border: 1px solid var(--line-strong); border-radius: var(--radius-md); padding: 26px; background: var(--ink-2); }
+  .story-aside .row{ display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .story-aside .row:last-child{ border-bottom: none; }
+  .story-aside .row span:first-child{ color: var(--muted-2); }
+  .story-aside .row span:last-child{ font-weight: 700; text-align: right; }
+
+  .beyond-card{
+    border: 1px solid var(--line-strong); border-radius: var(--radius-lg); overflow: hidden;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+    background: linear-gradient(120deg, rgba(var(--gold-rgb),.08), transparent 60%), var(--ink-2);
+  }
+  .beyond-card .txt{ padding: clamp(28px,4vw,48px); }
+  .beyond-card .visual{ height: 100%; min-height: 220px; background: linear-gradient(155deg,#241708,#0c0d10); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .beyond-card .visual svg{ width: 74px; height: 74px; color: var(--gold); opacity: .85; }
+  .beyond-card .visual::before{ content:''; position:absolute; inset:0; background: repeating-linear-gradient(45deg, rgba(255,255,255,.03) 0 10px, transparent 10px 20px); }
+  .beyond-card h3{ font-size: 22px; margin-bottom: 12px; }
+  .beyond-card p{ color: var(--muted); font-size: 14.5px; line-height: 1.75; }
+  .beyond-tags{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+
+  .stack-cat{ margin-bottom: 26px; }
+  .stack-cat h4{ font-size: 13px; font-family:'JetBrains Mono',monospace; color: var(--muted-2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+
+  @media (max-width: 900px){
+    .story-grid{ grid-template-columns: 1fr; }
+    .beyond-card{ grid-template-columns: 1fr; }
+    .beyond-card .visual{ min-height: 160px; order: -1; }
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="assets/logo.jpg" alt="DivyWebStudio logo">DivyWeb<span class="studio">Studio</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link active">About</a>
+      <a href="index.html#features" class="nav-link">Services</a>
+      <a href="index.html#projects" class="nav-link">Work</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+    <a href="index.html#contact" class="nav-cta">Let's Talk <span class="btn-arrow">→</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+  <div class="mobile-drawer-head">
+    <span class="nav-brand"><img src="assets/logo.jpg" alt="DivyWebStudio logo">DivyWeb<span class="studio">Studio</span></span>
+    <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
+  </div>
+  <ul class="mobile-nav-list">
+    <li><a href="index.html" style="--i:0">Home</a></li>
+    <li><a href="about.html" style="--i:1">About</a></li>
+    <li><a href="index.html#projects" style="--i:2">Work</a></li>
+    <li><a href="index.html#contact" style="--i:3">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/918091273525" target="_blank" class="mobile-drawer-cta">WhatsApp Us →</a>
+</div>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="hero about-hero">
+  <div class="hero-glow-a" aria-hidden="true"></div>
+  <div class="container">
+    <span class="eyebrow reveal">About Me</span>
+    <h1 class="reveal" style="transition-delay:.06s;">Hi, I'm Divyansh — I turn ideas into <span class="text-grad">working software.</span></h1>
+    <p class="section-sub reveal" style="transition-delay:.14s;">Frontend developer, freelancer, and someone who's happiest when something he built actually works — for a client, or just for himself.</p>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section id="story">
+  <div class="container story-grid">
+    <div class="story-text reveal">
+      <span class="eyebrow">My Story</span>
+      <h2 class="section-title">From curiosity to <span class="text-grad">craft.</span></h2>
+      <p>I'm currently a <strong>BCA student (Semester 1)</strong>, based in <strong>Kangra, Himachal Pradesh</strong> — and alongside my studies, I've been working as a freelance frontend developer, building websites for real businesses through <strong>Fiverr</strong>.</p>
+      <p>Client work taught me how to build fast and reliably under a deadline. But the projects that taught me the most are the ones nobody paid me for — <strong>AttendX</strong>, <strong>Shadow-Weaver</strong>, and <strong>CHIKA</strong> started as "I wonder if I can build this," and turned into full working products with real users in mind.</p>
+      <p>I care about the same three things on every project, big or small: does it look like it was made with intent, does it actually work everywhere, and would I be proud to put my name on it.</p>
+    </div>
+    <div class="story-aside reveal" style="transition-delay:.12s;">
+      <div class="row"><span>Based in</span><span>Himachal Pradesh, IN</span></div>
+      <div class="row"><span>Studying</span><span>BCA — Semester 1</span></div>
+      <div class="row"><span>Freelancing on</span><span>Fiverr</span></div>
+      <div class="row"><span>Currently building</span><span>Shadow-Weaver, CHIKA</span></div>
+      <div class="row"><span>Also on</span><span>GitHub · Mr-Divyansh</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEYOND THE CODE ============ -->
+<section id="beyond">
+  <div class="container">
+    <span class="eyebrow reveal">Beyond The Code</span>
+    <div class="beyond-card reveal" style="transition-delay:.06s;">
+      <div class="txt">
+        <h3>I also direct tiny worlds in Minecraft.</h3>
+        <p>Outside of client work, I make Minecraft cinematic videos and storytelling content — planning shots, pacing a story, editing for impact. It's a completely different tool, but the same instinct: take something raw and shape it into an experience someone enjoys.</p>
+        <div class="beyond-tags">
+          <span class="tech-tag">Cinematics</span><span class="tech-tag">Storytelling</span><span class="tech-tag">YouTube Shorts</span>
+        </div>
+      </div>
+      <div class="visual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3Z"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TECH STACK ============ -->
+<section id="stack">
+  <div class="container">
+    <span class="eyebrow reveal">What I Work With</span>
+    <h2 class="section-title reveal" style="transition-delay:.04s;">Tools of the trade.</h2>
+    <div class="reveal" style="transition-delay:.1s; margin-top:36px;">
+      <div class="stack-cat">
+        <h4>Frontend</h4>
+        <div class="stack-grid">
+          <span class="stack-chip">React</span><span class="stack-chip">Next.js</span><span class="stack-chip">TypeScript</span><span class="stack-chip">Tailwind CSS</span><span class="stack-chip">Vite</span>
+        </div>
+      </div>
+      <div class="stack-cat">
+        <h4>Backend &amp; Data</h4>
+        <div class="stack-grid">
+          <span class="stack-chip">Python</span><span class="stack-chip">FastAPI</span><span class="stack-chip">Prisma</span><span class="stack-chip">PostgreSQL</span>
+        </div>
+      </div>
+      <div class="stack-cat">
+        <h4>Tooling</h4>
+        <div class="stack-grid">
+          <span class="stack-chip">Git &amp; GitHub</span><span class="stack-chip">Vercel</span><span class="stack-chip">Figma</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW I WORK ============ -->
+<div class="features-strip">
+  <div class="container">
+    <span class="eyebrow reveal" style="margin-top:20px;">How I Work</span>
+    <div class="features-row" style="margin-top:16px; grid-template-columns:repeat(4,1fr);">
+      <div class="feature-item reveal" style="transition-delay:.04s;">
+        <span class="feature-num">01</span>
+        <h4>Understand First</h4>
+        <p>I ask questions before writing code, so the site actually fits the real goal.</p>
+      </div>
+      <div class="feature-item reveal" style="transition-delay:.1s;">
+        <span class="feature-num">02</span>
+        <h4>Build Clean</h4>
+        <p>Readable, maintainable code — no shortcuts that come back to bite later.</p>
+      </div>
+      <div class="feature-item reveal" style="transition-delay:.16s;">
+        <span class="feature-num">03</span>
+        <h4>Design With Intent</h4>
+        <p>Every color, spacing and motion choice should earn its place on the page.</p>
+      </div>
+      <div class="feature-item reveal" style="transition-delay:.22s;">
+        <span class="feature-num">04</span>
+        <h4>Ship &amp; Support</h4>
+        <p>Launch isn't the finish line — I stick around after the site goes live.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CLOSING CTA ============ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-band reveal">
+      <span class="eyebrow" style="justify-content:center;">Let's Talk</span>
+      <h2>Like how I think? <span class="text-grad">Let's build.</span></h2>
+      <p>Message on WhatsApp or drop an email — usually reply within a few hours.</p>
+      <div class="contact-btns">
+        <a href="https://wa.me/918091273525" target="_blank" class="btn btn-primary">WhatsApp Me <span class="btn-arrow">→</span></a>
+        <a href="mailto:divywebstudio@gmail.com" class="btn btn-secondary">Email Me</a>
+      </div>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/divywebstudio/" target="_blank">Instagram · @divywebstudio</a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank">GitHub · Mr-Divyansh</a>
+        <span>Himachal Pradesh, India</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-row">
+    <div class="footer-brand"><img src="assets/logo.jpg" alt="DivyWebStudio logo">DivyWeb<span class="studio">Studio</span></div>
+    <p>© 2026 DivyWebStudio. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="https://wa.me/918091273525" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/divywebstudio/" target="_blank">Instagram</a>
+      <a href="https://github.com/Mr-Divyansh" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>
