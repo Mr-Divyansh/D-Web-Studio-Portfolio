@@ -1,0 +1,32 @@
+{
+    "services": [
+        {
+            "id": "business-websites",
+            "name": "Business Websites",
+            "page": "business-websites.html",
+            "image": "img/ServicesImage/BusinessWebsiteImg.png",
+            "summary": "A complete multi-page website that presents your services, builds trust and makes it easy for customers to contact you."
+        },
+        {
+            "id": "landing-pages",
+            "name": "Landing Pages",
+            "page": "landing-pages.html",
+            "image": "img/ServicesImage/LandingPageImg.png",
+            "summary": "A focused single-page website built for one offer, campaign or service, designed to turn visitors into enquiries."
+        },
+        {
+            "id": "restaurant-websites",
+            "name": "Restaurant Websites",
+            "page": "restaurant-websites.html",
+            "image": "img/ServicesImage/RestaurantWebsiteImg.png",
+            "summary": "Menus, photos, timings and location presented in a clean layout your customers will actually use."
+        },
+        {
+            "id": "gym-salon-websites",
+            "name": "Gym & Salon Websites",
+            "page": "gym-salon-websites.html",
+            "image": "img/ServicesImage/GymSalonWebsiteImg.png",
+            "summary": "Membership plans, price lists, timings and booking enquiries for gyms, salons and beauty studios."
+        }
+    ]
+}
