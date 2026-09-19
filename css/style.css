@@ -541,6 +541,37 @@ body.menu-open {
     position: relative;
 }
 
+.hero-visual {
+    position: relative;
+}
+
+.hero > .Robot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(12, 16, 24, .92) 0%, rgba(12, 16, 24, .55) 45%, rgba(12, 16, 24, .15) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-visual .Robot-iframe {
+    border: none;
+}
+
 .hero-shot {
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-lg);
@@ -1244,6 +1275,11 @@ footer {
 @media (max-width: 640px) {
     .hero-floating-card {
         display: none;
+    }
+
+    .hero-visual .Robot,
+    .hero > .Robot {
+        height: 340px;
     }
 }
 
