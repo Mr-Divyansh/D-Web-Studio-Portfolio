@@ -1360,6 +1360,11 @@ body.menu-open {
     object-fit: cover;
     object-position: top;
     border-bottom: 1px solid var(--line);
+    background: var(--ink);
+}
+
+.project-thumb img[src*="ChikaImage"] {
+    object-position: center 35%;
 }
 
 .project-type {
