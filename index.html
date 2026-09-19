@@ -32,6 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.96/build/spline-viewer.js"></script>
+  <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
 
   <script type="application/ld+json">
@@ -142,10 +143,6 @@
 </div>
 
 <section class="hero" id="top">
-  <spline-viewer class="Robot" url="https://prod.spline.design/PBQQBw8bfXDhBo7w/scene.splinecode" events-target="global"></spline-viewer>
-  <div class="hero-glow-a" aria-hidden="true"></div>
-  <div class="hero-glow-b" aria-hidden="true"></div>
-
   <div class="container hero-grid">
     <div>
       <div class="hero-badges reveal">
@@ -169,7 +166,7 @@
       <div class="hero-btns reveal" style="transition-delay:.28s;">
         <a href="work.html" class="btn btn-primary">
           Explore My Work
-          <span class="btn-arrow">→</span>
+          <i data-lucide="arrow-right" class="btn-arrow"></i>
         </a>
         <a href="contact.html" class="btn btn-secondary">
           Start a Project
@@ -177,9 +174,9 @@
       </div>
 
       <div class="hero-tags reveal" style="transition-delay:.36s;">
-        <span>&lt;/&gt; <b>Full Stack Development</b></span>
-        <span>✦ <b>Modern UI</b></span>
-        <span>⚡ <b>Fast &amp; Responsive</b></span>
+        <span><i data-lucide="code-2"></i> <b>Full Stack Development</b></span>
+        <span><i data-lucide="sparkles"></i> <b>Modern UI</b></span>
+        <span><i data-lucide="zap"></i> <b>Fast &amp; Responsive</b></span>
       </div>
 
       <div class="hero-stats reveal" style="transition-delay:.44s;">
@@ -200,7 +197,46 @@
     </div>
 
     <div class="hero-visual reveal" style="transition-delay:.2s;">
-      <div class="hero-visual-slot"></div>
+      <div class="hero-visual-slot">
+        <div class="cube-scene" aria-hidden="true">
+          <div class="cube-ambient"></div>
+          <div class="cube-glow"></div>
+          <div class="cube-stage">
+            <div class="cube-orbit-wrap cube-orbit-wrap-a"><span class="cube-orbit"></span></div>
+            <div class="cube-orbit-wrap cube-orbit-wrap-b"><span class="cube-orbit"></span></div>
+            <div class="cube3d">
+              <span class="cube-face cube-face-back"></span>
+              <span class="cube-face cube-face-left"></span>
+              <span class="cube-face cube-face-bottom"></span>
+              <span class="cube-face cube-face-top"></span>
+              <span class="cube-face cube-face-right"></span>
+              <span class="cube-face cube-face-front"></span>
+              <div class="cube-core">
+                <span class="core-face core-face-2"></span>
+                <span class="core-face core-face-4"></span>
+                <span class="core-face core-face-6"></span>
+                <span class="core-face core-face-5"></span>
+                <span class="core-face core-face-3"></span>
+                <span class="core-face core-face-1"></span>
+              </div>
+            </div>
+          </div>
+          <div class="cube-floor"></div>
+          <div class="hero-ui-card ui-card-stack">
+            <i data-lucide="code-2" class="ui-stack-icon"></i>
+            <ul class="ui-stack-list">
+              <li><span class="ui-dot ui-dot-blue"></span>BUILD</li>
+              <li><span class="ui-dot ui-dot-violet"></span>CREATE</li>
+              <li><span class="ui-dot ui-dot-green"></span>SHIP</li>
+            </ul>
+          </div>
+          <div class="hero-ui-card ui-card-code">
+            <code><span class="tk">const</span> <span class="fn">create</span> = () =&gt; {</code>
+            <code class="ind"><span class="tk">return</span> <span class="fn">better</span>();</code>
+            <code>};</code>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

@@ -104,6 +104,21 @@ The design, content, technology, services, pricing, and project showcase may evo
 
 ---
 
+## Homepage Hero Visual
+
+The homepage hero right side uses a pure CSS 3D scene (`.cube-scene` inside `.hero-visual-slot` in `index.html`): rotating glass cube, glowing inner core, two orbit rings, blue/violet ambient and floor glow, and two floating glass UI cards. It is fully decorative (`aria-hidden="true"`, `pointer-events: none`) and respects `prefers-reduced-motion`.
+
+To swap in a real Spline scene later:
+
+1. The Spline viewer script is already loaded in the `<head>` of `index.html`.
+2. In `index.html`, replace the whole `<div class="cube-scene">...</div>` inside `.hero-visual-slot` with:
+   `<spline-viewer url="PASTE-YOUR-SCENE-URL" events-target="global"></spline-viewer>`
+3. Add sizing for it in `css/style.css`, e.g. `.hero-visual-slot spline-viewer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }`
+
+Icons in the hero use Lucide via CDN (`lucide.createIcons()` is initialised in `js/main.js`).
+
+---
+
 ## Long-Term Vision
 
 D Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:

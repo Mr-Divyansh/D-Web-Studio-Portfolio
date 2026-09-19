@@ -541,17 +541,8 @@ body.menu-open {
     position: relative;
 }
 
-.hero-visual {
+.hero-visual-slot {
     position: relative;
-}
-
-.hero > .Robot {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
 }
 
 .hero::after {
@@ -568,8 +559,464 @@ body.menu-open {
     z-index: 2;
 }
 
-.hero-visual .Robot-iframe {
-    border: none;
+#top.hero {
+    background:
+        radial-gradient(46% 40% at 74% 42%, rgba(47, 126, 242, 0.10), transparent 70%),
+        linear-gradient(180deg, #0A111D 0%, #0C0F13 78%);
+}
+
+.cube-scene {
+    --s: clamp(190px, 23vw, 250px);
+    --c: calc(var(--s) * 0.42);
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1.02;
+    margin: 0 auto;
+    perspective: 1150px;
+    pointer-events: none;
+}
+
+.cube-ambient {
+    position: absolute;
+    inset: -14%;
+    background:
+        radial-gradient(42% 40% at 52% 44%, rgba(47, 126, 242, 0.16), transparent 70%),
+        radial-gradient(30% 30% at 64% 34%, rgba(124, 92, 246, 0.10), transparent 72%);
+    animation: ambientBreathe 10s ease-in-out infinite;
+}
+
+.cube-glow {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 62%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(76, 154, 255, 0.32), rgba(124, 92, 246, 0.13) 48%, transparent 72%);
+    animation: glowPulse 5.5s ease-in-out infinite;
+}
+
+.cube-stage {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: heroFloat 9s ease-in-out infinite;
+}
+
+.cube-orbit-wrap {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
+}
+
+.cube-orbit-wrap-a {
+    width: 128%;
+    height: 128%;
+}
+
+.cube-orbit-wrap-b {
+    width: 96%;
+    height: 96%;
+}
+
+.cube-orbit {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(111, 178, 255, 0.10);
+    border-top-color: rgba(122, 182, 255, 0.62);
+    transform: rotateX(74deg);
+    animation: orbitA 16s linear infinite;
+}
+
+.cube-orbit-wrap-b .cube-orbit {
+    border-color: rgba(139, 124, 246, 0.09);
+    border-top-color: rgba(155, 132, 255, 0.42);
+    transform: rotateX(70deg);
+    animation: orbitB 23s linear infinite;
+}
+
+.cube3d {
+    --h: calc(var(--s) / 2);
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    width: var(--s);
+    height: var(--s);
+    margin-left: calc(var(--s) / -2);
+    margin-top: calc(var(--s) / -2);
+    transform-style: preserve-3d;
+    animation: cubeSpin 28s linear infinite;
+}
+
+.cube-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 7px;
+    border: 1px solid rgba(147, 197, 253, 0.32);
+    background: linear-gradient(135deg, rgba(111, 178, 255, 0.12), rgba(124, 92, 246, 0.05) 55%, rgba(111, 178, 255, 0.03));
+    box-shadow: inset 0 0 44px rgba(76, 154, 255, 0.12);
+}
+
+.cube-face-front {
+    transform: translateZ(var(--h));
+}
+
+.cube-face-back {
+    transform: rotateY(180deg) translateZ(var(--h));
+}
+
+.cube-face-right {
+    transform: rotateY(90deg) translateZ(var(--h));
+}
+
+.cube-face-left {
+    transform: rotateY(-90deg) translateZ(var(--h));
+}
+
+.cube-face-top {
+    transform: rotateX(90deg) translateZ(var(--h));
+}
+
+.cube-face-bottom {
+    transform: rotateX(-90deg) translateZ(var(--h));
+}
+
+.cube-core {
+    --ch: calc(var(--c) / 2);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--c);
+    height: var(--c);
+    margin-left: calc(var(--c) / -2);
+    margin-top: calc(var(--c) / -2);
+    transform-style: preserve-3d;
+    animation: coreSpin 21s linear infinite;
+}
+
+.core-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 12%;
+    border: 1px solid rgba(173, 206, 255, 0.5);
+    background: linear-gradient(140deg, rgba(93, 158, 255, 0.92), rgba(64, 92, 240, 0.85) 52%, rgba(124, 92, 246, 0.9));
+    box-shadow: 0 0 22px rgba(76, 154, 255, 0.5);
+}
+
+.core-face-1 {
+    transform: translateZ(var(--ch));
+}
+
+.core-face-2 {
+    transform: rotateY(180deg) translateZ(var(--ch));
+}
+
+.core-face-3 {
+    transform: rotateY(90deg) translateZ(var(--ch));
+}
+
+.core-face-4 {
+    transform: rotateY(-90deg) translateZ(var(--ch));
+}
+
+.core-face-5 {
+    transform: rotateX(90deg) translateZ(var(--ch));
+}
+
+.core-face-6 {
+    transform: rotateX(-90deg) translateZ(var(--ch));
+}
+
+.cube-floor {
+    position: absolute;
+    left: 50%;
+    bottom: 1%;
+    width: 74%;
+    height: 12%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(76, 154, 255, 0.4), rgba(76, 154, 255, 0.10) 58%, transparent 78%);
+    animation: floorPulse 6.5s ease-in-out infinite;
+}
+
+.hero-ui-card {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 15px 17px;
+    border-radius: 14px;
+    border: 1px solid rgba(147, 197, 253, 0.16);
+    background: rgba(13, 18, 28, 0.68);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 24px 60px -26px rgba(0, 0, 0, 0.85);
+}
+
+.ui-card-stack {
+    top: 4%;
+    right: -2%;
+    animation: cardFloatA 7s ease-in-out infinite;
+}
+
+.ui-stack-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--blue-light);
+}
+
+.ui-stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ui-stack-list li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: #C9D4E4;
+}
+
+.ui-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ui-dot-blue {
+    background: #4C9AFF;
+    box-shadow: 0 0 8px rgba(76, 154, 255, 0.8);
+}
+
+.ui-dot-violet {
+    background: #9B84FF;
+    box-shadow: 0 0 8px rgba(139, 124, 246, 0.8);
+}
+
+.ui-dot-green {
+    background: #3EE08A;
+    box-shadow: 0 0 8px rgba(62, 224, 138, 0.8);
+}
+
+.ui-card-code {
+    bottom: 20%;
+    left: -5%;
+    gap: 2px;
+    animation: cardFloatB 8.5s ease-in-out infinite;
+}
+
+.ui-card-code code {
+    display: block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #C9D4E4;
+    white-space: nowrap;
+}
+
+.tk {
+    color: #9B84FF;
+}
+
+.fn {
+    color: #6FB2FF;
+}
+
+.ind {
+    padding-left: 14px;
+}
+
+#top .hero-badge {
+    padding: 8px 16px 8px 11px;
+    border-color: rgba(147, 197, 253, 0.22);
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+}
+
+#top h1 {
+    font-size: clamp(34px, 4.8vw, 58px);
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+    color: #F2F6FD;
+    max-width: 640px;
+}
+
+#top .hero-sub {
+    margin-top: 22px;
+    max-width: 530px;
+    font-size: 16.5px;
+    line-height: 1.75;
+    color: #A6B0C3;
+}
+
+#top .hero-btns {
+    gap: 15px;
+    margin-top: 34px;
+}
+
+#top .btn-primary {
+    background: linear-gradient(120deg, #3E8BFF, #2F7EF2 60%, #2A6BE0);
+    box-shadow: 0 12px 30px -12px rgba(47, 126, 242, 0.75), inset 0 0 0 1px rgba(111, 178, 255, 0.25);
+}
+
+#top .btn-primary:hover {
+    box-shadow: 0 18px 42px -14px rgba(47, 126, 242, 0.9), 0 0 26px -6px rgba(76, 154, 255, 0.55);
+}
+
+#top .btn-primary .btn-arrow {
+    width: 17px;
+    height: 17px;
+}
+
+#top .btn-secondary {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#top .btn-secondary:hover {
+    border-color: rgba(147, 197, 253, 0.45);
+}
+
+#top .hero-tags {
+    gap: 22px;
+    margin-top: 34px;
+    font-size: 13.5px;
+}
+
+#top .hero-tags span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#top .hero-tags .lucide {
+    width: 15px;
+    height: 15px;
+    color: var(--blue-light);
+}
+
+#top .hero-tags b {
+    color: #C7D1E0;
+}
+
+#top .hero-stats {
+    gap: 34px;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    max-width: 560px;
+}
+
+#top .hero-stat strong {
+    color: #E9EEF8;
+}
+
+@keyframes heroFloat {
+    0%, 100% {
+        transform: translateY(-9px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+@keyframes cubeSpin {
+    from {
+        transform: rotateX(-18deg) rotateY(0deg);
+    }
+    to {
+        transform: rotateX(-18deg) rotateY(360deg);
+    }
+}
+
+@keyframes coreSpin {
+    from {
+        transform: rotateX(12deg) rotateY(360deg);
+    }
+    to {
+        transform: rotateX(12deg) rotateY(0deg);
+    }
+}
+
+@keyframes orbitA {
+    from {
+        transform: rotateX(74deg) rotateZ(0deg);
+    }
+    to {
+        transform: rotateX(74deg) rotateZ(360deg);
+    }
+}
+
+@keyframes orbitB {
+    from {
+        transform: rotateX(70deg) rotateZ(360deg);
+    }
+    to {
+        transform: rotateX(70deg) rotateZ(0deg);
+    }
+}
+
+@keyframes ambientBreathe {
+    0%, 100% {
+        opacity: 0.75;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(0.94);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+}
+
+@keyframes floorPulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes cardFloatA {
+    0%, 100% {
+        transform: translateY(-6px);
+    }
+    50% {
+        transform: translateY(7px);
+    }
+}
+
+@keyframes cardFloatB {
+    0%, 100% {
+        transform: translateY(6px) rotate(-0.4deg);
+    }
+    50% {
+        transform: translateY(-7px) rotate(0.4deg);
+    }
 }
 
 .hero-shot {
@@ -1277,9 +1724,28 @@ footer {
         display: none;
     }
 
-    .hero-visual .Robot,
-    .hero > .Robot {
-        height: 340px;
+    .cube-scene {
+        --s: 148px;
+        max-width: 330px;
+    }
+
+    .cube-orbit-wrap-a {
+        width: 114%;
+        height: 114%;
+    }
+
+    .ui-card-code {
+        display: none;
+    }
+
+    .ui-card-stack {
+        top: 0;
+        right: 0;
+        padding: 12px 14px;
+    }
+
+    .ui-stack-list li {
+        font-size: 9.5px;
     }
 }
 
@@ -1535,6 +2001,10 @@ footer {
         max-width: 620px;
     }
 
+    .cube-scene {
+        max-width: 440px;
+    }
+
     .nav-cta {
         display: none;
     }
@@ -1652,6 +2122,17 @@ footer {
     }
 
     .hero-badge .dot {
+        animation: none;
+    }
+
+    .cube-stage,
+    .cube3d,
+    .cube-core,
+    .cube-orbit,
+    .cube-ambient,
+    .cube-glow,
+    .cube-floor,
+    .hero-ui-card {
         animation: none;
     }
 }
