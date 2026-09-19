@@ -1103,7 +1103,6 @@ footer {
     transform: translateY(0);
 }
 
-/* ---- hero support classes ---- */
 .hero-badges {
     display: flex;
     align-items: center;
@@ -1172,7 +1171,6 @@ footer {
     font-weight: 600;
 }
 
-/* ---- hero code window + floating card ---- */
 .code-window {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -1249,7 +1247,6 @@ footer {
     }
 }
 
-/* ---- numbered feature list (used in features strip, about, contact) ---- */
 .features-strip {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -1335,7 +1332,6 @@ footer {
     }
 }
 
-/* ---- projects section internals ---- */
 .projects-head {
     display: flex;
     justify-content: space-between;
@@ -1439,7 +1435,6 @@ footer {
     color: var(--blue-light);
 }
 
-/* ---- about page bullet list ---- */
 .now-list {
     margin-top: 22px;
     display: flex;
@@ -1465,7 +1460,6 @@ footer {
     flex-shrink: 0;
 }
 
-/* ---- contact links row + generic footer links ---- */
 .contact-links {
     display: flex;
     gap: 26px;
@@ -1494,7 +1488,6 @@ footer {
 .footer-links a:hover {
     color: var(--paper);
 }
-
 
 @media (max-width: 1080px) {
     .hero-grid {

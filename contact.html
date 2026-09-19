@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — DivyWebStudio</title>
+<meta name="description" content="Contact DivyWebStudio — WhatsApp, email or Instagram. Tell Divyansh about your website or web app idea and get a reply within hours.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact — DivyWebStudio">
+<meta property="og:description" content="Have a website idea? WhatsApp or email DivyWebStudio and start the conversation today.">
+<link rel="canonical" href="https://dwebstudio.com/contact.html">
+<meta property="og:url" content="https://dwebstudio.com/contact.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contact — DivyWebStudio">
+<meta name="twitter:description" content="Have a website idea? WhatsApp or email DivyWebStudio and start the conversation today.">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .page-hero{ padding-top: 150px; padding-bottom: 24px; }
+  .page-hero h1{ font-size: clamp(32px,4.6vw,50px); line-height: 1.12; max-width: 780px; }
+  .page-hero .section-sub{ margin-top: 18px; max-width: 560px; }
+  .quick-form{ max-width: 660px; display: flex; flex-direction: column; gap: 18px; }
+  .form-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .quick-form label{ display: flex; flex-direction: column; gap: 8px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-2); }
+  .quick-form input, .quick-form select, .quick-form textarea{ background: var(--ink-2); border: 1px solid var(--line-strong); border-radius: 10px; padding: 13px 15px; color: var(--paper); font: inherit; font-size: 14.5px; outline: none; transition: border-color .25s; }
+  .quick-form textarea{ resize: vertical; min-height: 110px; }
+  .quick-form input:focus, .quick-form select:focus, .quick-form textarea:focus{ border-color: var(--blue); }
+  .quick-form .btn{ align-self: flex-start; }
+  .form-status{ display: none; font-size: 14px; font-weight: 600; padding: 12px 16px; border-radius: 10px; }
+  .form-status.show{ display: block; }
+  .form-status.success{ background: rgba(62,224,138,.12); color: #3EE08A; border: 1px solid rgba(62,224,138,.35); }
+  .form-status.error{ background: rgba(255,99,99,.1); color: #ff8080; border: 1px solid rgba(255,99,99,.3); }
+  .faq-list{ max-width: 760px; display: flex; flex-direction: column; gap: 12px; }
+  .faq-list details{ border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--ink-2); padding: 18px 22px; }
+  .faq-list summary{ font-weight: 700; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+  .faq-list summary::-webkit-details-marker{ display: none; }
+  .faq-list summary::after{ content: "+"; color: var(--blue-light); font-size: 20px; font-weight: 700; }
+  .faq-list details[open] summary::after{ content: "–"; }
+  .faq-list details p{ margin-top: 12px; font-size: 14px; color: var(--muted); line-height: 1.75; }
+  @media (max-width: 640px){ .form-row{ grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<nav class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="img/logo.png" alt="DivyWebStudio logo">DivyWeb<span class="studio">Studio</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="work.html" class="nav-link">Work</a>
+      <a href="contact.html" class="nav-link active">Contact</a>
+    </div>
+    <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="nav-cta">WhatsApp Me <span class="btn-arrow">→</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+  <div class="mobile-drawer-head">
+    <span class="mobile-drawer-title">Menu</span>
+    <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
+  </div>
+  <ul class="mobile-nav-list">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="work.html" class="nav-link">Work</a>
+    <a href="contact.html" class="nav-link active">Contact</a>
+  </ul>
+  <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
+</div>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="eyebrow reveal">Contact</span>
+    <h1 class="reveal" style="transition-delay:.08s;">
+      Let's build something <span class="text-grad">worth showing.</span>
+    </h1>
+    <p class="section-sub reveal" style="transition-delay:.16s;">
+      Have a website idea, business project or web app in mind?
+      Tell me what you're building — I usually reply within a few hours.
+    </p>
+  </div>
+</div>
+
+<section id="get-in-touch">
+  <div class="container">
+    <div class="contact-grid">
+      <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="contact-tile reveal" style="transition-delay:.04s;">
+        <img src="img/Icone/GetInTouchIcone/WhatsAppImg.png" alt="">
+        <strong>WhatsApp</strong>
+        <span>Fastest reply — usually within hours</span>
+      </a>
+      <a href="mailto:divywebstudio@gmail.com" class="contact-tile reveal" style="transition-delay:.10s;">
+        <img src="img/Icone/GetInTouchIcone/EmailImg.png" alt="">
+        <strong>Email</strong>
+        <span>divywebstudio@gmail.com</span>
+      </a>
+      <a href="https://www.instagram.com/divywebstudio/" target="_blank" rel="noopener noreferrer" class="contact-tile reveal" style="transition-delay:.16s;">
+        <img src="img/Icone/GetInTouchIcone/InstagramImg.png" alt="">
+        <strong>Instagram</strong>
+        <span>@divywebstudio</span>
+      </a>
+      <div class="contact-tile reveal" style="transition-delay:.22s;">
+        <img src="img/Icone/GetInTouchIcone/LocationImg.png" alt="">
+        <strong>Location</strong>
+        <span>Baijnath, Himachal Pradesh, India</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="quick-start">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Quick Start</span>
+      <h2 class="section-title">Tell me what you need. <span class="text-grad">I'll reply within hours.</span></h2>
+      <p class="section-sub">Fill this in and hit send — your message lands straight in my inbox. No account, no waiting.</p>
+    </div>
+    <form id="contactForm" class="quick-form reveal" style="transition-delay:.1s;">
+      <div class="form-row">
+        <label>
+          Your Name
+          <input type="text" name="name" placeholder="e.g. Rahul Sharma" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Phone / WhatsApp
+          <input type="tel" name="phone" placeholder="+91 98765 43210 (optional)" autocomplete="tel">
+        </label>
+        <label>
+          Project Type
+          <select name="project_type">
+            <option>Business Website</option>
+            <option>Landing Page</option>
+            <option>Restaurant Website</option>
+            <option>Gym / Salon Website</option>
+            <option>Web Application</option>
+            <option>Something Else</option>
+          </select>
+        </label>
+      </div>
+      <label>
+        Your Message
+        <textarea name="message" placeholder="Briefly tell me what you want to build — pages, features, anything on your mind." required></textarea>
+      </label>
+      <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" aria-hidden="true">
+      <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow">→</span></button>
+      <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">Common questions, <span class="text-grad">clear answers.</span></h2>
+    </div>
+    <div class="faq-list reveal" style="transition-delay:.1s;">
+      <details>
+        <summary>How long does it take to build a website?</summary>
+        <p>Landing pages usually take 3–5 days, business websites around 7–10 days. Web applications depend on the features — you get a clear timeline with the quote itself.</p>
+      </details>
+      <details>
+        <summary>How much will my project cost?</summary>
+        <p>Landing pages start at ₹4,999 and business websites at ₹9,999. After you share your requirement, you get an exact quote — no hidden costs later.</p>
+      </details>
+      <details>
+        <summary>What do you need from me to start?</summary>
+        <p>Your business details, what you want the website to do, and any logo, photos or content you already have. Don't worry if you don't have everything — I'll guide you.</p>
+      </details>
+      <details>
+        <summary>Will my website work on mobile phones?</summary>
+        <p>Yes — every website is built mobile-first, so it looks and works perfectly on phones, tablets and desktops. Most of your customers will visit from a phone.</p>
+      </details>
+      <details>
+        <summary>What if I need changes after the website is live?</summary>
+        <p>Small changes and content updates are easy — just message me. Support doesn't end at launch.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="contact-band-cta">
+  <div class="container">
+    <div class="contact-band reveal">
+      <span class="eyebrow" style="justify-content:center;">Prefer WhatsApp?</span>
+      <h2>Skip the form, <span class="text-grad">just message.</span></h2>
+      <p>WhatsApp pe seedha message karo ya email bhejo — dono par reply usually within a few hours milta hai.</p>
+      <div class="contact-btns">
+        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp Me <span class="btn-arrow">→</span></a>
+        <a href="mailto:divywebstudio@gmail.com" class="btn btn-secondary">Email Me</a>
+      </div>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/divywebstudio/" target="_blank" rel="noopener noreferrer">Instagram · @divywebstudio</a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer">GitHub · Mr-Divyansh</a>
+        <span>Himachal Pradesh, India</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <div class="footer-brand-wrap">
+        <a href="index.html" class="footer-brand">
+          <img src="img/logo.png" alt="DivyWebStudio logo">
+          DivyWeb<span class="studio">Studio</span>
+        </a>
+        <p>
+          Full Stack Developer building modern websites,
+          web applications and digital experiences.
+        </p>
+      </div>
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="work.html">Work</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-column">
+        <h4>Services</h4>
+        <a href="services.html">Business Websites</a>
+        <a href="services.html">Landing Pages</a>
+        <a href="services.html">Web Applications</a>
+        <a href="services.html">Custom Projects</a>
+      </div>
+      <div class="footer-column">
+        <h4>Connect</h4>
+        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://www.instagram.com/divywebstudio/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:divywebstudio@gmail.com">Email</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 DivyWebStudio. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <span>Himachal Pradesh, India</span>
+        <span>•</span>
+        <span>Built with passion &amp; code.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="js/main.js"></script>
+<script src="js/form.js"></script>
+</body>
+</html>
