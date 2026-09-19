@@ -12,6 +12,22 @@
 
 ---
 
+## Contact Details
+
+**Website:** https://dwebstudio.com
+
+**Email:** dwebstudio00@gmail.com
+
+**Instagram:** @d__web_studio — https://www.instagram.com/d__web_studio/
+
+**GitHub:** Mr-Divyansh — https://github.com/Mr-Divyansh
+
+**WhatsApp:** +91 80912 73525
+
+These values are mirrored in the markup of every page (`nav`, footer `Connect` column, `mailto:` links and the `Organization` JSON-LD block in `index.html`). Keep them in sync when any of them changes.
+
+---
+
 ## Business
 
 D Web Studio creates:
@@ -101,6 +117,8 @@ Possible technologies:
 The project is an actively developing portfolio/studio website.
 
 The design, content, technology, services, pricing, and project showcase may evolve over time.
+
+**Rebrand:** the site files previously used the name "DivyWebStudio" in titles, meta tags, JSON-LD, the nav brand, the footer brand and the copyright line. Every occurrence now reads "D Web Studio" (the nav/footer mark is rendered as `D Web <span class="studio">Studio</span>`, where `.studio` colours the word blue). The old `divywebstudio@gmail.com` address and the old `instagram.com/divywebstudio` handle have also been replaced. Do not reintroduce the old name.
 
 ---
 

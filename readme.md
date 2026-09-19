@@ -151,7 +151,7 @@ Interested in working together or need a website for your business?
 
 📧 **Email:** [dwebstudio00@gmail.com](mailto:dwebstudio00@gmail.com)
 
-📸 **Instagram:** [@divyanshwebstudio](https://www.instagram.com/divyanshwebstudio/)
+📸 **Instagram:** [@d__web_studio](https://www.instagram.com/d__web_studio/)
 
 💻 **GitHub:** [@Mr-Divyansh](https://github.com/Mr-Divyansh)
 

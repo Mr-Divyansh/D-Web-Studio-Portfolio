@@ -844,7 +844,7 @@ body.menu-open {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     letter-spacing: 0.02em;
-    margin-bottom: 24px;
+    margin-bottom: 0px;
 }
 
 #top h1 {
@@ -854,6 +854,7 @@ body.menu-open {
     text-wrap: balance;
     color: #F2F6FD;
     max-width: 640px;
+    margin-top: 20px;
 }
 
 #top .hero-sub {
@@ -1582,10 +1583,11 @@ footer {
 }
 
 .hero-badges {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
 }
 
 .hero-tagline {
