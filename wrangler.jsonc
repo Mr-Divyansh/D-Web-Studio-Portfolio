@@ -1,4 +1,12 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "d-web-studio-portfolio",
+  "compatibility_date": "2026-09-19",
+  "assets": {
+    "directory": "./",
+    "html_handling": "none",
+    "not_found_handling": "404-page"
+  },
   "observability": {
     "logs": {
       "enabled": true,
@@ -12,4 +20,4 @@
       "persist": true
     }
   }
- }
+}

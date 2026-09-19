@@ -155,6 +155,25 @@ When editing the narrative, keep the client-facing tone from `rules.md` (busines
 
 ---
 
+## Deployment (Cloudflare Workers)
+
+The site is hosted as a **static-assets-only Cloudflare Worker** (no server-side code). Workers Builds is connected to this GitHub repository (branch `main`, deploy command `npx wrangler deploy`). The configuration lives in `wrangler.jsonc`:
+
+- `assets.directory` = `"./"` — the repository root is the website.
+- `assets.html_handling` = `"none"` — `/about.html` is served with a `200` instead of being redirected, matching the internal links, the `rel="canonical"` tags and `sitemap.xml`.
+- `assets.not_found_handling` = `"404-page"` — unknown paths serve `404.html` with a real `404` status.
+- `observability.logs` — Workers Logs stay enabled.
+
+Because `html_handling` is `"none"`, the root path is rewritten by hand: `_redirects` starts with `/ /index.html 200` (Cloudflare only maps `/` to `index.html` automatically when trailing-slash handling is left on). `_redirects` then `301`s the friendly extensionless URLs (`/about`, `/services`, `/work`, `/experience`, `/contact`) to their `.html` pages.
+
+`.assetsignore` keeps internal files off the public site — each pattern was verified to return `404`. It excludes `*.md` (all project docs), `wrangler.jsonc`, `.assetsignore`, `.gitignore`, `.git`, `.agents`, `.freebuff`, `.vscode`, `.github`, `node_modules`, `.wrangler`, `.dev.vars`, `.env`, `.env.*`, `*.log`, `.DS_Store` and `Thumbs.db`. **Anything not listed is published**, so add a pattern here before committing private files.
+
+Local preview: `npx wrangler dev --persist-to "$env:TEMP/dws-wrangler-state"`. The `--persist-to` flag matters — with the default `.wrangler/state` inside the repository the asset watcher sees its own state writes and reloads the server in a loop.
+
+Do not switch `html_handling` back to the default `auto-trailing-slash` unless every internal link, canonical tag and `sitemap.xml` entry is rewritten to extensionless URLs first: with the default, every request for a `.html` file becomes a `307` redirect to the slash-free URL.
+
+---
+
 ## Long-Term Vision
 
 D Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:

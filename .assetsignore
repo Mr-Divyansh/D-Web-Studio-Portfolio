@@ -1,0 +1,17 @@
+*.md
+wrangler.jsonc
+.assetsignore
+.gitignore
+.git/
+.agents/
+.freebuff/
+.vscode/
+.github/
+node_modules/
+.wrangler/
+.dev.vars
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
