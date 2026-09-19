@@ -1121,12 +1121,42 @@ body.menu-open {
     border-color: var(--line-strong);
 }
 
-.service-thumb img {
+.icon-panel {
     width: 100%;
     aspect-ratio: 16 / 9;
-    object-fit: cover;
-    object-position: top;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-bottom: 1px solid var(--line);
+    background:
+        radial-gradient(60% 80% at 50% 20%, rgba(var(--blue-rgb), 0.12), transparent 70%),
+        var(--ink-3);
+}
+
+.icon-panel svg {
+    width: 38px;
+    height: 38px;
+    color: var(--blue-light);
+    opacity: 0.9;
+}
+
+.icon-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    background: var(--ink-2);
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.icon-chip svg {
+    width: 21px;
+    height: 21px;
+    color: var(--blue-light);
 }
 
 .service-body {
@@ -1188,13 +1218,6 @@ body.menu-open {
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: var(--ink);
-}
-
-.why-card img {
-    height: 44px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 16px;
 }
 
 .why-card h4 {
@@ -1290,9 +1313,20 @@ body.menu-open {
 }
 
 .price-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
     height: 46px;
-    width: auto;
-    object-fit: contain;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    background: var(--ink-2);
+}
+
+.price-icon svg {
+    width: 22px;
+    height: 22px;
+    color: var(--blue-light);
 }
 
 .price-card h3 {
@@ -1356,6 +1390,7 @@ body.menu-open {
 
 .project-thumb img {
     width: 100%;
+    height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
@@ -1401,6 +1436,18 @@ body.menu-open {
 .project-card:hover .arrow {
     transform: translate(3px, -3px);
     color: var(--blue-light);
+}
+
+.project-card:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 3px;
+}
+
+.project-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
 }
 
 .project-body p {
@@ -1499,11 +1546,22 @@ a.contact-tile:hover {
     transform: translateY(-4px);
 }
 
-.contact-tile img {
-    height: 28px;
-    width: auto;
-    object-fit: contain;
+.tile-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--line-strong);
+    background: var(--ink-3);
     margin-bottom: 6px;
+}
+
+.tile-icon svg {
+    width: 19px;
+    height: 19px;
+    color: var(--blue-light);
 }
 
 .contact-tile strong {
@@ -1938,6 +1996,14 @@ footer {
 .thumb-icon svg {
     width: 18px;
     height: 18px;
+}
+
+.wip-word {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: rgba(244, 241, 234, 0.55);
 }
 
 .tech-row {

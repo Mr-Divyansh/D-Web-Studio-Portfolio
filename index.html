@@ -23,7 +23,7 @@
   <meta property="og:image:height" content="1024">
   <meta property="og:image:alt" content="D Web Studio — Full Stack Developer">
   <meta property="og:locale" content="en_IN">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="D Web Studio | Full Stack Developer">
   <meta name="twitter:description" content="Full Stack Developer building modern websites, web applications and digital products.">
   <meta name="twitter:image" content="https://dwebstudio.com/img/logo.png">
@@ -31,8 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.96/build/spline-viewer.js"></script>
-  <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script defer src="https://unpkg.com/lucide@0.544.0/dist/umd/lucide.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 
@@ -331,7 +330,7 @@
           <img src="img/ProjectImage/AttendxdImage.png" alt="AttendX attendance management platform preview" loading="lazy" decoding="async" width="1353" height="767">
         </div>
         <div class="project-body">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <div class="project-title-row">
             <h3>AttendX <span class="arrow">↗</span></h3>
             <span class="tech-tag">Live</span>
           </div>
@@ -354,7 +353,7 @@
           <img src="img/ProjectImage/shadowweaverImage.png" alt="Shadow-Weaver AI cyber-defense dashboard preview" loading="lazy" decoding="async" width="1365" height="766">
         </div>
         <div class="project-body">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <div class="project-title-row">
             <h3>Shadow-Weaver <span class="arrow">↗</span></h3>
             <span class="tech-tag">Live</span>
           </div>
@@ -377,7 +376,10 @@
           <img src="img/ProjectImage/ChikaImage.png" alt="CHIKA personal AI desktop companion preview" loading="lazy" decoding="async" width="1363" height="602">
         </div>
         <div class="project-body">
-          <h3>CHIKA</h3>
+          <div class="project-title-row">
+            <h3>CHIKA</h3>
+            <span class="tech-tag">Desktop App</span>
+          </div>
           <p>
             A personal AI desktop companion built around conversational
             interaction and Gemini Live.
@@ -394,10 +396,26 @@
       <div class="project-card reveal" style="transition-delay:.20s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#301525,#110b13);">
           <span class="tagpill">SaaS Concept</span>
-          <img src="img/ProjectImage/GymSalonImg.jpg" alt="DGYMX gym management system preview" loading="lazy" decoding="async" width="1349" height="767">
+          <div class="thumb-inner">
+            <div class="thumb-mockbar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.14);color:var(--blue-light);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 7 13.5 15.5 8.5 10.5 2 17"/>
+                <path d="M16 7h6v6"/>
+              </svg>
+            </div>
+            <span class="wip-word">DGYMX</span>
+          </div>
         </div>
         <div class="project-body">
-          <h3>DGYMX</h3>
+          <div class="project-title-row">
+            <h3>DGYMX</h3>
+            <span class="tech-tag">Concept · In Progress</span>
+          </div>
           <p>
             A modern gym management system concept focused on members,
             payments, records and day-to-day gym operations.
@@ -411,13 +429,16 @@
         </div>
       </div>
 
-      <div class="project-card reveal" style="transition-delay:.25s;">
+      <a href="https://gloom-hair-beauty.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-card reveal" style="transition-delay:.25s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#2b1a2e,#100b13);">
           <span class="tagpill">Salon</span>
           <img src="img/ProjectImage/HairBeautyImg.jpg" alt="Gloom Hair and Beauty luxury salon website preview" loading="lazy" decoding="async" width="1350" height="767">
         </div>
         <div class="project-body">
-          <h3>Gloom Hair &amp; Beauty</h3>
+          <div class="project-title-row">
+            <h3>Gloom Hair &amp; Beauty <span class="arrow">↗</span></h3>
+            <span class="tech-tag">Live</span>
+          </div>
           <p>
             A luxury salon website with services, booking form,
             testimonials and a full pricing page.
@@ -429,15 +450,18 @@
             <span class="tech-tag">Booking Form</span>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-card reveal" style="transition-delay:.30s;">
+      <a href="https://divyansh-restaurant-studio.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-card reveal" style="transition-delay:.30s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#33200f,#120c07);">
           <span class="tagpill">Restaurant</span>
           <img src="img/ProjectImage/restaurantImg.jpg" alt="Divyansh Restaurant website preview" loading="lazy" decoding="async" width="720" height="409">
         </div>
         <div class="project-body">
-          <h3>Divyansh Restaurant</h3>
+          <div class="project-title-row">
+            <h3>Divyansh Restaurant <span class="arrow">↗</span></h3>
+            <span class="tech-tag">Live</span>
+          </div>
           <p>
             A complete restaurant site with full menu, about page,
             team section and contact form.
@@ -449,15 +473,18 @@
             <span class="tech-tag">Menu</span>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="project-card reveal" style="transition-delay:.35s;">
+      <a href="https://divyanshladingpage.netlify.app/" target="_blank" rel="noopener noreferrer" class="project-card reveal" style="transition-delay:.35s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#1c2340,#0b0e18);">
           <span class="tagpill">Landing Page</span>
-          <img src="img/ProjectImage/LadingPageImage.png" alt="Velour Fashion luxury clothing landing page preview" loading="lazy" decoding="async" width="1365" height="767">
+          <img src="img/ProjectImage/LadingPageImage.png" alt="Velour New Collection luxury clothing landing page preview" loading="lazy" decoding="async" width="1365" height="767">
         </div>
         <div class="project-body">
-          <h3>Velour Fashion</h3>
+          <div class="project-title-row">
+            <h3>VELOUR — New Collection <span class="arrow">↗</span></h3>
+            <span class="tech-tag">Live</span>
+          </div>
           <p>
             A luxury clothing brand landing page with collection grid,
             testimonials and discount CTA.
@@ -469,7 +496,7 @@
             <span class="tech-tag">Responsive</span>
           </div>
         </div>
-      </div>
+      </a>
 
       <div class="project-card reveal" style="transition-delay:.40s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#171c32,#0b0e18);">
@@ -503,39 +530,42 @@
         </div>
       </div>
 
-      <div class="project-card reveal" style="transition-delay:.45s;">
-        <div class="project-thumb" style="background:linear-gradient(150deg,#211b31,#0e0b16);">
-          <span class="tagpill">Experiments</span>
+      <a href="https://prime-fitness-beta.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-card reveal" style="transition-delay:.45s;">
+        <div class="project-thumb" style="background:linear-gradient(150deg,#152318,#0b1210);">
+          <span class="tagpill">Fitness</span>
           <div class="thumb-inner">
             <div class="thumb-mockbar">
               <span></span>
               <span></span>
               <span></span>
             </div>
-            <div class="thumb-icon" style="background:rgba(160,120,255,.14);color:#aa8aff;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3v18"/>
-                <path d="M3 12h18"/>
-                <path d="m5 5 14 14"/>
-                <path d="m19 5-14 14"/>
+            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.14);color:var(--blue-light);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6.5 6.5h11v11h-11z"/>
+                <path d="M2.5 9.5v5"/>
+                <path d="M5.5 8v8"/>
+                <path d="M21.5 9.5v5"/>
+                <path d="M18.5 8v8"/>
               </svg>
             </div>
+            <span class="wip-word">PRIME FITNESS</span>
           </div>
         </div>
         <div class="project-body">
-          <h3>More Experiments</h3>
+          <div class="project-title-row">
+            <h3>PRIME FITNESS <span class="arrow">↗</span></h3>
+            <span class="tech-tag">Live</span>
+          </div>
           <p>
-            Smaller experiments, prototypes and ideas that help me
-            explore new technologies and improve my development skills.
+            A modern gym &amp; fitness website built around plans,
+            programs and member enquiries.
           </p>
           <div class="tech-row">
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">AI</span>
+            <span class="tech-tag">Website</span>
+            <span class="tech-tag">Responsive</span>
           </div>
         </div>
-      </div>
+      </a>
 
     </div>
 

@@ -51,6 +51,31 @@
     align-self: flex-start;
 }
 
+.field-error {
+    display: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #ff8080;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.field-error.show {
+    display: block;
+}
+
+.quick-form label small {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.quick-form input[aria-invalid="true"],
+.quick-form textarea[aria-invalid="true"] {
+    border-color: rgba(255, 99, 99, 0.55);
+}
+
 .form-status {
     display: none;
     font-size: 14px;

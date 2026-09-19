@@ -28,6 +28,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/contact.css">
+<script defer src="https://unpkg.com/lucide@0.544.0/dist/umd/lucide.min.js"></script>
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 
 <script type="application/ld+json">
@@ -97,22 +98,22 @@
   <div class="container">
     <div class="contact-grid">
       <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="contact-tile reveal" style="transition-delay:.04s;">
-        <img src="img/Icone/GetInTouchIcone/WhatsAppImg.png" alt="">
+        <span class="tile-icon"><i data-lucide="message-circle" aria-hidden="true"></i></span>
         <strong>WhatsApp</strong>
         <span>Fastest reply — usually within hours</span>
       </a>
       <a href="mailto:dwebstudio00@gmail.com" class="contact-tile reveal" style="transition-delay:.10s;">
-        <img src="img/Icone/GetInTouchIcone/EmailImg.png" alt="">
+        <span class="tile-icon"><i data-lucide="mail" aria-hidden="true"></i></span>
         <strong>Email</strong>
         <span>dwebstudio00@gmail.com</span>
       </a>
       <a href="https://www.instagram.com/d__web_studio/" target="_blank" rel="noopener noreferrer" class="contact-tile reveal" style="transition-delay:.16s;">
-        <img src="img/Icone/GetInTouchIcone/InstagramImg.png" alt="">
+        <span class="tile-icon"><i data-lucide="instagram" aria-hidden="true"></i></span>
         <strong>Instagram</strong>
         <span>@d__web_studio</span>
       </a>
       <div class="contact-tile reveal" style="transition-delay:.22s;">
-        <img src="img/Icone/GetInTouchIcone/LocationImg.png" alt="">
+        <span class="tile-icon"><i data-lucide="map-pin" aria-hidden="true"></i></span>
         <strong>Location</strong>
         <span>Baijnath, Himachal Pradesh, India</span>
       </div>
@@ -131,11 +132,11 @@
       <div class="form-row">
         <label>
           Your Name
-          <input type="text" name="name" placeholder="e.g. Rahul Sharma" autocomplete="name" required>
+          <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" autocomplete="name" required>
         </label>
         <label>
           Email
-          <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
         </label>
       </div>
       <div class="form-row">
@@ -144,20 +145,39 @@
           <input type="tel" name="phone" placeholder="+91 98765 43210 (optional)" autocomplete="tel">
         </label>
         <label>
+          Company / Business <small>(optional)</small>
+          <input type="text" name="company" placeholder="e.g. Prime Fitness Gym" autocomplete="organization">
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
           Project Type
           <select name="project_type">
             <option>Business Website</option>
+            <option>Website</option>
             <option>Landing Page</option>
-            <option>Restaurant Website</option>
-            <option>Gym / Salon Website</option>
             <option>Web Application</option>
-            <option>Something Else</option>
+            <option>Full Stack Application</option>
+            <option>E-commerce</option>
+            <option>UI/UX</option>
+            <option>Website Redesign</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>
+          Budget Range
+          <select name="budget">
+            <option>Under ₹5,000</option>
+            <option>₹5,000 – ₹10,000</option>
+            <option>₹10,000 – ₹25,000</option>
+            <option>₹25,000+</option>
+            <option selected>Not sure yet</option>
           </select>
         </label>
       </div>
       <label>
         Your Message
-        <textarea name="message" placeholder="Briefly tell me what you want to build — pages, features, anything on your mind." required></textarea>
+        <textarea id="message" name="message" placeholder="Briefly tell me what you want to build — pages, features, anything on your mind." required></textarea>
       </label>
       <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" aria-hidden="true">
       <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow">→</span></button>
