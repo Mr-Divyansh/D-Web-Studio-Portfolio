@@ -137,6 +137,24 @@ Icons in the hero use Lucide via CDN (`lucide.createIcons()` is initialised in `
 
 ---
 
+## Experience Page
+
+`experience.html` is the personal journey page, linked from the navbar, the mobile drawer and the footer `Explore` column of every page, and listed in `sitemap.xml`.
+
+Structure:
+
+1. `page-hero` — headline plus `.exp-hero-tags` chips.
+2. `#journey` — the story as a 7-stage timeline (`ol.journey` > `li.journey-step` > `article.journey-body`), each stage with a `.journey-stage` label, copy and `.tech-tag` chips.
+3. `#today` (`.band`) — "Where I am now" text next to a `.focus-panel` with `.now-list` and `.stack-chip` items.
+4. `#value` — four `.value-card`s translating the journey into client value, plus a `.journey-note` closing paragraph with CTAs.
+5. `#contact` — the shared `.contact-band` CTA block.
+
+Page-specific styles live in `css/experience.css` (loaded after `css/style.css`); shared tokens and the nav/footer come from `css/style.css`. The page uses the same `siteNav` / hamburger / `mobileDrawer` IDs and `.reveal` class as every other page, so `js/main.js` drives it without changes.
+
+When editing the narrative, keep the client-facing tone from `rules.md` (business value first) — the `#value` section exists for that purpose.
+
+---
+
 ## Long-Term Vision
 
 D Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:
