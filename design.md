@@ -48,3 +48,23 @@ Suggested:
 
 ```text
 #0C0F13
+```
+
+### Implemented Palette
+
+The values below are what `css/style.css` actually uses (as CSS custom properties on `:root`), and are the source of truth going forward:
+
+| Token | Hex / value | Used for |
+|---|---|---|
+| `--ink` | `#0C0F13` | Primary background |
+| `--ink-2` | `#11151B` | Raised surfaces (cards, drawer, form fields) |
+| `--ink-3` | `#171C24` | Deeper raised surfaces |
+| `--paper` | `#F4F1EA` | Primary (warm off-white) text |
+| `--silver` | `#C3CAD6` | Metallic accents, brand gradient |
+| `--muted` | `#8B93A2` | Secondary text |
+| `--muted-2` | `#5F6775` | Tertiary / label text |
+| `--blue` | `#2F7EF2` | Primary brand accent |
+| `--blue-light` | `#6FB2FF` | Links, highlights, active states |
+| `--gold` | `#D4AF6A` | Secondary metallic accent (used sparingly) |
+
+Brand gradient (`--grad-brand`) runs silver → blue; text gradient (`--grad-text`) runs near-white → light blue. No orange/amber tones are used anywhere in the palette.
