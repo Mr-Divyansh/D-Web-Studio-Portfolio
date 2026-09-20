@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    { "source": "/about", "destination": "/about.html", "permanent": true },
+    { "source": "/services", "destination": "/services.html", "permanent": true },
+    { "source": "/work", "destination": "/work.html", "permanent": true },
+    { "source": "/experience", "destination": "/experience.html", "permanent": true },
+    { "source": "/contact", "destination": "/contact.html", "permanent": true }
+  ]
+}
