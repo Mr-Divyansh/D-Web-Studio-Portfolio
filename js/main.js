@@ -17,6 +17,27 @@
     var closeBtn = document.getElementById("drawerClose");
 
     if (hamburger && drawer && backdrop && closeBtn) {
+        var pageContent = null;
+
+        var inertPage = function (inert) {
+            if (!pageContent) {
+                pageContent = [];
+                var skip = function (el) { return el === drawer || el === backdrop || drawer.contains(el); };
+                [document.body.children].forEach(function (children) {
+                    for (var i = 0; i < children.length; i++) {
+                        if (!skip(children[i])) pageContent.push(children[i]);
+                    }
+                });
+            }
+            pageContent.forEach(function (el) {
+                if (inert) {
+                    el.setAttribute("inert", "");
+                } else {
+                    el.removeAttribute("inert");
+                }
+            });
+        };
+
         var openDrawer = function () {
             drawer.classList.add("open");
             backdrop.classList.add("open");
@@ -24,26 +45,35 @@
             hamburger.setAttribute("aria-expanded", "true");
             drawer.setAttribute("aria-hidden", "false");
             document.body.classList.add("menu-open");
+            inertPage(true);
+            var first = drawer.querySelector("a, button");
+            if (first) first.focus();
         };
 
-        var closeDrawer = function () {
+        var closeDrawer = function (returnFocus) {
+            if (!drawer.classList.contains("open")) return;
             drawer.classList.remove("open");
             backdrop.classList.remove("open");
             hamburger.classList.remove("active");
             hamburger.setAttribute("aria-expanded", "false");
             drawer.setAttribute("aria-hidden", "true");
             document.body.classList.remove("menu-open");
+            inertPage(false);
+            // restore focus only if the hamburger is actually visible
+            // (it is display:none above 900px; also covers resize-while-open)
+            if (returnFocus !== false && hamburger.offsetParent !== null) hamburger.focus();
         };
 
         hamburger.addEventListener("click", function () {
             drawer.classList.contains("open") ? closeDrawer() : openDrawer();
         });
 
-        closeBtn.addEventListener("click", closeDrawer);
-        backdrop.addEventListener("click", closeDrawer);
+        closeBtn.addEventListener("click", function () { closeDrawer(); });
+        backdrop.addEventListener("click", function () { closeDrawer(); });
 
         drawer.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", closeDrawer);
+            link.addEventListener("click", function () { closeDrawer(false); });
+            // navigating: don't yank focus back to the hamburger mid-navigation
         });
 
         document.addEventListener("keydown", function (event) {
