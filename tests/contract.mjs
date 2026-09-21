@@ -1,10 +1,3 @@
-// D Web Studio — behavior contract for the final polish pass.
-// Zero dependencies. Run: node tests/contract.mjs
-// Static checks read the real files. The dynamic form lifecycle
-// (empty submit blocked / bad email blocked / valid submit sends once)
-// is exercised in the live preview; the assertions it must satisfy are
-// encoded in FORM_JS_SIGNALS below so refactors can't silently drop them.
-
 import { readFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
@@ -18,8 +11,6 @@ const check = (id, ok, detail = "") => {
   else fails.push(`${id}${detail ? ` — ${detail}` : ""}`);
 };
 
-// ---- 1. Project cards: exactly the real projects are clickable -------------
-// project            url
 const LIVE_PROJECTS = [
   ["AttendX",             "https://attendx-ashy.vercel.app/"],
   ["Shadow-Weaver",       "https://shadow-weaver.vercel.app/"],
@@ -37,14 +28,12 @@ for (const page of ["index.html", "work.html"]) {
     check(`${page}: ${name} is a clickable card with its real URL`,
       cardHrefs.includes(url), `found: ${cardHrefs.join(", ")}`);
   }
-  // DGYMX: concept card must stay honest — no link, no fake screenshot
   const dgymxBlock = html.slice(html.indexOf("DGYMX") - 400, html.indexOf("DGYMX") + 900);
   check(`${page}: DGYMX is NOT a link`, !/<a[^>]*class="project-card[^>]*>\s*<div class="project-thumb"[^>]*>\s*<span class="tagpill">SaaS Concept/.test(html) || !cardHrefs.some(h => /dgymx/i.test(h)));
   check(`${page}: DGYMX card has no <img>`, !/<img[^>]*DGYMX/i.test(dgymxBlock.replace(/DGYMX gym management system preview/g, "")) && !/GymSalonImg/.test(html));
   check(`${page}: DGYMX labelled Concept · In Progress`, html.includes("Concept · In Progress"));
 }
 
-// ---- 2. The 766px bug: thumb images must size by CSS, not attributes -------
 const css = read("css/style.css");
 const thumbRule = css.match(/\.project-thumb img \{[^}]*\}/)?.[0] ?? "";
 check("css: .project-thumb img sets height:auto (kills attr-pinned height)", /height:\s*auto/.test(thumbRule));
@@ -54,16 +43,13 @@ for (const page of ["index.html", "work.html"]) {
     /<img[^>]*ProjectImage[^>]*width="\d+"[^>]*height="\d+"/.test(read(page)));
 }
 
-// ---- 3. No deleted-folder asset paths; every referenced image exists -------
 const FORBIDDEN_PREFIXES = ["img/ServicesImage/", "img/Icone/", "img/PricingGridImage/"];
 const allHtml = PAGES.map(read).join("\n") + "\n" + read("data/services.json");
 for (const prefix of FORBIDDEN_PREFIXES) check(`no reference to deleted ${prefix}`, !allHtml.includes(prefix));
 const imgRefs = [...new Set([...allHtml.matchAll(/(?:src)="(img\/[^"]+)"/g)].map(m => m[1]))];
 for (const ref of imgRefs) check(`image exists: ${ref}`, existsSync(ref));
 
-// ---- 4. Lucide: pinned everywhere, loaded where icons are used -------------
-// ---- 4. Lucide: pinned everywhere it is loaded; loaded exactly where icons are used
-const ICON_PAGES = ["index.html", "services.html", "contact.html"]; // only pages that ship data-lucide icons
+const ICON_PAGES = ["index.html", "services.html", "contact.html"];
 const lucidePages = PAGES.filter(p => /<script[^>]*lucide/.test(read(p)));
 check("lucide loaded exactly on icon-using pages",
   lucidePages.length === ICON_PAGES.length && ICON_PAGES.every(p => lucidePages.includes(p)),
@@ -76,8 +62,6 @@ for (const page of ["services.html", "contact.html"]) {
   check(`${page}: uses data-lucide icons`, read(page).includes("data-lucide="));
   check(`${page}: loads the lucide script`, /<script[^>]*lucide/.test(read(page)));
 }
-
-// ---- 5. Contact form contract (static surface + JS signal checks) ----------
 const contact = read("contact.html");
 const formJs = read("js/form.js");
 check("form: has novalidate so JS validation is the single gate", /<form[^>]*id="contactForm"[^>]*novalidate/.test(contact));
@@ -97,7 +81,11 @@ const FORM_JS_SIGNALS = [
 ];
 for (const [label, ok] of FORM_JS_SIGNALS) check(`form.js: ${label}`, ok);
 
-// ---- 6. SEO: canonical domain, one h1, JSON-LD matches the cards -----------
+check("form: honeypot is an unchecked checkbox that stays unsubmitted for humans",
+  /<input[^>]*type="checkbox"[^>]*name="botcheck"/.test(contact) &&
+  !/<input[^>]*name="botcheck"[^>]*checked/.test(contact) &&
+  !/<input[^>]*checked[^>]*name="botcheck"/.test(contact));
+
 for (const page of ["index.html", "work.html", "services.html", "contact.html"]) {
   const html = read(page);
   check(`${page}: canonical uses dwebstudio.com`, /rel="canonical" href="https:\/\/dwebstudio\.com\//.test(html));
@@ -107,7 +95,6 @@ for (const page of ["index.html", "work.html", "services.html", "contact.html"])
 check("index: twitter:card is summary (square logo)", /name="twitter:card" content="summary"/.test(read("index.html")));
 check("index: unused Spline viewer removed", !read("index.html").includes("spline-viewer"));
 
-// work.html JSON-LD ItemList must agree with the rendered cards
 const workHtml = read("work.html");
 try {
   const jsonld = JSON.parse(workHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
@@ -119,19 +106,43 @@ try {
   check("work: JSON-LD parses", false);
 }
 
-// ---- 7. Dead code stays dead ------------------------------------------------
 check("js/from.js removed", !existsSync("js/from.js"));
 check("css/index.css removed", !existsSync("css/index.css"));
 for (const page of PAGES) check(`${page}: no from.js / css/index.css reference`, !/from\.js|css\/index\.css/.test(read(page)));
 check("no console.log in shipped JS", !/console\.log/.test(read("js/form.js") + read("js/main.js")));
 
-// ---- 8. JS parses ------------------------------------------------------------
 for (const f of ["js/form.js", "js/main.js"]) {
   try { execFileSync(process.execPath, ["--check", f], { stdio: "pipe" }); check(`${f}: parses`, true); }
   catch (e) { check(`${f}: parses`, false, String(e.stderr).slice(0, 120)); }
 }
 
-// ---- report ------------------------------------------------------------------
+const PAGE_CSS = {
+  "404.html": "css/404.css",
+  "about.html": "css/about.css",
+  "contact.html": "css/contact.css",
+  "experience.html": "css/experience.css",
+  "services.html": "css/services.css",
+};
+for (const page of PAGES) {
+  const html = read(page);
+  check(`${page}: loads css/style.css`, html.includes('href="css/style.css"'));
+  const own = PAGE_CSS[page];
+  check(`${page}: ${own ? `loads ${own}` : "loads no page-specific sheet"}`,
+    own ? html.includes(`href="${own}"`) : !/href="css\/(?!style\.css)/.test(html));
+  const inline = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)]
+    .map(m => m[1]).filter(s => !/^\.reveal\{opacity:1!important;transform:none!important;\}$/.test(s.trim()));
+  check(`${page}: no inline <style> block`, inline.length === 0, inline.join(" | ").slice(0, 80));
+  check(`${page}: style.css is linked before page CSS`,
+    !own || html.indexOf('href="css/style.css"') < html.indexOf(`href="${own}"`));
+}
+for (const sheet of ["css/style.css", ...Object.values(PAGE_CSS)]) {
+  check(`${sheet} exists and is linked`, existsSync(sheet) && PAGES.some(p => read(p).includes(`href="${sheet}"`)));
+}
+
+check("img/logo.png excluded from deploys via .assetsignore",
+  /^img\/logo\.png$/m.test(read(".assetsignore")) &&
+  !PAGES.some(p => read(p).includes("logo.png")));
+
 console.log(`\ncontract: ${pass} passed, ${fails.length} failed`);
 if (fails.length) {
   console.log("\nFAILURES:");

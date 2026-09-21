@@ -139,7 +139,13 @@ Then check manually:
 
 ## 7. Known open flags
 
-- `canonical` and Open Graph URLs still use the `https://YOUR-DOMAIN.com/` placeholder.
-- WhatsApp contact uses `+91 80912 73525`; confirm it is current.
-- `img/logo.png` is 1.6 MB and is used as the favicon and nav mark; compress it before launch.
-- Pricing cards quote on request; add real prices once finalised.
+- Favicon and nav mark use `img/logo.jpg` (204 KB); `img/logo.png` (1.6 MB) is
+  kept in version control as a source asset only and is excluded from deploys
+  via `.assetsignore`. If a true `.ico`/small-PNG favicon is produced, point
+  every `<link rel="icon">` at it and replace this flag.
+- WhatsApp contact uses `+91 80912 73525` (also in `memory.md` and every
+  `wa.me/918091273525` link); confirm with the owner that it is still current.
+
+Resolved since this list was first written: canonical / Open Graph URLs now
+use the real `https://dwebstudio.com/` domain from `memory.md`, and the
+services page quotes real starting prices (₹4,999 landing / ₹9,999 business).

@@ -59,8 +59,6 @@
             drawer.setAttribute("aria-hidden", "true");
             document.body.classList.remove("menu-open");
             inertPage(false);
-            // restore focus only if the hamburger is actually visible
-            // (it is display:none above 900px; also covers resize-while-open)
             if (returnFocus !== false && hamburger.offsetParent !== null) hamburger.focus();
         };
 
@@ -73,7 +71,6 @@
 
         drawer.querySelectorAll("a").forEach(function (link) {
             link.addEventListener("click", function () { closeDrawer(false); });
-            // navigating: don't yank focus back to the hamburger mid-navigation
         });
 
         document.addEventListener("keydown", function (event) {
