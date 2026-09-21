@@ -6,7 +6,8 @@
 
 .exp-hero {
     position: relative;
-    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 0;
 }
 
 .exp-hero .container {

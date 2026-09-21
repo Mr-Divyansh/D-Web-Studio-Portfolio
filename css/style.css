@@ -501,7 +501,8 @@ body.menu-open {
     position: relative;
     padding-top: 150px;
     padding-bottom: 90px;
-    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 0;
 }
 
 .hero-grid {
@@ -1415,6 +1416,25 @@ body.menu-open {
     color: var(--muted);
 }
 
+.github-band {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line-strong);
+    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), transparent 65%), var(--ink);
+    margin-top: 40px;
+    padding: clamp(32px, 4.5vw, 48px);
+    text-align: center;
+}
+
+.github-band h3 {
+    font-size: clamp(20px, 2.4vw, 26px);
+    margin: 10px 0 8px;
+}
+
+.github-band p {
+    max-width: 560px;
+    margin: 0 auto 22px;
+}
+
 .contact-band {
     border-radius: var(--radius-lg);
     border: 1px solid var(--line-strong);
@@ -1660,7 +1680,7 @@ footer {
 
 .features-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr) 1.2fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     align-items: start;
 }
@@ -1689,21 +1709,23 @@ footer {
     color: var(--muted);
 }
 
-.feature-aside {
+.feature-support {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 8px;
-    border-left: 1px solid var(--line);
-    padding-left: 28px;
-    align-self: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    text-align: center;
 }
 
-.feature-aside p {
+.feature-support p {
     font-size: 14px;
     color: var(--muted);
 }
 
-.feature-aside a {
+.feature-support a {
     font-size: 13.5px;
     font-weight: 700;
     color: var(--blue-light);
@@ -1717,23 +1739,11 @@ footer {
         grid-template-columns: repeat(2, 1fr);
         row-gap: 30px;
     }
-
-    .feature-aside {
-        grid-column: span 2;
-        border-left: none;
-        border-top: 1px solid var(--line);
-        padding-left: 0;
-        padding-top: 22px;
-    }
 }
 
 @media (max-width: 640px) {
     .features-row {
         grid-template-columns: 1fr;
-    }
-
-    .feature-aside {
-        grid-column: span 1;
     }
 }
 
