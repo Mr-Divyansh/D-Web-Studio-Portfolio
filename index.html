@@ -32,6 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script defer src="https://unpkg.com/lucide@0.544.0/dist/umd/lucide.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 
@@ -572,6 +573,7 @@
     </div>
 
     <div class="github-band reveal" style="transition-delay:.08s;">
+      <div class="fun-blocks" aria-hidden="true"></div>
       <span class="eyebrow" style="justify-content:center;">Want to see more?</span>
       <h3>There's more on GitHub.</h3>
 
@@ -698,6 +700,7 @@
 
     <div class="contact-band reveal">
 
+      <canvas class="contact-ripples" aria-hidden="true"></canvas>
       <span class="eyebrow" style="justify-content:center;">Let's Talk</span>
       <h2>Got an idea? Let's make it <span class="text-grad">real.</span></h2>
 
@@ -804,6 +807,11 @@
     </div>
 
     <div class="contact-band reveal" style="margin-top:90px;">
+      <div class="square-wave" aria-hidden="true">
+        <div class="wave-grid">
+          <div class="wave-cursor"></div>
+        </div>
+      </div>
       <span class="eyebrow" style="justify-content:center;">Ready When You Are</span>
       <h2>Let's build something <span class="text-grad">worth showing.</span></h2>
       <p>
@@ -876,5 +884,8 @@
   </div>
 </footer>
 <script src="js/main.js"></script>
+<script src="js/contact-ripples.js"></script>
+<script src="js/fun-blocks.js"></script>
+<script defer src="js/square-wave.js"></script>
 </body>
 </html>
