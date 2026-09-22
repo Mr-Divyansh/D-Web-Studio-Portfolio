@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com;">
   <title>D Web Studio | Full Stack Developer & Web Development Studio</title>
-  <meta name="description" content="D Web Studio by Divyansh — Full Stack Developer building modern websites, responsive web applications, AI-powered products and digital experiences for businesses, creators and startups.">
+  <meta name="description" content="D Web Studio by Divyansh — Full stack website, web app and digital product development. Services cover web design, development, SEO, hosting and website maintenance.">
   <meta name="author" content="Divyansh Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -110,23 +111,26 @@
 </head>
 
 <body>
-<nav class="site-nav" id="siteNav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-brand"><img src="img/logo.jpg" alt="D Web Studio logo">D Web <span class="studio">Studio</span></a>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link active">Home</a>
-      <a href="about.html" class="nav-link">About</a>
-      <a href="services.html" class="nav-link">Services</a>
-      <a href="experience.html" class="nav-link">Experience</a>
-      <a href="work.html" class="nav-link">Work</a>
-      <a href="contact.html" class="nav-link">Contact</a>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<header>
+  <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><img src="img/logo.jpg" alt="D Web Studio logo">D Web <span class="studio">Studio</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active" aria-current="page">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="experience.html" class="nav-link">Experience</a>
+        <a href="work.html" class="nav-link">Work</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow">→</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow">→</span></a>
-    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <div class="mobile-backdrop" id="mobileBackdrop"></div>
 <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
@@ -135,21 +139,22 @@
     <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
   </div>
   <ul class="mobile-nav-list">
-    <li><a href="index.html" class="nav-link active">Home</a></li>
+    <li><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
     <li><a href="about.html" class="nav-link">About</a></li>
     <li><a href="services.html" class="nav-link">Services</a></li>
     <li><a href="experience.html" class="nav-link">Experience</a></li>
     <li><a href="work.html" class="nav-link">Work</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
-  <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
+  <a href="https://api.whatsapp.com/send?phone=918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
 </div>
 
+<main id="main-content" tabindex="-1">
 <section class="hero" id="top">
   <div class="container hero-grid">
     <div>
 <div class="hero-badges reveal">
-  <span class="hero-badge">
+  <span class="hero-badge" role="status">
     <span class="dot"></span>
     <span>Available for New Projects</span>
   </span>
@@ -231,13 +236,14 @@
 
 <div class="features-strip" id="features">
   <div class="container">
+    <h2 class="sr-only">Core Capabilities</h2>
 
     <div class="features-row">
 
       <div class="feature-item reveal" style="transition-delay:.04s;">
         <span class="feature-num">01</span>
 
-        <h4>Custom Web Development</h4>
+        <h3>Custom Web Development</h3>
 
         <p>
           Custom websites and web applications built around your
@@ -248,7 +254,7 @@
       <div class="feature-item reveal" style="transition-delay:.10s;">
         <span class="feature-num">02</span>
 
-        <h4>Modern Responsive UI</h4>
+        <h3>Modern Responsive UI</h3>
 
         <p>
           Clean, modern interfaces that look great and work smoothly
@@ -259,7 +265,7 @@
       <div class="feature-item reveal" style="transition-delay:.16s;">
         <span class="feature-num">03</span>
 
-        <h4>Full Stack Solutions</h4>
+        <h3>Full Stack Solutions</h3>
 
         <p>
           Frontend, backend, APIs, authentication and databases
@@ -270,7 +276,7 @@
       <div class="feature-item reveal" style="transition-delay:.22s;">
         <span class="feature-num">04</span>
 
-        <h4>Performance &amp; Optimization</h4>
+        <h3>Performance &amp; Optimization</h3>
 
         <p>
           Lightweight code, responsive experiences and optimized
@@ -711,7 +717,7 @@
       </p>
 
       <div class="contact-btns">
-        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        <a href="https://api.whatsapp.com/send?phone=918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
           WhatsApp Me
           <span class="btn-arrow">→</span>
         </a>
@@ -731,7 +737,7 @@
     <div class="features-row reveal" style="margin-top:50px;">
       <div class="feature-item">
         <span class="feature-num">01</span>
-        <h4>Website Projects</h4>
+        <h3>Website Projects</h3>
         <p>
           Landing pages, portfolio websites, business websites and
           custom web experiences.
@@ -739,7 +745,7 @@
       </div>
       <div class="feature-item">
         <span class="feature-num">02</span>
-        <h4>Web Applications</h4>
+        <h3>Web Applications</h3>
         <p>
           Full-stack applications with dashboards, authentication,
           databases, APIs and custom functionality.
@@ -747,7 +753,7 @@
       </div>
       <div class="feature-item">
         <span class="feature-num">03</span>
-        <h4>Business Solutions</h4>
+        <h3>Business Solutions</h3>
         <p>
           Digital solutions designed around your business,
           customers and day-to-day requirements.
@@ -755,7 +761,7 @@
       </div>
       <div class="feature-item">
         <span class="feature-num">04</span>
-        <h4>Custom Ideas</h4>
+        <h3>Custom Ideas</h3>
         <p>
           Have something different in mind? Share the idea and
           we'll explore the right way to build it.
@@ -772,7 +778,7 @@
       <div class="features-row" style="margin-top:35px;">
         <div class="feature-item">
           <span class="feature-num">01</span>
-          <h4>Tell Me About It</h4>
+          <h3>Tell Me About It</h3>
           <p>
             Send a message explaining your idea, requirements,
             business or the problem you want to solve.
@@ -780,7 +786,7 @@
         </div>
         <div class="feature-item">
           <span class="feature-num">02</span>
-          <h4>Discuss the Idea</h4>
+          <h3>Discuss the Idea</h3>
           <p>
             We discuss the project, features, design direction,
             timeline and technical requirements.
@@ -788,7 +794,7 @@
         </div>
         <div class="feature-item">
           <span class="feature-num">03</span>
-          <h4>Plan the Build</h4>
+          <h3>Plan the Build</h3>
           <p>
             Once everything is clear, the project structure,
             technology and development plan are decided.
@@ -796,7 +802,7 @@
         </div>
         <div class="feature-item">
           <span class="feature-num">04</span>
-          <h4>Build & Launch</h4>
+          <h3>Build & Launch</h3>
           <p>
             The project is developed, tested, polished and prepared
             for real users.
@@ -819,7 +825,7 @@
         you can start the conversation today.
       </p>
       <div class="contact-btns">
-        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        <a href="https://api.whatsapp.com/send?phone=918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
           Start a Conversation
           <span class="btn-arrow">→</span>
         </a>
@@ -831,6 +837,7 @@
 
   </div>
 </section>
+</main>
 <footer>
   <div class="container">
     <div class="footer-row">
@@ -846,7 +853,7 @@
       </div>
 
       <div class="footer-column">
-        <h4>Explore</h4>
+        <h3>Explore</h3>
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Services</a>
@@ -856,7 +863,7 @@
       </div>
 
       <div class="footer-column">
-        <h4>Services</h4>
+        <h3>Services</h3>
         <a href="services.html">Business Websites</a>
         <a href="services.html">Landing Pages</a>
         <a href="services.html">Web Applications</a>
@@ -864,8 +871,13 @@
       </div>
 
       <div class="footer-column">
-        <h4>Connect</h4>
-        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <h3>Connect</h3>
+        <a href="https://api.whatsapp.com/send?phone=918091273525" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://www.instagram.com/d__web_studio/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:dwebstudio00@gmail.com">Email</a>
+      </div>
+    </div>
         <a href="https://www.instagram.com/d__web_studio/" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="mailto:dwebstudio00@gmail.com">Email</a>

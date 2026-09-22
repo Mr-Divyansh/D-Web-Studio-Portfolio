@@ -120,7 +120,7 @@
     margin-bottom: 26px;
 }
 
-.stack-cat h4 {
+.stack-cat h3 {
     font-size: 13px;
     font-family: "JetBrains Mono", monospace;
     color: var(--muted-2);
