@@ -1725,13 +1725,13 @@ footer {
     color: var(--muted);
 }
 
-.feature-support a {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--blue-light);
-    display: inline-flex;
+.feature-support-a {
+    display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 6px;
 }
 
 @media (max-width: 1080px) {
@@ -1744,6 +1744,22 @@ footer {
 @media (max-width: 640px) {
     .features-row {
         grid-template-columns: 1fr;
+    }
+
+    .feature-support {
+        margin-top: 32px;
+        padding-top: 24px;
+    }
+
+    .feature-support-a {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .feature-support-a .btn {
+        width: 100%;
     }
 }
 
@@ -1995,7 +2011,8 @@ footer {
     }
 
     .hero-btns,
-    .contact-btns {
+    .contact-btns,
+    .feature-support-a {
         width: 100%;
     }
 }
