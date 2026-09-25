@@ -81,6 +81,58 @@
         });
     }
 
+    var featureItems = document.querySelectorAll(".feature-item");
+
+    if (featureItems.length) {
+        var featureToggles = document.querySelectorAll(".feature-toggle");
+
+        var setFeatureExpanded = function (item, expanded) {
+            var toggle = item.querySelector(".feature-toggle");
+            var panel = toggle ? document.getElementById(toggle.getAttribute("aria-controls")) : null;
+
+            if (!toggle || !panel) return;
+
+            toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+            panel.hidden = !expanded;
+            item.classList.toggle("open", expanded);
+        };
+
+        featureItems.forEach(function (item) {
+            var toggle = item.querySelector(".feature-toggle");
+            if (!toggle) return;
+
+            toggle.addEventListener("click", function () {
+                var shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
+
+                featureItems.forEach(function (currentItem) {
+                    setFeatureExpanded(currentItem, false);
+                });
+
+                if (shouldOpen) setFeatureExpanded(item, true);
+            });
+
+            toggle.addEventListener("keydown", function (event) {
+                var currentIndex = Array.prototype.indexOf.call(featureToggles, toggle);
+                var nextIndex = null;
+
+                if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                    nextIndex = (currentIndex + 1) % featureToggles.length;
+                } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+                    nextIndex = (currentIndex - 1 + featureToggles.length) % featureToggles.length;
+                } else if (event.key === "Home") {
+                    nextIndex = 0;
+                } else if (event.key === "End") {
+                    nextIndex = featureToggles.length - 1;
+                }
+
+                if (nextIndex !== null) {
+                    event.preventDefault();
+                    featureToggles[nextIndex].focus();
+                }
+            });
+        });
+    }
+
     var revealEls = document.querySelectorAll(".reveal");
 
     if (revealEls.length) {

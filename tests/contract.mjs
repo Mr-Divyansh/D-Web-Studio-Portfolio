@@ -36,6 +36,8 @@ for (const page of ["index.html", "work.html"]) {
 
 const css = read("css/style.css");
 const themeScript = read("js/theme.js");
+const mainJs = read("js/main.js");
+const indexHtml = read("index.html");
 for (const page of PAGES) {
   const html = read(page);
   check(`${page}: loads theme controller before stylesheet`,
@@ -51,6 +53,18 @@ check("theme: persists the selected option",
   themeScript.includes("localStorage.setItem") && themeScript.includes("storage"));
 check("theme: light palette and accessible pressed states are defined",
   css.includes(':root[data-theme="light"]') && css.includes('.theme-option[aria-pressed="true"]'));
+
+const featureToggleIds = [...indexHtml.matchAll(/<button class="feature-toggle" id="([^"]+)"/g)].map(match => match[1]);
+const featurePanelIds = [...indexHtml.matchAll(/<div class="feature-panel" id="([^"]+)"/g)].map(match => match[1]);
+check("index: four feature accordion controls are present",
+  featureToggleIds.length === 4 && featurePanelIds.length === 4);
+check("index: each feature control targets its own panel",
+  featureToggleIds.every((id, index) => indexHtml.includes(`id="${id}"`) && indexHtml.includes(`aria-controls="${featurePanelIds[index]}"`)));
+check("index: feature panels start collapsed and are labelled",
+  (indexHtml.match(/class="feature-panel"[^>]* hidden/g) ?? []).length === 4 &&
+  featurePanelIds.every(id => indexHtml.includes(`aria-labelledby="feature-toggle-${id.slice(-1)}"`)));
+check("features: one-at-a-time accordion behavior is implemented",
+  mainJs.includes("setFeatureExpanded") && mainJs.includes("featureItems.forEach") && mainJs.includes("panel.hidden = !expanded"));
 
 const thumbRule = css.match(/\.project-thumb img \{[^}]*\}/)?.[0] ?? "";
 check("css: .project-thumb img sets height:auto (kills attr-pinned height)", /height:\s*auto/.test(thumbRule));

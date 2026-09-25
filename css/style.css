@@ -1882,24 +1882,96 @@ footer {
 .feature-item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-top: 18px;
+    padding: 14px 0 18px;
     border-top: 2px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.3s ease;
 }
 
-.feature-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--gold);
-    font-weight: 600;
+.feature-item.open {
+    border-top-color: var(--blue);
 }
 
 .feature-item h3 {
     font-size: 15.5px;
 }
 
-.feature-item p {
+.feature-toggle {
+    width: 100%;
+    min-height: 44px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    background: transparent;
+    color: var(--paper);
+    font: inherit;
+    text-align: left;
+}
+
+.feature-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.feature-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.feature-toggle-icon {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s var(--ease);
+}
+
+.feature-toggle-icon::before,
+.feature-toggle-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 1.5px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+}
+
+.feature-toggle-icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    transition: transform 0.25s ease;
+}
+
+.feature-toggle:hover .feature-toggle-icon {
+    border-color: var(--blue-light);
+    color: var(--blue-light);
+}
+
+.feature-toggle[aria-expanded="true"] .feature-toggle-icon {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: #ffffff;
+}
+
+.feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.feature-panel {
+    padding: 2px 38px 0 33px;
+}
+
+.feature-panel p {
     font-size: 13.5px;
+    line-height: 1.7;
     color: var(--muted);
 }
 
