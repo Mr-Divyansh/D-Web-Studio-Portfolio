@@ -35,6 +35,23 @@ for (const page of ["index.html", "work.html"]) {
 }
 
 const css = read("css/style.css");
+const themeScript = read("js/theme.js");
+for (const page of PAGES) {
+  const html = read(page);
+  check(`${page}: loads theme controller before stylesheet`,
+    html.indexOf('src="js/theme.js"') > -1 &&
+    html.indexOf('src="js/theme.js"') < html.indexOf('href="css/style.css"'));
+  check(`${page}: has desktop and mobile theme controls`,
+    (html.match(/class="theme-switcher"/g) ?? []).length === 2 &&
+    ["light", "dark", "system"].every(theme => html.includes(`data-theme-choice="${theme}"`)));
+}
+check("theme: defaults to system and follows device appearance",
+  themeScript.includes('"system"') && themeScript.includes('(prefers-color-scheme: dark)'));
+check("theme: persists the selected option",
+  themeScript.includes("localStorage.setItem") && themeScript.includes("storage"));
+check("theme: light palette and accessible pressed states are defined",
+  css.includes(':root[data-theme="light"]') && css.includes('.theme-option[aria-pressed="true"]'));
+
 const thumbRule = css.match(/\.project-thumb img \{[^}]*\}/)?.[0] ?? "";
 check("css: .project-thumb img sets height:auto (kills attr-pinned height)", /height:\s*auto/.test(thumbRule));
 for (const page of ["index.html", "work.html"]) {
@@ -109,9 +126,9 @@ try {
 check("js/from.js removed", !existsSync("js/from.js"));
 check("css/index.css removed", !existsSync("css/index.css"));
 for (const page of PAGES) check(`${page}: no from.js / css/index.css reference`, !/from\.js|css\/index\.css/.test(read(page)));
-check("no console.log in shipped JS", !/console\.log/.test(read("js/form.js") + read("js/main.js")));
+check("no console.log in shipped JS", !/console\.log/.test(read("js/form.js") + read("js/main.js") + themeScript));
 
-for (const f of ["js/form.js", "js/main.js"]) {
+for (const f of ["js/form.js", "js/main.js", "js/theme.js"]) {
   try { execFileSync(process.execPath, ["--check", f], { stdio: "pipe" }); check(`${f}: parses`, true); }
   catch (e) { check(`${f}: parses`, false, String(e.stderr).slice(0, 120)); }
 }

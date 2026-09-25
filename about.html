@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-preference="system">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,8 @@
 <meta name="description" content="Full Stack Developer from Himachal Pradesh, India — building modern websites, web applications and digital products for clients, startups and personal projects.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0c1018">
+<meta name="color-scheme" content="dark light">
+  <script src="js/theme.js"></script>
 <link rel="canonical" href="https://dwebstudio.com/about.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="D Web Studio">
@@ -65,6 +67,11 @@
       <a href="contact.html" class="nav-link">Contact</a>
     </div>
     <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow" aria-hidden="true">→</span></a>
+    <div class="theme-switcher" role="group" aria-label="Theme">
+      <button type="button" class="theme-option" data-theme-choice="light" aria-pressed="false">Light</button>
+      <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
@@ -85,6 +92,14 @@
     <li><a href="work.html" class="nav-link">Work</a></li>
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
+  <div class="mobile-theme">
+    <span class="mobile-theme-label" id="mobileThemeLabel">Appearance</span>
+    <div class="theme-switcher" role="group" aria-labelledby="mobileThemeLabel">
+      <button type="button" class="theme-option" data-theme-choice="light" aria-pressed="false">Light</button>
+      <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
+    </div>
+  </div>
   <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
 </nav>
 
