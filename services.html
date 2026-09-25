@@ -78,7 +78,7 @@
       <a href="work.html" class="nav-link">Work</a>
       <a href="contact.html" class="nav-link">Contact</a>
     </div>
-    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow">→</span></a>
+    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow" aria-hidden="true">→</span></a>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
@@ -86,7 +86,7 @@
 </nav>
 
 <div class="mobile-backdrop" id="mobileBackdrop"></div>
-<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+<nav class="mobile-drawer" id="mobileDrawer" aria-hidden="true" aria-label="Mobile navigation">
   <div class="mobile-drawer-head">
     <span class="mobile-drawer-title">Menu</span>
     <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
@@ -100,7 +100,7 @@
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
   <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
-</div>
+</nav>
 
 
 <main id="main-content" tabindex="-1">
@@ -125,7 +125,7 @@
         <div class="service-body">
           <h3>Business Websites</h3>
           <p>A complete multi-page website that presents your services, builds trust and makes it easy for customers to contact you.</p>
-          <span class="service-link">Start this project <span class="btn-arrow">→</span></span>
+          <span class="service-link">Start this project <span class="btn-arrow" aria-hidden="true">→</span></span>
         </div>
       </a>
       <a href="contact.html" class="service-card reveal" style="transition-delay:.10s;">
@@ -133,7 +133,7 @@
         <div class="service-body">
           <h3>Landing Pages</h3>
           <p>A focused single-page website built for one offer, campaign or service, designed to turn visitors into enquiries.</p>
-          <span class="service-link">Start this project <span class="btn-arrow">→</span></span>
+          <span class="service-link">Start this project <span class="btn-arrow" aria-hidden="true">→</span></span>
         </div>
       </a>
       <a href="contact.html" class="service-card reveal" style="transition-delay:.16s;">
@@ -141,7 +141,7 @@
         <div class="service-body">
           <h3>Restaurant Websites</h3>
           <p>Menus, photos, timings and location presented in a clean layout your customers will actually use.</p>
-          <span class="service-link">Start this project <span class="btn-arrow">→</span></span>
+          <span class="service-link">Start this project <span class="btn-arrow" aria-hidden="true">→</span></span>
         </div>
       </a>
       <a href="contact.html" class="service-card reveal" style="transition-delay:.22s;">
@@ -149,7 +149,7 @@
         <div class="service-body">
           <h3>Gym &amp; Salon Websites</h3>
           <p>Membership plans, price lists, timings and booking enquiries for gyms, salons and beauty studios.</p>
-          <span class="service-link">Start this project <span class="btn-arrow">→</span></span>
+          <span class="service-link">Start this project <span class="btn-arrow" aria-hidden="true">→</span></span>
         </div>
       </a>
     </div>
@@ -223,7 +223,7 @@
           <li>Mobile responsive</li>
           <li>Delivered in 3–5 days</li>
         </ul>
-        <div class="price-amount"><strong>→¹4,999</strong><small>starting from</small></div>
+        <div class="price-amount"><strong>₹4,999</strong><small>starting from</small></div>
         <a href="contact.html" class="btn btn-secondary">Enquire Now</a>
       </div>
       <div class="price-card featured reveal" style="transition-delay:.10s;">
@@ -238,7 +238,7 @@
           <li>Basic SEO for Google visibility</li>
           <li>Delivered in 7–10 days</li>
         </ul>
-        <div class="price-amount"><strong>→¹9,999</strong><small>starting from</small></div>
+        <div class="price-amount"><strong>₹9,999</strong><small>starting from</small></div>
         <a href="contact.html" class="btn btn-primary">Enquire Now</a>
       </div>
       <div class="price-card reveal" style="transition-delay:.16s;">
@@ -298,7 +298,7 @@
       <h2>Let's build yours. <span class="text-grad">Starting today.</span></h2>
       <p>Tell me about your business and what you need — you'll get a plan and a quote, usually within a few hours.</p>
       <div class="contact-btns">
-        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp Me <span class="btn-arrow">→</span></a>
+        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp Me <span class="btn-arrow" aria-hidden="true">→</span></a>
         <a href="mailto:dwebstudio00@gmail.com" class="btn btn-secondary">Email Me</a>
       </div>
       <div class="contact-links">
@@ -351,7 +351,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 D Web Studio. All rights reserved.</p>
+      <p>© <span id="year">2026</span> D Web Studio. All rights reserved.</p>
       <div class="footer-bottom-links">
         <span>Himachal Pradesh, India</span>
         <span>•</span>

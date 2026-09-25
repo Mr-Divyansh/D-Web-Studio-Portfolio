@@ -65,7 +65,7 @@
       <a href="work.html" class="nav-link active">Work</a>
       <a href="contact.html" class="nav-link">Contact</a>
     </div>
-    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow">→</span></a>
+    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow" aria-hidden="true">→</span></a>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
@@ -73,7 +73,7 @@
 </nav>
 
 <div class="mobile-backdrop" id="mobileBackdrop"></div>
-<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+<nav class="mobile-drawer" id="mobileDrawer" aria-hidden="true" aria-label="Mobile navigation">
   <div class="mobile-drawer-head">
     <span class="mobile-drawer-title">Menu</span>
     <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
@@ -87,7 +87,7 @@
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
   <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
-</div>
+</nav>
 
 
 <main id="main-content" tabindex="-1">
@@ -115,7 +115,7 @@
         </div>
         <div class="project-body">
           <div class="project-title-row">
-            <h3>AttendX <span class="arrow">→</span></h3>
+            <h3>AttendX <span class="arrow" aria-hidden="true">→</span></h3>
             <span class="tech-tag">Live</span>
           </div>
           <p>A modern attendance management platform designed around students, teachers and role-based workflows.</p>
@@ -134,7 +134,7 @@
         </div>
         <div class="project-body">
           <div class="project-title-row">
-            <h3>Shadow-Weaver <span class="arrow">→</span></h3>
+            <h3>Shadow-Weaver <span class="arrow" aria-hidden="true">→</span></h3>
             <span class="tech-tag">Live</span>
           </div>
           <p>Real-time AI cyber-defense SOC dashboard with multiple agents, threat monitoring and a Gemini-powered analyst.</p>
@@ -204,7 +204,7 @@
         </div>
         <div class="project-body">
           <div class="project-title-row">
-            <h3>Gloom Hair &amp; Beauty <span class="arrow">→</span></h3>
+            <h3>Gloom Hair &amp; Beauty <span class="arrow" aria-hidden="true">→</span></h3>
             <span class="tech-tag">Live</span>
           </div>
           <p>A luxury salon website with services, booking form, testimonials and a full pricing page.</p>
@@ -223,7 +223,7 @@
         </div>
         <div class="project-body">
           <div class="project-title-row">
-            <h3>Divyansh Restaurant <span class="arrow">→</span></h3>
+            <h3>Divyansh Restaurant <span class="arrow" aria-hidden="true">→</span></h3>
             <span class="tech-tag">Live</span>
           </div>
           <p>A complete restaurant site with full menu, about page, team section and contact form.</p>
@@ -242,7 +242,7 @@
         </div>
         <div class="project-body">
           <div class="project-title-row">
-            <h3>VELOUR — New Collection <span class="arrow">→</span></h3>
+            <h3>VELOUR — New Collection <span class="arrow" aria-hidden="true">→</span></h3>
             <span class="tech-tag">Live</span>
           </div>
           <p>A luxury clothing brand landing page with collection grid, testimonials and discount CTA.</p>
@@ -308,7 +308,7 @@
         </div>
         <div class="project-body">
           <div class="project-title-row">
-            <h3>PRIME FITNESS <span class="arrow">→</span></h3>
+            <h3>PRIME FITNESS <span class="arrow" aria-hidden="true">→</span></h3>
             <span class="tech-tag">Live</span>
           </div>
           <p>A modern gym &amp; fitness website built around plans, programs and member enquiries.</p>
@@ -330,7 +330,7 @@
       </p>
       <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
         Explore GitHub
-        <span class="btn-arrow">→</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
       </a>
     </div>
 
@@ -344,7 +344,7 @@
       <h2>Want your project <span class="text-grad">right here next?</span></h2>
       <p>Tell me what you want to build — you'll get a plan, timeline and quote, usually within a few hours.</p>
       <div class="contact-btns">
-        <a href="contact.html" class="btn btn-primary">Start a Project <span class="btn-arrow">→</span></a>
+        <a href="contact.html" class="btn btn-primary">Start a Project <span class="btn-arrow" aria-hidden="true">→</span></a>
         <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View GitHub</a>
       </div>
       <div class="contact-links">
@@ -397,7 +397,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 D Web Studio. All rights reserved.</p>
+      <p>© <span id="year">2026</span> D Web Studio. All rights reserved.</p>
       <div class="footer-bottom-links">
         <span>Himachal Pradesh, India</span>
         <span>•</span>

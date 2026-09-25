@@ -27,7 +27,7 @@
       <a href="work.html" class="nav-link">Work</a>
       <a href="contact.html" class="nav-link">Contact</a>
     </div>
-    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow">→</span></a>
+    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow" aria-hidden="true">→</span></a>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
@@ -35,7 +35,7 @@
 </nav>
 
 <div class="mobile-backdrop" id="mobileBackdrop"></div>
-<div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+<nav class="mobile-drawer" id="mobileDrawer" aria-hidden="true" aria-label="Mobile navigation">
   <div class="mobile-drawer-head">
     <span class="mobile-drawer-title">Menu</span>
     <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
@@ -49,14 +49,14 @@
     <li><a href="contact.html" class="nav-link">Contact</a></li>
   </ul>
   <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
-</div>
+</nav>
 
 <div class="nf-wrap">
   <div class="nf-code text-grad">404</div>
   <h1>This page took a wrong turn.</h1>
   <p>The link may be broken or the page may have moved. Let's get you back on track.</p>
   <div class="nf-btns">
-    <a href="index.html" class="btn btn-primary">Back to Home <span class="btn-arrow">→</span></a>
+    <a href="index.html" class="btn btn-primary">Back to Home <span class="btn-arrow" aria-hidden="true">→</span></a>
     <a href="contact.html" class="btn btn-secondary">Contact Me</a>
   </div>
 </div>
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 D Web Studio. All rights reserved.</p>
+      <p>© <span id="year">2026</span> D Web Studio. All rights reserved.</p>
       <div class="footer-bottom-links">
         <span>Himachal Pradesh, India</span>
         <span>•</span>

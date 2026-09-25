@@ -36,6 +36,12 @@
     transition: border-color .25s;
 }
 
+.quick-form input::placeholder,
+.quick-form textarea::placeholder {
+    color: var(--muted);
+    opacity: 1;
+}
+
 .quick-form textarea {
     resize: vertical;
     min-height: 110px;
@@ -123,6 +129,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 14px;
+    min-height: 40px;
 }
 
 .faq-list summary::-webkit-details-marker {

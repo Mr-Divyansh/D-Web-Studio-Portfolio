@@ -1,6 +1,9 @@
 (function () {
     "use strict";
 
+    var yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
     var nav = document.getElementById("siteNav");
 
     if (nav) {
