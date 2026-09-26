@@ -75,6 +75,27 @@ body {
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Smooth, safe cross-fade when the theme (light/dark/system) changes.
+   Scoped to color-related properties only, and skipped for anyone who
+   has asked the OS for reduced motion. Elements with their own
+   transition (buttons, cards, links) keep their own timing. */
+*,
+*::before,
+*::after {
+    transition-property: background-color, border-color, color, box-shadow, fill, stroke;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.001s !important;
+    }
 }
 
 .sr-only {
@@ -287,6 +308,11 @@ section[id] {
     box-shadow: 0 14px 30px -12px rgba(var(--blue-rgb), 0.9);
 }
 
+.btn-primary:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 6px 16px -10px rgba(var(--blue-rgb), 0.8);
+}
+
 .btn-secondary {
     border-color: var(--line-strong);
     background: rgba(255, 255, 255, 0.05);
@@ -295,6 +321,10 @@ section[id] {
 
 .btn-secondary:hover {
     border-color: var(--silver);
+}
+
+.btn-secondary:active {
+    transform: scale(0.97);
 }
 
 .btn-arrow {
@@ -2370,13 +2400,13 @@ body {
 }
 
 .theme-option {
-    min-height: 32px;
+    min-height: 40px;
     padding: 6px 9px;
     border: 0;
     border-radius: 999px;
     background: transparent;
-    color: var(--muted);
-    font-size: 11px;
+    color: var(--silver);
+    font-size: 12px;
     font-weight: 700;
     line-height: 1;
     letter-spacing: 0.01em;
