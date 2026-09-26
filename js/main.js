@@ -97,6 +97,77 @@
             item.classList.toggle("open", expanded);
         };
 
+        /* setFeatureExpanded on its own snaps, because `hidden` goes straight
+           from display:none to display:block. This wrapper animates instead:
+           pin the start height, flush a reflow so the browser registers it as
+           the starting frame, then hand the final height to the CSS transition
+           and drop the inline height once it lands - so a later resize can
+           re-measure instead of being stuck at a stale pixel value.
+
+           Keep FEATURE_ANIM_MS at or just above the height transition in
+           .feature-panel (0.42s); it is the fallback that still runs if the
+           transition is interrupted or never fires. */
+        var FEATURE_ANIM_MS = 460;
+        var featureMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        var featureSettleTimers = new WeakMap();
+
+        var animateFeatureExpanded = function (item, expanded) {
+            var toggle = item.querySelector(".feature-toggle");
+            var panel = toggle ? document.getElementById(toggle.getAttribute("aria-controls")) : null;
+
+            if (!toggle || !panel) return;
+
+            /* A click landing mid-animation cancels the previous settle, which
+               is what makes fast clicking work: the interrupted state is simply
+               used as the new starting height. */
+            var pending = featureSettleTimers.get(panel);
+            if (pending) {
+                clearTimeout(pending);
+                featureSettleTimers.delete(panel);
+            }
+
+            if (featureMotion.matches) {
+                panel.style.height = "";
+                panel.style.opacity = "";
+                setFeatureExpanded(item, expanded);
+                return;
+            }
+
+            if (expanded) {
+                /* Un-hide while still collapsed, so scrollHeight can be read
+                   and the grow has a 0px frame to start from. */
+                setFeatureExpanded(item, true);
+                var full = panel.scrollHeight;
+
+                panel.style.height = "0px";
+                panel.style.opacity = "0";
+                void panel.offsetHeight;
+                panel.style.height = full + "px";
+                panel.style.opacity = "1";
+            } else {
+                /* Freeze wherever the grow had reached, then collapse from
+                   there. aria-expanded and .open flip immediately so the card
+                   styling matches; `hidden` waits for the end of the collapse
+                   in the settle callback. */
+                var current = panel.scrollHeight;
+
+                panel.style.height = current + "px";
+                panel.style.opacity = "1";
+                void panel.offsetHeight;
+                panel.style.height = "0px";
+                panel.style.opacity = "0";
+                item.classList.remove("open");
+                toggle.setAttribute("aria-expanded", "false");
+            }
+
+            featureSettleTimers.set(panel, setTimeout(function () {
+                featureSettleTimers.delete(panel);
+                panel.style.height = "";
+                panel.style.opacity = "";
+                if (!expanded) setFeatureExpanded(item, false);
+            }, FEATURE_ANIM_MS));
+        };
+
         featureItems.forEach(function (item) {
             var toggle = item.querySelector(".feature-toggle");
             if (!toggle) return;
@@ -104,11 +175,15 @@
             toggle.addEventListener("click", function () {
                 var shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
 
+                /* One at a time: close every sibling, then toggle this one.
+                   `item` is skipped in the loop so a closed card never plays a
+                   collapse it is about to undo. */
                 featureItems.forEach(function (currentItem) {
-                    setFeatureExpanded(currentItem, false);
+                    if (currentItem === item) return;
+                    animateFeatureExpanded(currentItem, false);
                 });
 
-                if (shouldOpen) setFeatureExpanded(item, true);
+                animateFeatureExpanded(item, shouldOpen);
             });
 
             toggle.addEventListener("keydown", function (event) {

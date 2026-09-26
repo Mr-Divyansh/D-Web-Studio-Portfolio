@@ -255,7 +255,7 @@ section[id] {
 }
 
 .page-hero {
-    padding-top: 150px;
+    padding-top: 128px;
     padding-bottom: 24px;
 }
 
@@ -341,14 +341,14 @@ section[id] {
     left: 0;
     right: 0;
     z-index: 200;
-    padding: 18px var(--edge);
+    padding: 14px var(--edge);
     border-bottom: 1px solid transparent;
     transition: padding 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
 }
 
 .site-nav.scrolled {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 9px;
+    padding-bottom: 9px;
     background: rgba(12, 15, 19, 0.85);
     backdrop-filter: blur(14px) saturate(140%);
     border-bottom-color: var(--line);
@@ -629,7 +629,7 @@ body.menu-open {
 
 .hero {
     position: relative;
-    padding-top: 150px;
+    padding-top: 115px;
     padding-bottom: 90px;
     overflow: clip;
     overflow-clip-margin: 0;
@@ -1896,34 +1896,165 @@ footer {
     }
 }
 
-.features-strip {
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 70px 0;
-}
-
-.features-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    align-items: start;
-}
-
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    padding: 14px 0 18px;
-    border-top: 2px solid var(--line-strong);
-    border-bottom: 1px solid var(--line);
-    transition: border-color 0.3s ease;
-}
-
-.feature-item.open {
-    border-top-color: var(--blue);
-}
-
-.feature-item h3 {
-    font-size: 15.5px;
+/* ---------- Core capabilities strip ----------
+   Was four bare rules: a 2px top rule, a 1px bottom rule, no surface and no
+   hover, so the block read as a loose divider instead of a section. It is now
+   a card grid - lifted surface, a blue accent rail that fills on hover/open,
+   and a soft tint on the open card.
+
+   Shared by two different markups:
+     index.html  - .feature-item wraps an h3 > button.feature-toggle accordion
+     about.html  - .feature-item holds .feature-num + h3 + p, no button
+   So the base card has to work for both, and the interactive bits stay scoped
+   to .feature-toggle. */
+.features-strip {
+    position: relative;
+    padding: 76px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: radial-gradient(120% 100% at 50% 0%, rgba(var(--blue-rgb), 0.07), transparent 62%);
+}
+
+.features-head {
+    max-width: 640px;
+    margin: 0 auto 46px;
+    text-align: center;
+}
+
+.features-head .eyebrow {
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.features-head h2 {
+    font-size: clamp(26px, 3.4vw, 36px);
+    line-height: 1.2;
+}
+
+.features-head p {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+/* `start`, not `stretch`: the accordion row is as tall as whichever card is
+   open, and stretching meant one open card left the other three with a block
+   of dead white space under them. Each card now sizes to its own content.
+   about.html has no accordion, so it opts back in to equal heights. */
+.features-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.features-row--static {
+    align-items: stretch;
+}
+
+.features-row--static .feature-item {
+    height: 100%;
+}
+
+.feature-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 22px 26px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-2);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.3s var(--ease), border-color 0.3s ease,
+                box-shadow 0.3s var(--ease), background-color 0.3s ease;
+}
+
+/* Accent rail along the top edge, hidden until hover or open. */
+.feature-item::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.4s var(--ease);
+}
+
+/* Open-card tint lives on ::after so it fades in as background-color, which
+   the global theme cross-fade already animates. A background-image gradient
+   would snap instead of fading. */
+.feature-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(var(--blue-rgb), 0.14), rgba(var(--blue-rgb), 0.02));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s var(--ease);
+}
+
+.feature-item:hover,
+.feature-item:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba(var(--blue-rgb), 0.5);
+    box-shadow: 0 20px 40px -24px rgba(var(--blue-rgb), 0.75);
+}
+
+.feature-item:hover::before,
+.feature-item:focus-within::before,
+.feature-item.open::before {
+    transform: scaleX(1);
+}
+
+.feature-item.open {
+    border-color: rgba(var(--blue-rgb), 0.5);
+    box-shadow: 0 20px 40px -26px rgba(var(--blue-rgb), 0.6);
+}
+
+.feature-item.open::after {
+    opacity: 1;
+}
+
+/* `.reveal` is declared at line ~1852, before this block, and both selectors
+   have specificity 0-1-0 - so the plain `.feature-item` transition above would
+   have won on source order and killed the reveal entrance. Re-declare it with
+   the reveal timing folded in (same fix as `.btn.reveal`). */
+.feature-item.reveal {
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease),
+                border-color 0.3s ease, box-shadow 0.3s var(--ease),
+                background-color 0.3s ease;
+}
+
+/* Once revealed, hover should lift on the snappier card timing rather than the
+   slow entrance timing. */
+.feature-item.reveal:hover,
+.feature-item.reveal:focus-within {
+    transform: translateY(-4px);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+                border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.feature-item h3 {
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* about.html order is .feature-num then h3, so the heading needs a gap.
+   The pill also needs align-self there: as a direct child of the column-flex
+   card it would otherwise stretch to the full card width. Inside the button it
+   is a grid item and must keep inheriting the button's `align-items: center`,
+   or it sits at the top of a two-line title while the + icon stays centred. */
+.feature-item > .feature-num {
+    align-self: flex-start;
+}
+
+.feature-item > .feature-num + h3 {
+    margin-top: 14px;
 }
 
 .feature-toggle {
@@ -1933,34 +2064,59 @@ footer {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     border: 0;
     background: transparent;
     color: var(--paper);
     font: inherit;
     text-align: left;
+    cursor: pointer;
 }
 
+.feature-toggle:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 6px;
+    border-radius: 6px;
+}
+
+/* Gold index pill. */
 .feature-num {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 26px;
+    padding: 0 9px;
+    border: 1px solid rgba(var(--gold-rgb), 0.42);
+    border-radius: 999px;
+    background: rgba(var(--gold-rgb), 0.12);
     color: var(--gold);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
     font-weight: 600;
+    letter-spacing: 0.04em;
 }
 
+/* The old rule pinned this to one line with an ellipsis. At the 4-column width
+   (~277px per track) "Custom Web Development" and "Performance &
+   Optimization" were both being cut down to "Custom Web Develo...". Let the
+   title wrap to two lines instead and keep the words whole. */
 .feature-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
+    text-wrap: balance;
 }
 
 .feature-toggle-icon {
     position: relative;
-    width: 28px;
-    height: 28px;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
     border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s var(--ease);
+    border-radius: 9px;
+    color: var(--muted);
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+                color 0.3s ease, transform 0.3s var(--ease);
 }
 
 .feature-toggle-icon::before,
@@ -1969,40 +2125,88 @@ footer {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 10px;
+    width: 11px;
     height: 1.5px;
+    border-radius: 1px;
     background: currentColor;
     transform: translate(-50%, -50%);
 }
 
 .feature-toggle-icon::after {
     transform: translate(-50%, -50%) rotate(90deg);
-    transition: transform 0.25s ease;
+    transition: transform 0.3s var(--ease);
 }
 
-.feature-toggle:hover .feature-toggle-icon {
-    border-color: var(--blue-light);
+.feature-toggle:hover .feature-toggle-icon,
+.feature-toggle:focus-visible .feature-toggle-icon {
+    border-color: var(--blue);
     color: var(--blue-light);
+    transform: rotate(90deg);
 }
 
 .feature-toggle[aria-expanded="true"] .feature-toggle-icon {
     border-color: var(--blue);
     background: var(--blue);
     color: #ffffff;
+    transform: none;
 }
 
 .feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
     transform: translate(-50%, -50%) rotate(0deg);
 }
 
+.feature-toggle[aria-expanded="true"] .feature-title {
+    color: var(--blue-light);
+}
+
+/* Height-animated by js/main.js. The inline height only exists while the
+   transition is running, so the CSS has to describe both ends: 0 / invisible
+   when closed, auto / visible once .open is set.
+
+   The 16px gap, the divider and the 30px of padding all live inside the
+   panel's <p>, never on the panel itself. `overflow: hidden` + `height: 0`
+   then clips every bit of it away. A padding or border on .feature-panel
+   would instead be floored at its own size by box-sizing and survive as a
+   stray line on the closed cards. */
 .feature-panel {
-    padding: 2px 38px 0 33px;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.42s var(--ease), opacity 0.3s ease;
+}
+
+.feature-item.open .feature-panel {
+    height: auto;
+    opacity: 1;
 }
 
 .feature-panel p {
-    font-size: 13.5px;
-    line-height: 1.7;
+    position: relative;
+    margin: 0;
+    padding-top: 30px;
+}
+
+/* Divider sits 16px below the toggle, with 14px of air on either side. Drawn as
+   a pseudo-element rather than a border-top so it scrolls away with the text. */
+.feature-panel p::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--line);
+}
+
+.feature-panel p,
+.feature-item > p {
+    font-size: 13.8px;
+    line-height: 1.72;
     color: var(--muted);
+}
+
+.feature-item > p {
+    margin-top: 10px;
 }
 
 .feature-support {  
@@ -2313,7 +2517,7 @@ footer {
 
 @media (max-width: 640px) {
     .hero {
-        padding-top: 118px;
+        padding-top: 104px;
         padding-bottom: 70px;
     }
 
