@@ -167,14 +167,14 @@
 <section class="hero" id="top">
   <div class="container hero-grid">
     <div>
-      <div class="hero-badges reveal">
-        <span class="hero-badge">
-          <span class="dot"></span>
-          <span>Available for New Projects</span>
-        </span>
+<div class="hero-badges reveal">
+  <span class="hero-badge" role="status">
+    <span class="dot"></span>
+    <span>Available for New Projects</span>
+  </span>
 
-        <span class="hero-tagline">Full Stack Developer &middot; Divyansh</span>
-      </div>
+  <span class="hero-tagline">Full Stack Developer · Divyansh</span>
+</div>
 
       <h1 class="reveal" style="transition-delay:.08s;">
         I build<span class="text-grad"> digital experiences</span> that feel real.
@@ -248,16 +248,9 @@
 
 </section>
 
-<!-- A real section element rather than a plain div: it now carries a visible
-     h2, so it belongs in the document outline, and section[id] gives #features
-     the same 90px scroll-margin the other anchored sections have. -->
-<section class="features-strip" id="features">
+<div class="features-strip" id="features">
   <div class="container">
-    <div class="features-head reveal">
-      <span class="eyebrow">What I Do</span>
-      <h2>Core Capabilities</h2>
-      <p>Four things every engagement runs through. Open a card to see the detail.</p>
-    </div>
+    <h2 class="sr-only">Core Capabilities</h2>
 
     <div class="features-row">
 
@@ -328,34 +321,31 @@
     </div>
 
     <div class="feature-support reveal" style="transition-delay:.30s;">
-      <div class="feature-support-copy">
-        <h3>Not sure what you need yet?</h3>
-        <p>
-          Tell me the goal and I'll suggest the right scope &mdash; anywhere from a
-          simple landing page to a complete full-stack web application.
-        </p>
-      </div>
+      <p>
+        From a simple landing page to a complete
+        full-stack web application.
+      </p>
       <div class="feature-support-a">
-        <a href="services.html" class="btn btn-primary">
-          Explore Services
-          <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <a href="work.html" class="btn btn-secondary">
-          See My Work
-          <span class="btn-arrow" aria-hidden="true">&rarr;</span>
-        </a>
+      <a href="services.html" class="btn btn-primary">
+        Explore Services
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="work.html" class="btn btn-secondary">
+        See My Work
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
       </div>
     </div>
 
   </div>
-</section>
+</div>
 
 <section id="projects">
   <div class="container">
 
     <div class="projects-head">
 
-      <div class="projects-head-copy reveal">
+      <div class="reveal">
         <span class="eyebrow">Selected Work</span>
 
         <h2 class="section-title">
@@ -369,10 +359,9 @@
         </p>
       </div>
 
-      <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-github reveal" style="transition-delay:.1s;">
-        <i data-lucide="github" class="btn-github-mark" aria-hidden="true"></i>
-        <span>View GitHub</span>
-        <span class="sr-only">(opens in a new tab)</span>
+      <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer" class="btn btn-secondary reveal" style="transition-delay:.1s;">
+        View GitHub
+        <span class="btn-arrow" aria-hidden="true">→</span>
       </a>
 
     </div>
@@ -386,7 +375,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>AttendX <span class="arrow" aria-hidden="true">↗</span></h3>
-            <span class="status-tag status-tag--live">Live</span>
+            <span class="tech-tag">Live</span>
           </div>
           <p>
             A modern attendance management platform designed around
@@ -409,7 +398,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>Shadow-Weaver <span class="arrow" aria-hidden="true">↗</span></h3>
-            <span class="status-tag status-tag--live">Live</span>
+            <span class="tech-tag">Live</span>
           </div>
           <p>
             Real-time AI cyber-defense SOC dashboard with multiple
@@ -456,7 +445,7 @@
               <span></span>
               <span></span>
             </div>
-            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.14);color:var(--on-media-accent);">
+            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.14);color:var(--blue-light);">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M22 7 13.5 15.5 8.5 10.5 2 17"/>
                 <path d="M16 7h6v6"/>
@@ -468,7 +457,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>DGYMX</h3>
-            <span class="status-tag status-tag--wip">Concept · In Progress</span>
+            <span class="tech-tag">Concept · In Progress</span>
           </div>
           <p>
             A modern gym management system concept focused on members,
@@ -491,7 +480,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>Gloom Hair &amp; Beauty <span class="arrow" aria-hidden="true">↗</span></h3>
-            <span class="status-tag status-tag--live">Live</span>
+            <span class="tech-tag">Live</span>
           </div>
           <p>
             A luxury salon website with services, booking form,
@@ -514,7 +503,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>Divyansh Restaurant <span class="arrow" aria-hidden="true">↗</span></h3>
-            <span class="status-tag status-tag--live">Live</span>
+            <span class="tech-tag">Live</span>
           </div>
           <p>
             A complete restaurant site with full menu, about page,
@@ -537,7 +526,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>VELOUR — New Collection <span class="arrow" aria-hidden="true">↗</span></h3>
-            <span class="status-tag status-tag--live">Live</span>
+            <span class="tech-tag">Live</span>
           </div>
           <p>
             A luxury clothing brand landing page with collection grid,
@@ -561,7 +550,7 @@
               <span></span>
               <span></span>
             </div>
-            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.16);color:var(--on-media-accent);">
+            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.16);color:var(--blue-light);">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="4" width="18" height="16" rx="2"/>
                 <path d="M8 9h8M8 13h5M8 17h3"/>
@@ -570,10 +559,7 @@
           </div>
         </div>
         <div class="project-body">
-          <div class="project-title-row">
-            <h3>D Web Studio</h3>
-            <span class="tech-tag">This Website</span>
-          </div>
+          <h3>D Web Studio</h3>
           <p>
             A personal web studio portfolio designed to showcase
             development work, services, experience and ways to connect.
@@ -596,7 +582,7 @@
               <span></span>
               <span></span>
             </div>
-            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.14);color:var(--on-media-accent);">
+            <div class="thumb-icon" style="background:rgba(var(--blue-rgb),.14);color:var(--blue-light);">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M6.5 6.5h11v11h-11z"/>
                 <path d="M2.5 9.5v5"/>
@@ -611,7 +597,7 @@
         <div class="project-body">
           <div class="project-title-row">
             <h3>PRIME FITNESS <span class="arrow" aria-hidden="true">↗</span></h3>
-            <span class="status-tag status-tag--live">Live</span>
+            <span class="tech-tag">Live</span>
           </div>
           <p>
             A modern gym &amp; fitness website built around plans,
@@ -628,7 +614,7 @@
 
     <div class="github-band reveal" style="transition-delay:.08s;">
       <div class="fun-blocks" aria-hidden="true"></div>
-      <span class="eyebrow">Want to see more?</span>
+      <span class="eyebrow" style="justify-content:center;">Want to see more?</span>
       <h3>There's more on GitHub.</h3>
 
       <p class="section-sub">
@@ -690,9 +676,9 @@
           </li>
         </ul>
 
-        <a href="about.html" class="btn btn-secondary section-cta">
+        <a href="about.html" class="btn btn-secondary" style="margin-top:28px;">
           Read My Full Story
-          <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
         </a>
       </div>
 
