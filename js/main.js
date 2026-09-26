@@ -86,6 +86,28 @@
     if (featureItems.length) {
         var featureToggles = document.querySelectorAll(".feature-toggle");
 
+        var reduceMotion = window.matchMedia
+            ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            : false;
+
+        /* Height animation for the capability panels.
+
+           `panel.hidden` is what keeps a closed panel out of the tab order, but
+           flipping it switches the panel on and off in the same frame, so it
+           snaps. The animation instead keeps `hidden` off for the duration and
+           drives the visible height with an inline style:
+
+             close  measure -> pin to that px -> flush reflow -> 0px -> hidden
+             open   0px -> flush reflow -> measured px, then release to auto
+
+           The two `void panel.offsetHeight` reads are not dead code. Reading a
+           layout property is what forces the browser to register the starting
+           height before the ending one is assigned; without it both assignments
+           collapse into a single style recalc and there is nothing to animate
+           between. On open the inline height is released at the end so the
+           panel falls back to `height: auto` - the titles wrap to two lines at
+           some viewport widths, and a hard-coded pixel height would clip the
+           text the moment the window narrowed. */
         var setFeatureExpanded = function (item, expanded) {
             var toggle = item.querySelector(".feature-toggle");
             var panel = toggle ? document.getElementById(toggle.getAttribute("aria-controls")) : null;
@@ -93,8 +115,57 @@
             if (!toggle || !panel) return;
 
             toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-            panel.hidden = !expanded;
-            item.classList.toggle("open", expanded);
+
+            if (reduceMotion) {
+                panel.hidden = !expanded;
+                panel.style.height = "";
+                item.classList.toggle("open", expanded);
+                return;
+            }
+
+            // Drop whatever the previous toggle left running, or a quick
+            // double-click would strand a stale height and a stray listener.
+            if (panel._featureOnSettled) {
+                panel.removeEventListener("transitionend", panel._featureOnSettled);
+                panel._featureOnSettled = null;
+            }
+            if (panel._featureTimer) {
+                clearTimeout(panel._featureTimer);
+                panel._featureTimer = null;
+            }
+
+            var onSettled = function (event) {
+                if (event && event.propertyName !== "height") return;
+
+                panel.removeEventListener("transitionend", onSettled);
+                panel._featureOnSettled = null;
+                clearTimeout(panel._featureTimer);
+                panel._featureTimer = null;
+                panel.style.height = "";
+
+                if (!expanded) panel.hidden = true;
+            };
+
+            // Backstop. If the transition never fires - the tab is backgrounded
+            // mid-animation, or a transition is cancelled by a layout change -
+            // the panel would otherwise be left stuck part-way.
+            panel._featureTimer = setTimeout(onSettled, 600);
+
+            if (expanded) {
+                panel.hidden = false;
+                panel.style.height = "0px";
+                void panel.offsetHeight;
+                item.classList.add("open");
+                panel.style.height = panel.scrollHeight + "px";
+            } else {
+                item.classList.remove("open");
+                panel.style.height = panel.scrollHeight + "px";
+                void panel.offsetHeight;
+                panel.style.height = "0px";
+            }
+
+            panel._featureOnSettled = onSettled;
+            panel.addEventListener("transitionend", onSettled);
         };
 
         featureItems.forEach(function (item) {

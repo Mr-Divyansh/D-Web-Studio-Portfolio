@@ -49,7 +49,21 @@
     --line-strong: rgba(20, 33, 58, 0.20);
 
     --grad-brand: linear-gradient(100deg, #1D4ED8, #2563EB);
-    --grad-text: linear-gradient(100deg, #14213A, #1D4ED8);
+    /* The dark-theme gradient runs #E9ECF2 -> #9CC8FF: bright silver into
+       bright blue, which sits clearly apart from the near-white h1. The old
+       light value ran #14213A -> #1D4ED8, and #14213A *is* the light-mode h1
+       colour (--paper). Measured against it the gradient started at 1.00:1 -
+       identical - so the first half of every gradient span was literally the
+       same colour as the words around it, and "digital experiences" read as
+       one flat run of navy instead of an accent. Contrast was never the
+       problem (14:1 down to 5.9:1); the accent simply had nothing to separate
+       it from.
+
+       Starting at --blue instead shifts the whole span to a clear blue hue
+       while staying well clear of the 4.5:1 normal-text threshold on the
+       least favourable light surface (--ink-3, #EAF0F8): 5.85:1 at the start,
+       4.51:1 at the end, against an h1 body colour 2.39:1 away. */
+    --grad-text: linear-gradient(100deg, #1D4ED8, #2563EB);
 
     color-scheme: light;
 }
@@ -255,7 +269,7 @@ section[id] {
 }
 
 .page-hero {
-    padding-top: 150px;
+    padding-top: 128px;
     padding-bottom: 24px;
 }
 
@@ -327,6 +341,38 @@ section[id] {
     transform: scale(0.97);
 }
 
+/* ---------- GitHub CTA ----------
+   This is the only button on the page that leaves the site, but it was wearing
+   the same `->` arrow as every internal link. That arrow means "onward to
+   another page", so on a target="_blank" link it was pointing the wrong way -
+   it reads as a nudge further in, not as a jump out to a new tab.
+
+   The GitHub mark does the job the arrow was doing, and says what the link
+   actually is. Note the icon only works on index.html: contract.mjs pins
+   lucide to exactly index/services/contact, so the matching "Explore GitHub"
+   buttons on work.html have to stay text-only. */
+.btn-github {
+    gap: 10px;
+}
+
+.btn-github-mark {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    transition: transform 0.3s var(--ease), color 0.3s ease;
+}
+
+/* 0-3-0, so it settles the tie with `.btn-secondary:hover` (0-2-0) rather than
+   relying on this block happening to come first. */
+.btn-secondary.btn-github:hover {
+    border-color: var(--blue);
+}
+
+.btn-secondary.btn-github:hover .btn-github-mark {
+    color: var(--blue-light);
+    transform: scale(1.14);
+}
+
 .btn-arrow {
     transition: transform 0.3s var(--ease);
 }
@@ -335,20 +381,42 @@ section[id] {
     transform: translateX(3px);
 }
 
+/* ---------- Section-closing CTA ----------
+   The last button of a section, sitting alone under a block of copy. It shows
+   up in index.html (after the About "now" list) and experience.html (after the
+   intro paragraphs), and both were carrying a hand-copied
+   `style="margin-top:28px"` - two one-off inline styles free to drift apart.
+
+   The lift is new, not a restoration: `.btn-secondary` never had a transform,
+   so these two - each the main call to action of its own section - gave no
+   positional feedback on hover, only a border tint and the nudging arrow.
+
+   No `.reveal` conflict here: both buttons sit inside a `.reveal` parent but
+   do not carry the class themselves, so `.reveal.in` never touches this
+   element. Keep it that way - if one is given `reveal` later, it needs the
+   `.btn.reveal:hover` treatment the other interactive reveals use. */
+.section-cta {
+    margin-top: 28px;
+}
+
+.section-cta:hover {
+    transform: translateY(-2px);
+}
+
 .site-nav {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 200;
-    padding: 18px var(--edge);
+    padding: 14px var(--edge);
     border-bottom: 1px solid transparent;
     transition: padding 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
 }
 
 .site-nav.scrolled {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 9px;
+    padding-bottom: 9px;
     background: rgba(12, 15, 19, 0.85);
     backdrop-filter: blur(14px) saturate(140%);
     border-bottom-color: var(--line);
@@ -629,7 +697,7 @@ body.menu-open {
 
 .hero {
     position: relative;
-    padding-top: 150px;
+    padding-top: 115px;
     padding-bottom: 90px;
     overflow: clip;
     overflow-clip-margin: 0;
@@ -653,7 +721,11 @@ body.menu-open {
     border: 1px solid var(--line-strong);
     font-size: 12.5px;
     font-weight: 600;
-    margin-bottom: 22px;
+    /* No margin-bottom here on purpose. The badge sits inside .hero-badges, a
+       centred flex row, so a bottom margin would centre its margin-box and
+       float the pill above the tagline beside it. The 22px it used to carry was
+       already cancelled by `#top .hero-badge { margin-bottom: 0 }` further
+       down, so it was dead weight that contradicted the layout. */
 }
 
 .hero-badge .dot {
@@ -1061,8 +1133,19 @@ body.menu-open {
     color: var(--blue-light);
 }
 
+/* Pure white, stated explicitly rather than left to a token.
+
+   This row used to be #C7D1E0 - a pale blue-grey that was tinted to sit inside
+   the cool dark palette, so the labels read as slightly dimmer than the h1
+   directly above them (#F2F6FD). The intent here is the opposite: this is the
+   closing detail of the hero, and it should be the brightest text on the page
+   rather than a dimmed echo of the headline.
+
+   #FFFFFF on the #0C0F13 hero measures 19.4:1, so there is no legibility
+   argument for the softer value - it was purely a palette choice, and it is
+   being replaced deliberately. */
 #top .hero-tags b {
-    color: #C7D1E0;
+    color: #FFFFFF;
 }
 
 @keyframes heroFloat {
@@ -1473,15 +1556,25 @@ body.menu-open {
     object-position: center 35%;
 }
 
+/* Column flex + flex:1 so `.tech-row` can take `margin-top: auto`. The grid
+   stretches every card in a row to the tallest one, but flex children default
+   to flex-grow:0 - so without this the spare height pooled at the bottom of
+   the short cards and the tech rows sat at nine different heights. */
 .project-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     padding: 20px 22px 24px;
 }
 
+/* `gap` rather than `justify-content: space-between`: the h3 is a content-sized
+   flex item inside .project-title-row, so the free space is zero today and the
+   arrow lands next to the title by accident. The moment that h3 is ever given
+   flex-grow, space-between would fling the arrow to the far corner. */
 .project-body h3 {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     font-size: 17px;
     margin-bottom: 8px;
 }
@@ -1507,6 +1600,10 @@ body.menu-open {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
+    /* At two columns the wider status chips ("Concept . In Progress") can run
+       out of room; wrapping drops the chip below the title instead of crushing
+       it to nothing. */
+    flex-wrap: wrap;
 }
 
 .project-body p {
@@ -1833,12 +1930,82 @@ footer {
     transform: translateY(0);
 }
 
+/* ---------- Reveal vs. interactive states ----------
+   `.reveal.in` is (0,2,0). So is every interactive rule it was quietly
+   cancelling: `.project-card:hover`, `.service-card:hover`,
+   `a.contact-tile:hover`, `.btn-primary:hover`, `.btn-primary:active`,
+   `.btn-secondary:active` - all one class plus one pseudo-class.
+
+   Specificity ties are decided by source order, and `.reveal.in` is declared
+   at line 1903, *after* all of them. So the instant a card scrolled into view
+   and gained `.in`, the reveal's `transform: translateY(0)` started beating
+   the hover lift for good. Counted across the markup that is 18 project cards,
+   4 service cards and 4 contact tiles - 26 elements whose hover had never once
+   fired. Nothing about them looked broken; they just never moved.
+
+   Each fix below re-declares the state with `.reveal` folded in, taking it to
+   (0,3,0), which outranks the reveal outright.
+
+   `transition` is set on the *base* state, not on `:hover`. Put on `:hover`
+   alone, the element would drop back to the reveal's 0.7s timing the moment
+   the pointer left - lift fast, then sink back over 0.7s. Setting it on the
+   base state gives both directions the same 0.3s. */
+
+/* `.btn-secondary` has no `:hover` transform of its own, so only its active
+   state needed rescuing here; the lift is deliberately not added to it. */
+.btn-primary.reveal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -12px rgba(var(--blue-rgb), 0.9);
+}
+
+.btn-primary.reveal:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.btn-secondary.reveal:active {
+    transform: scale(0.97);
+}
+
+.project-card.reveal,
+.project-card.reveal:hover {
+    transition: transform 0.3s var(--ease), border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.project-card.reveal:hover {
+    transform: translateY(-5px);
+}
+
+.service-card.reveal,
+.service-card.reveal:hover {
+    transition: transform 0.3s var(--ease), border-color 0.3s ease;
+}
+
+.service-card.reveal:hover {
+    transform: translateY(-5px);
+}
+
+a.contact-tile.reveal,
+a.contact-tile.reveal:hover {
+    transition: transform 0.3s var(--ease), border-color 0.3s ease;
+}
+
+a.contact-tile.reveal:hover {
+    transform: translateY(-4px);
+}
+
+/* Dormant, documented rather than fixed: `.footer-column a:hover` (the
+   `translateX(3px)`) sits in the same trap, but no footer link carries
+   `.reveal` today, so there is nothing to rescue. If that ever changes, this
+   is the line to add:
+     .footer-column a.reveal:hover { transform: translateX(3px); } */
+
 .hero-badges {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 32px;
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
 }
 
 .hero-tagline {
@@ -1896,34 +2063,184 @@ footer {
     }
 }
 
+/* ---------- Core capabilities strip ----------
+   Was four bare rules: a 2px top rule, a 1px bottom rule, no surface and no
+   hover, so the block read as a loose divider instead of a section. It is now
+   a card grid - lifted surface, a blue accent rail that fills on hover/open,
+   and a soft tint on the open card.
+
+   Shared by two different markups:
+     index.html  - .feature-item wraps an h3 > button.feature-toggle accordion
+     about.html  - .feature-item holds .feature-num + h3 + p, no button
+   So the base card has to work for both, and the interactive bits stay scoped
+   to .feature-toggle. */
 .features-strip {
+    position: relative;
+    padding: 76px 0;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
-    padding: 70px 0;
+    background: radial-gradient(120% 100% at 50% 0%, rgba(var(--blue-rgb), 0.07), transparent 62%);
 }
 
+.features-head {
+    max-width: 640px;
+    margin: 0 auto 46px;
+    text-align: center;
+}
+
+.features-head .eyebrow {
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.features-head h2 {
+    font-size: clamp(26px, 3.4vw, 36px);
+    line-height: 1.2;
+}
+
+.features-head p {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+/* `start`, not `stretch`: the accordion row is as tall as whichever card is
+   open, and stretching meant one open card left the other three with a block
+   of dead white space under them. Each card now sizes to its own content.
+   about.html has no accordion, so it opts back in to equal heights. */
 .features-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: 18px;
     align-items: start;
 }
 
-.feature-item {
-    display: flex;
-    flex-direction: column;
-    padding: 14px 0 18px;
-    border-top: 2px solid var(--line-strong);
-    border-bottom: 1px solid var(--line);
-    transition: border-color 0.3s ease;
+.features-row--static {
+    align-items: stretch;
 }
 
+.features-row--static .feature-item {
+    height: 100%;
+}
+
+.feature-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 22px 26px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-2);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.3s var(--ease), border-color 0.3s ease,
+                box-shadow 0.3s var(--ease), background-color 0.3s ease;
+}
+
+/* Accent rail along the top edge, hidden until hover or open. */
+/* Accent rail along the top edge, hidden until hover or open. pointer-events is
+   off so the 3px strip can never swallow a click meant for the card. */
+.feature-item::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+    transition: transform 0.4s var(--ease);
+}
+
+/* Open-card tint lives on ::after so it fades in as background-color, which
+   the global theme cross-fade already animates. A background-image gradient
+   would snap instead of fading. */
+.feature-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(var(--blue-rgb), 0.14), rgba(var(--blue-rgb), 0.02));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s var(--ease);
+}
+
+/* Open card: lifted, tinted, rail filled. This is the "this one is active"
+   signal and it applies on every device. */
 .feature-item.open {
-    border-top-color: var(--blue);
+    transform: translateY(-4px);
+    border-color: rgba(var(--blue-rgb), 0.5);
+    box-shadow: 0 20px 40px -26px rgba(var(--blue-rgb), 0.6);
+}
+
+/* Hover lift is gated on a real pointer. Ungated, :hover fires on tap and only
+   releases when you tap somewhere else, which left a tapped card stuck 4px
+   above its neighbours on phones and tablets. */
+@media (hover: hover) and (pointer: fine) {
+    .feature-item:hover {
+        transform: translateY(-4px);
+        border-color: rgba(var(--blue-rgb), 0.5);
+        box-shadow: 0 20px 40px -24px rgba(var(--blue-rgb), 0.75);
+    }
+}
+
+/* Keyboard focus gets the border and the rail but deliberately NOT the lift:
+   tapping a card focuses its button, so a focus-driven transform would stay
+   applied after the card collapsed. */
+.feature-item:focus-within {
+    border-color: rgba(var(--blue-rgb), 0.45);
+}
+
+.feature-item:hover::before,
+.feature-item:focus-within::before,
+.feature-item.open::before {
+    transform: scaleX(1);
+}
+
+.feature-item.open::after {
+    opacity: 1;
+}
+
+/* `.reveal` is declared at line ~1852, before this block, and both selectors
+   have specificity 0-1-0 - so the plain `.feature-item` transition above would
+   have won on source order and killed the reveal entrance. Re-declare it with
+   the reveal timing folded in (same fix as `.btn.reveal`). */
+.feature-item.reveal {
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease),
+                border-color 0.3s ease, box-shadow 0.3s var(--ease),
+                background-color 0.3s ease;
+}
+
+/* Once revealed, hover should lift on the snappier card timing rather than the
+   slow entrance timing. */
+/* The entrance is slow on purpose, so an open card must not drift up over 0.7s.
+   These states re-declare the snappier card timing once the card is on screen. */
+.feature-item.reveal.open,
+.feature-item.reveal:hover,
+.feature-item.reveal:focus-within {
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+                border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .feature-item h3 {
-    font-size: 15.5px;
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* about.html order is .feature-num then h3, so the heading needs a gap.
+   The pill also needs align-self there: as a direct child of the column-flex
+   card it would otherwise stretch to the full card width. Inside the button it
+   is a grid item and must keep inheriting the button's `align-items: center`,
+   or it sits at the top of a two-line title while the + icon stays centred. */
+.feature-item > .feature-num {
+    align-self: flex-start;
+}
+
+.feature-item > .feature-num + h3 {
+    margin-top: 14px;
 }
 
 .feature-toggle {
@@ -1933,34 +2250,61 @@ footer {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     border: 0;
     background: transparent;
     color: var(--paper);
     font: inherit;
     text-align: left;
+    cursor: pointer;
 }
 
+/* The card clips its overflow, so keep the ring inside the 22px side padding
+   rather than pushing it out toward the rounded corner. */
+.feature-toggle:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+/* Gold index pill. */
 .feature-num {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 26px;
+    padding: 0 9px;
+    border: 1px solid rgba(var(--gold-rgb), 0.42);
+    border-radius: 999px;
+    background: rgba(var(--gold-rgb), 0.12);
     color: var(--gold);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
     font-weight: 600;
+    letter-spacing: 0.04em;
 }
 
+/* The old rule pinned this to one line with an ellipsis. At the 4-column width
+   (~277px per track) "Custom Web Development" and "Performance &
+   Optimization" were both being cut down to "Custom Web Develo...". Let the
+   title wrap to two lines instead and keep the words whole. */
 .feature-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
+    text-wrap: balance;
 }
 
 .feature-toggle-icon {
     position: relative;
-    width: 28px;
-    height: 28px;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
     border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s var(--ease);
+    border-radius: 9px;
+    color: var(--muted);
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+                color 0.3s ease, transform 0.3s var(--ease);
 }
 
 .feature-toggle-icon::before,
@@ -1969,55 +2313,131 @@ footer {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 10px;
+    width: 11px;
     height: 1.5px;
+    border-radius: 1px;
     background: currentColor;
     transform: translate(-50%, -50%);
 }
 
 .feature-toggle-icon::after {
     transform: translate(-50%, -50%) rotate(90deg);
-    transition: transform 0.25s ease;
+    transition: transform 0.3s var(--ease);
 }
 
-.feature-toggle:hover .feature-toggle-icon {
-    border-color: var(--blue-light);
+.feature-toggle:hover .feature-toggle-icon,
+.feature-toggle:focus-visible .feature-toggle-icon {
+    border-color: var(--blue);
     color: var(--blue-light);
+    transform: rotate(90deg);
 }
 
 .feature-toggle[aria-expanded="true"] .feature-toggle-icon {
     border-color: var(--blue);
     background: var(--blue);
     color: #ffffff;
+    transform: none;
 }
 
 .feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
     transform: translate(-50%, -50%) rotate(0deg);
 }
 
+.feature-toggle[aria-expanded="true"] .feature-title {
+    color: var(--blue-light);
+}
+
+/* Height-animated by js/main.js. The inline height only exists while the
+   transition is running, so the CSS has to describe both ends: 0 / invisible
+   when closed, auto / visible once .open is set.
+
+   The 16px gap, the divider and the 30px of padding all live inside the
+   panel's <p>, never on the panel itself. `overflow: hidden` + `height: 0`
+   then clips every bit of it away. A padding or border on .feature-panel
+   would instead be floored at its own size by box-sizing and survive as a
+   stray line on the closed cards. */
 .feature-panel {
-    padding: 2px 38px 0 33px;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.42s var(--ease), opacity 0.3s ease;
+}
+
+.feature-item.open .feature-panel {
+    height: auto;
+    opacity: 1;
 }
 
 .feature-panel p {
-    font-size: 13.5px;
-    line-height: 1.7;
+    position: relative;
+    margin: 0;
+    padding-top: 30px;
+}
+
+/* Divider sits 16px below the toggle, with 14px of air on either side. Drawn as
+   a pseudo-element rather than a border-top so it scrolls away with the text. */
+.feature-panel p::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--line);
+}
+
+.feature-panel p,
+.feature-item > p {
+    font-size: 13.8px;
+    line-height: 1.72;
     color: var(--muted);
 }
 
-.feature-support {  
+.feature-item > p {
+    margin-top: 10px;
+}
+
+/* Was a bare `border-top` rule spanning the full container with a short line of
+   muted text and two buttons centred under it, so the widest part of the
+   section was just dead space. Now it is a contained CTA band that matches the
+   capability cards: copy on the left, actions on the right, stacking when the
+   width runs out. Mirrors `.contact-band`, minus the ripples and the extra
+   weight - this one sits inside an already-dense section.
+
+   Deliberately no `transition` here: this element carries `.reveal`, which is
+   declared earlier at the same specificity, and a transition on this rule would
+   win on source order and kill the entrance animation. It is not interactive,
+   so there is nothing to animate on hover anyway. */
+.feature-support {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 1px solid var(--line);
-    text-align: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px 40px;
+    margin-top: 44px;
+    padding: clamp(24px, 3.2vw, 34px) clamp(22px, 3.2vw, 36px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background:
+        linear-gradient(120deg, rgba(var(--blue-rgb), 0.11), transparent 68%),
+        var(--ink-2);
+}
+
+.feature-support-copy {
+    flex: 1 1 340px;
+    min-width: 0;
+}
+
+.feature-support h3 {
+    font-size: clamp(18px, 2.1vw, 21px);
+    line-height: 1.32;
+    margin-bottom: 8px;
 }
 
 .feature-support p {
-    font-size: 14px;
+    max-width: 48ch;
+    font-size: 14.5px;
+    line-height: 1.7;
     color: var(--muted);
 }
 
@@ -2058,33 +2478,55 @@ footer {
 .feature-support-a {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 6px;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 @media (max-width: 1080px) {
+    .features-strip {
+        padding: 64px 0;
+    }
+
     .features-row {
         grid-template-columns: repeat(2, 1fr);
-        row-gap: 30px;
+        gap: 16px;
     }
 }
 
 @media (max-width: 640px) {
+    .features-strip {
+        padding: 54px 0;
+    }
+
+    .features-head {
+        margin-bottom: 34px;
+    }
+
     .features-row {
         grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .feature-item {
+        padding: 20px 18px 22px;
     }
 
     .feature-support {
         margin-top: 32px;
-        padding-top: 24px;
+        /* The band now has padding on all four sides, so the old padding-top
+           override would have left it lopsided. */
+        padding: 24px 20px;
+    }
+
+    .feature-support p {
+        font-size: 14px;
     }
 
     .feature-support-a {
         flex-direction: column;
         align-items: stretch;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
     }
 
@@ -2099,6 +2541,22 @@ footer {
     align-items: flex-end;
     gap: 30px;
     flex-wrap: wrap;
+}
+
+/* The intro column had no width cap, so the paragraph took the whole row
+   minus the button - about 110 characters a line, well past the 45-75 that
+   body copy reads comfortably at. `.section-head` clamps this same text to
+   660px on the inner pages; this row was missing that constraint. */
+.projects-head-copy {
+    flex: 1 1 420px;
+    min-width: 0;
+    max-width: 640px;
+}
+
+/* `white-space: nowrap` already stops the label wrapping, but being explicit
+   keeps flex-shrink from ever being tempted to squeeze the button. */
+.projects-head > .btn {
+    flex-shrink: 0;
 }
 
 .projects-grid {
@@ -2177,11 +2635,16 @@ footer {
     color: rgba(244, 241, 234, 0.55);
 }
 
+/* `margin-top: auto` (not a fixed 14px) pushes this to the bottom of the
+   stretched card, so every tech row in a grid row lines up. The visual gap is
+   preserved with padding, which - unlike a margin - does not compete with the
+   auto value. Always the last child of .project-body, in both index and work. */
 .tech-row {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 14px;
+    margin-top: auto;
+    padding-top: 16px;
 }
 
 .tech-tag {
@@ -2191,6 +2654,47 @@ footer {
     background: var(--ink-3);
     color: var(--muted);
     border: 1px solid var(--line);
+}
+
+/* ---------- Status chip ----------
+   `.tech-tag` was doing three unrelated jobs: the stack ("Next.js"), the
+   project category ("Desktop App", "Website") and the status ("Live",
+   "Concept . In Progress"). Status is the one thing a visitor actually scans
+   for, because it decides whether the card is clickable, so it gets its own
+   chip instead of hiding in the same grey pill as the technology list. */
+.status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.status-tag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+}
+
+.status-tag--live {
+    color: #3EE08A;
+    background: rgba(62, 224, 138, 0.12);
+    border: 1px solid rgba(62, 224, 138, 0.34);
+}
+
+/* In-progress reads as the gold the .feature-num counters already use, so the
+   two accents stay in the same family. */
+.status-tag--wip {
+    color: var(--gold);
+    background: rgba(var(--gold-rgb), 0.12);
+    border: 1px solid rgba(var(--gold-rgb), 0.34);
 }
 
 .now-list {
@@ -2313,7 +2817,7 @@ footer {
 
 @media (max-width: 640px) {
     .hero {
-        padding-top: 118px;
+        padding-top: 104px;
         padding-bottom: 70px;
     }
 
@@ -2443,8 +2947,24 @@ body {
     background: rgba(244, 247, 252, 0.88);
 }
 
+/* Light-mode fill for every secondary button.
+
+   The base `.btn-secondary` fill is rgba(255,255,255,0.05) - a 5% white wash
+   that is meant to lift the button off a near-black page. Over the light page
+   it composites to #f5f7fc, which is 1.002:1 against the #F4F7FC background:
+   no fill at all, so the button was nothing but its outline. A 5% wash of the
+   theme ink gives 1.102:1 instead, which reads as a surface.
+
+   Kept unscoped on purpose. There used to be an ID-specificity problem here -
+   `#top .btn-secondary` (1,1,0) outranks a light rule written without the ID
+   (0,3,0), because the browser compares ID count first - which is why the
+   hero's own button was stuck on its dark value. The fix for that is to let
+   the hero keep its own `#top`-scoped rule further down, not to narrow this
+   one: an earlier attempt did exactly that and, in stripping the general case,
+   left all 14 secondary buttons outside the hero with the invisible 5% white.
+   The hero is already handled separately. */
 :root[data-theme="light"] .btn-secondary {
-    background: rgba(20, 33, 58, 0.035);
+    background: rgba(20, 33, 58, 0.05);
 }
 
 :root[data-theme="light"] .theme-switcher {
@@ -2467,7 +2987,29 @@ body {
     color: var(--silver);
 }
 
-:root[data-theme="light"] .hero-tags b {
+/* Light-mode colour for the hero tag labels. This one rule closes two separate
+   defects, which is why it looks longer than the change it makes.
+
+   1. Specificity - the reason the row was invisible in light mode. The base
+      colour lives in `#top .hero-tags b` = (1,1,1). A light rule written
+      without the ID - `:root[data-theme="light"] .hero-tags b` - is only
+      (0,3,1), and the browser compares the ID count *first*: 1 > 0, so the
+      dark rule wins no matter how far down the file the light rule sits. That
+      pinned the labels to #C7D1E0 on the #F4F7FC hero at 1.44:1 - all but
+      gone. Repeating the `#top` here lifts this to (1,3,1) and it wins.
+
+   2. Palette - `var(--paper)` rather than a literal black. Note the token
+      inversion used throughout this file: in light mode `--ink` is the
+      near-white surface (#F4F7FC) and `--paper` is the dark navy (#14213A),
+      which is exactly what the light h1 uses. Referencing the token keeps the
+      closing row of the hero in the same ink as the headline above it, and
+      #14213A on #F4F7FC measures 14.94:1.
+
+   Do not drop the `#top` prefix - that is what reintroduced the 1.44:1 bug -
+   and do not soften this back toward a pale grey. The dark twin is #FFFFFF
+   because the dark hero is near-black; light mode needs the opposite extreme,
+   not a dimmer copy of the same idea. */
+:root[data-theme="light"] #top .hero-tags b {
     color: var(--paper);
 }
 
@@ -2485,6 +3027,16 @@ body {
     color: var(--paper);
 }
 
+/* `.text-grad` carries `color: #9CC8FF` as the fallback for engines without
+   `background-clip: text` - without it the span would paint in its own colour
+   *on top of* the clipped gradient background. That fallback is a pale blue
+   picked for the dark hero; on the light one it lands around 1.7:1 against
+   #F8FAFF and effectively disappears. Reset it to the gradient's own start
+   colour so the degraded path still matches the real thing. */
+:root[data-theme="light"] .text-grad {
+    color: var(--blue);
+}
+
 :root[data-theme="light"] #top .hero-sub {
     color: var(--muted);
 }
@@ -2499,12 +3051,242 @@ body {
     background: rgba(255, 255, 255, 0.72);
 }
 
+/* ---------- Light mode: project card ----------
+   The card itself needed nothing: `background: var(--ink-2)` already flips to
+   #FFFFFF and the border to the light theme's ink, so the surface was fine.
+
+   What did not flip is the text painted *on* it. `.tech-tag` is a 12px chip on
+   a `var(--ink-3)` tint, and in light mode that pairing put --muted (#617089)
+   on #EAF0F8 at 4.37:1 - just under the 4.5:1 needed for text this size. The
+   chip background is darker than the card behind it, which is exactly why the
+   same pairing measures 5.64:1 on the dark card and still fails here.
+
+   Stepping to --muted-2 reaches 5.83:1. The other elements in the card body
+   were checked at the same time and all clear: h3 16.05:1, arrow 6.68:1,
+   description 5.02:1, live chip 4.70:1, wip chip 4.95:1. Only this one moved. */
+:root[data-theme="light"] .tech-tag {
+    color: var(--muted-2);
+}
+
+/* Both status colours were picked against the dark card. On white the green
+   falls to roughly 1.9:1 and the gold to about 1.7:1 - unreadable. These are
+   the same hues a step down, so live and in-progress still read apart. */
+:root[data-theme="light"] .status-tag--live {
+    color: #0A7A4B;
+    background: rgba(10, 122, 75, 0.10);
+    border-color: rgba(10, 122, 75, 0.28);
+}
+
+:root[data-theme="light"] .status-tag--wip {
+    color: #8A5A00;
+    background: rgba(var(--gold-rgb), 0.16);
+    border-color: rgba(var(--gold-rgb), 0.40);
+}
+
+/* The band is `blue 10% wash, var(--ink)`. --ink lightens correctly, but a 10%
+   blue over white is a barely-there tint, so the band read as an empty white
+   box. Raised to 16% with a real border. */
+:root[data-theme="light"] .github-band {
+    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.16), transparent 65%), #ffffff;
+    border-color: rgba(var(--blue-rgb), 0.22);
+}
+
+/* The decorative blocks are painted with the theme ink, so on white they
+   became a near-invisible grey grid. Dropping the opacity takes them from
+   "visible dirt" back to "barely there", which is the intent. */
+:root[data-theme="light"] .fun-blocks {
+    opacity: 0.05;
+}
+
 :root[data-theme="light"] .field-error {
     color: #B42318;
 }
 
+/* Near-black glass (rgba(13,18,28,0.68)) with a hard dark drop shadow. In light
+   mode these four cards sat on the pale hero as dark smudges. The backdrop
+   blur already supplies the translucency, so the light version goes
+   near-white and softens the shadow. */
+:root[data-theme="light"] .hero-ui-card {
+    /* Plain white, fully opaque.
+
+       A white card on a near-white hero has no surface of its own. Composited,
+       the old rgba(255,255,255,.82) fill sat at 1.036:1 against the #F8FAFF
+       hero, and the 0.08-alpha border only reached 1.17:1 against the card
+       itself - so the card had no edge and no body, just the shape of one. (The
+       dark card gets away with the same low fill because its edge is defined by
+       a 0.85-alpha black shadow, which a light theme cannot use.)
+
+       So the body is solid #FFFFFF and the affordance moves entirely onto the
+       border and the shadow, which is the only pair that can separate a white
+       shape from a white page. The border uses the same 20,33,58 ink the rest of
+       the light theme draws its lines in, at 0.18 - a hairline that composites
+       to 1.44:1 against the card and 1.38:1 against the hero, both of which you
+       can actually see. The shadow spread is pulled in from -26px to -14px so
+       it lands under the card instead of dissolving around it. */
+    background: #FFFFFF;
+    border-color: rgba(20, 33, 58, 0.18);
+    box-shadow: 0 12px 32px -14px rgba(20, 33, 58, 0.22);
+
+    /* The base rule sets a 12px backdrop blur, and it earns its keep on the dark
+       card because that fill is only 68% opaque. Against solid white there is
+       nothing behind the card to sample, so the blur renders nothing and only
+       keeps a compositing layer alive on every animated frame (both cards carry
+       an infinite float animation). Dropping it to `none` is also the more
+       robust option: leaving it on makes the card rely on the browser honouring
+       the backdrop root, and any rounding in that implementation would tint
+       the supposedly-pure white. */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+/* Turning the card white is only half the job - everything painted *inside* it
+   was still a dark-glass value, so in light mode both floating cards rendered
+   as blank white rectangles. Measured against the card's effective background
+   (rgba(255,255,255,.82) over the light hero = #FEFEFF):
+
+     .ui-stack-list li   #C9D4E4  12.62:1 dark -> 1.49:1 light
+     .ui-card-code code  #C9D4E4  12.62:1 dark -> 1.49:1 light
+     .tk                 #9B84FF   6.42:1 dark -> 2.92:1 light
+     .fn                 #6FB2FF   8.54:1 dark -> 2.20:1 light
+
+   Each replacement keeps the same prominence its dark-mode twin had, so the
+   keyword/function/body hierarchy survives the theme switch:
+     body  #C9D4E4 (12.62) -> --muted-2 (6.63)
+     .tk   #9B84FF ( 6.42) -> #6D3FD4 (6.29)
+     .fn   #6FB2FF ( 8.54) -> --blue-light (6.65)   [same token the icon uses] */
+:root[data-theme="light"] .ui-stack-list li,
+:root[data-theme="light"] .ui-card-code code {
+    color: var(--muted-2);
+}
+
+:root[data-theme="light"] .tk {
+    color: #6D3FD4;
+}
+
+:root[data-theme="light"] .fn {
+    color: var(--blue-light);
+}
+
+/* The three status dots are decorative, but their glows were doing all the
+   work on the dark hero. On white the glows vanish and the pale fills read as
+   near-invisible, so each gets a darker fill and the glow is dropped rather
+   than replaced - a glow on a white card only ever looked like a smudge. */
+:root[data-theme="light"] .ui-dot-blue {
+    background: #2563EB;
+    box-shadow: none;
+}
+
+:root[data-theme="light"] .ui-dot-violet {
+    background: #6D3FD4;
+    box-shadow: none;
+}
+
+:root[data-theme="light"] .ui-dot-green {
+    background: #0A7A4B;
+    box-shadow: none;
+}
+
+/* ---------- Light mode: the 3D cube ----------
+   The cube is built from low-alpha layers over the hero, and every one of
+   those alphas was tuned against a near-black background. Over the light hero
+   they all collapse to the background colour:
+
+     cube-face fill      rgba(...,0.12)  1.21:1 dark -> 1.09:1 light
+     cube-face fill mid  rgba(...,0.05)  1.04:1 dark -> 1.06:1 light
+     cube-face border    rgba(...,0.32)  2.08:1 dark -> 1.18:1 light
+     orbit ring A        rgba(...,0.10)  1.16:1 dark -> 1.07:1 light
+     orbit ring B        rgba(...,0.09)  1.10:1 dark -> 1.09:1 light
+
+   Meanwhile the inner core is near-opaque (0.92 alpha) and stayed perfectly
+   visible. The net effect in light mode was a solid coloured cube floating
+   with no shell around it and no orbit rings - the layers that give the whole
+   thing its shape simply were not there.
+
+   Alphas are raised rather than colours changed, so the same blue/violet hues
+   are kept and the dark theme is untouched. The one thing that is *removed* is
+   the core's glow: a 22px blue halo reads as a glow on black but only as a
+   dirty smudge on white. */
+:root[data-theme="light"] .cube-face {
+    border-color: rgba(111, 168, 240, 0.55);
+    background: linear-gradient(135deg, rgba(93, 158, 255, 0.16), rgba(124, 92, 246, 0.08) 55%, rgba(93, 158, 255, 0.05));
+    box-shadow: inset 0 0 44px rgba(76, 154, 255, 0.10);
+}
+
+:root[data-theme="light"] .cube-orbit {
+    border-color: rgba(93, 158, 255, 0.28);
+    border-top-color: rgba(59, 130, 246, 0.85);
+}
+
+:root[data-theme="light"] .cube-orbit-wrap-b .cube-orbit {
+    border-color: rgba(139, 124, 246, 0.30);
+    border-top-color: rgba(124, 92, 240, 0.70);
+}
+
+:root[data-theme="light"] .core-face {
+    box-shadow: 0 6px 18px -8px rgba(37, 99, 235, 0.45);
+}
+
+/* The ambient/glow washes are pure decoration and can stay subtle, but at the
+   dark values they did not register at all against white. */
+:root[data-theme="light"] .cube-ambient {
+    background:
+        radial-gradient(42% 40% at 52% 44%, rgba(37, 99, 235, 0.14), transparent 70%),
+        radial-gradient(30% 30% at 64% 34%, rgba(124, 92, 246, 0.10), transparent 72%);
+}
+
+:root[data-theme="light"] .cube-glow {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18), rgba(124, 92, 246, 0.07) 48%, transparent 72%);
+}
+
+:root[data-theme="light"] .cube-floor {
+    background: radial-gradient(50% 50% at 50% 50%, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.05) 58%, transparent 78%);
+}
+
+/* #3EE08A is fine on the dark badge but lands around 1.9:1 on the white
+   light-mode pill, where it was the only thing on the badge carrying any
+   colour. Deepened, same hue. */
+:root[data-theme="light"] .hero-badge .dot {
+    background: #0E9F5B;
+}
+
 :root[data-theme="light"] .form-status.success {
     color: #18794E;
+}
+
+/* ---------- Light mode: surfaces restyled today ----------
+   A dark-mode surface is a lighter patch; a light-mode surface has to be a
+   slightly *darker* patch, or it disappears into the page. The cards, the CTA
+   band and the GitHub band were all picked against the dark background, so on
+   white they had no separation at all. These only correct what the shared
+   tokens cannot - the token-driven colours already flip correctly. */
+
+/* The base card uses --ink-2, which the light theme already maps to a pale
+   surface, so only the elevation was missing. */
+:root[data-theme="light"] .feature-item {
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+:root[data-theme="light"] .feature-item:hover,
+:root[data-theme="light"] .feature-item:focus-within {
+    box-shadow: 0 18px 36px -26px rgba(var(--blue-rgb), 0.45);
+}
+
+:root[data-theme="light"] .feature-item.open {
+    box-shadow: 0 18px 36px -28px rgba(var(--blue-rgb), 0.38);
+}
+
+/* Blue at 14% over white is a pale wash that barely separated the open card
+   from its neighbours. 18% keeps the "this one is active" signal readable. */
+:root[data-theme="light"] .feature-item::after {
+    background: linear-gradient(180deg, rgba(var(--blue-rgb), 0.18), rgba(var(--blue-rgb), 0.04));
+}
+
+/* Same reason as the cards: --ink-2 lightens correctly, but a raised surface
+   with no shadow has nothing separating it from the page behind it. */
+:root[data-theme="light"] .feature-support {
+    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), transparent 68%), #ffffff;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 }
 
 @media (max-width: 1180px) {
