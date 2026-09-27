@@ -56,6 +56,14 @@ web_modules/
 # Optional stylelint cache
 .stylelintcache
 
+# Local review screenshots and throwaway audit scripts. These got committed by
+# accident once; they are scratch output for review passes, never site files.
+.review/
+tests/_shot.mjs
+tests/_audit.mjs
+tests/_crop.mjs
+tests/crop.ps1
+
 # Optional REPL history
 .node_repl_history
 

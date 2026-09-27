@@ -149,61 +149,98 @@
       <h2 class="section-title">Tell me what you need. <span class="text-grad">I'll reply within hours.</span></h2>
       <p class="section-sub">Fill this in and hit send — your message lands straight in my inbox. No account, no waiting.</p>
     </div>
-    <form id="contactForm" class="quick-form reveal" style="transition-delay:.1s;" novalidate>
-      <div class="form-row">
+    <!-- The form is the point of this section, but it only ever fills ~660px, so
+         on a desktop viewport the right half of a 900px-tall band sat empty. The
+         aside answers the question the form raises ("and then what?") and
+         gives that column something real to hold. -->
+    <div class="quick-start-grid">
+      <form id="contactForm" class="quick-form reveal" style="transition-delay:.1s;" novalidate>
+        <div class="form-row">
+          <label>
+            Your Name
+            <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" autocomplete="name" required>
+          </label>
+          <label>
+            Email
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            Phone / WhatsApp
+            <input type="tel" name="phone" placeholder="+91 98765 43210 (optional)" autocomplete="tel">
+          </label>
+          <label>
+            Company / Business <small>(optional)</small>
+            <input type="text" name="company" placeholder="e.g. Prime Fitness Gym" autocomplete="organization">
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            Project Type
+            <select name="project_type">
+              <option>Business Website</option>
+              <option>Website</option>
+              <option>Landing Page</option>
+              <option>Web Application</option>
+              <option>Full Stack Application</option>
+              <option>E-commerce</option>
+              <option>UI/UX</option>
+              <option>Website Redesign</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Budget Range
+            <select name="budget">
+              <option>Under ₹5,000</option>
+              <option>₹5,000 – ₹10,000</option>
+              <option>₹10,000 – ₹25,000</option>
+              <option>₹25,000+</option>
+              <option selected>Not sure yet</option>
+            </select>
+          </label>
+        </div>
         <label>
-          Your Name
-          <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" autocomplete="name" required>
+          Your Message
+          <textarea id="message" name="message" placeholder="Briefly tell me what you want to build — pages, features, anything on your mind." required></textarea>
         </label>
-        <label>
-          Email
-          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
-        </label>
-      </div>
-      <div class="form-row">
-        <label>
-          Phone / WhatsApp
-          <input type="tel" name="phone" placeholder="+91 98765 43210 (optional)" autocomplete="tel">
-        </label>
-        <label>
-          Company / Business <small>(optional)</small>
-          <input type="text" name="company" placeholder="e.g. Prime Fitness Gym" autocomplete="organization">
-        </label>
-      </div>
-      <div class="form-row">
-        <label>
-          Project Type
-          <select name="project_type">
-            <option>Business Website</option>
-            <option>Website</option>
-            <option>Landing Page</option>
-            <option>Web Application</option>
-            <option>Full Stack Application</option>
-            <option>E-commerce</option>
-            <option>UI/UX</option>
-            <option>Website Redesign</option>
-            <option>Other</option>
-          </select>
-        </label>
-        <label>
-          Budget Range
-          <select name="budget">
-            <option>Under ₹5,000</option>
-            <option>₹5,000 – ₹10,000</option>
-            <option>₹10,000 – ₹25,000</option>
-            <option>₹25,000+</option>
-            <option selected>Not sure yet</option>
-          </select>
-        </label>
-      </div>
-      <label>
-        Your Message
-        <textarea id="message" name="message" placeholder="Briefly tell me what you want to build — pages, features, anything on your mind." required></textarea>
-      </label>
-      <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" aria-hidden="true">
-      <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow" aria-hidden="true">→</span></button>
-      <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
-    </form>
+        <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" aria-hidden="true">
+        <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow" aria-hidden="true">→</span></button>
+        <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <aside class="quick-aside reveal" style="transition-delay:.18s;">
+        <h3 class="quick-aside-title">What happens after you hit send</h3>
+        <ol class="quick-steps">
+          <li>
+            <span class="step-num" aria-hidden="true">1</span>
+            <div>
+              <strong>It lands in my inbox</strong>
+              <p>Straight to the same Gmail this site is built on — no CRM, no autoresponder.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">2</span>
+            <div>
+              <strong>I reply within a few hours</strong>
+              <p>Usually with a few honest questions about what you actually need.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">3</span>
+            <div>
+              <strong>You get a plan and a quote</strong>
+              <p>Scope, timeline and price in writing before anything gets booked.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="quick-aside-note">
+          <i data-lucide="clock" aria-hidden="true"></i>
+          <span>Messages sent late at night usually get an answer the next morning.</span>
+        </p>
+      </aside>
+    </div>
   </div>
 </section>
 

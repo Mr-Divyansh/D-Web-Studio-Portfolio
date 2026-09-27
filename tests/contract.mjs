@@ -319,6 +319,38 @@ check("form: honeypot is an unchecked checkbox that stays unsubmitted for humans
   !/<input[^>]*name="botcheck"[^>]*checked/.test(contact) &&
   !/<input[^>]*checked[^>]*name="botcheck"/.test(contact));
 
+// The "what happens next" panel that fills the form's empty right column.
+// Each block is extracted *bounded* before it is asserted on. A loose
+// `[\s\S]*` here would happily re-match the 980px media query's own copy of
+// `.quick-start-grid` and pass even with the desktop rule broken, so the
+// desktop rule, the media rule and the aside element are each pulled out
+// separately and checked on their own.
+const contactCss = read("css/contact.css");
+const cssBlocks = (re) => (contactCss.match(re) || []);
+const gridRules = cssBlocks(/\.quick-start-grid\s*\{[^}]*\}/g);
+const gridDesktop = gridRules[0] || "";
+const gridNarrow = cssBlocks(/@media[^{]*\{[\s\S]*?\.quick-start-grid\s*\{[^}]*\}/g)[0] || "";
+// Scoped to the 980px block itself: the sticky release sits in that same media
+// query, so the block is cut out first and then the override checked inside it.
+const narrowBlock = (contactCss.match(/@media\s*\(max-width:\s*980px\)\s*\{[\s\S]*?\n\}/) || [])[0] || "";
+const asideEl = (contact.match(/<aside class="quick-aside[\s\S]*?<\/aside>/) || [])[0] || "";
+
+check("contact: quick-start uses a two-column grid", /display:\s*grid/.test(gridDesktop));
+check("contact: the aside sits beside the form, not below it",
+  /grid-template-columns:[^;]*minmax\(0,\s*660px\)\s+minmax\(0,\s*1fr\)/.test(gridDesktop));
+check("contact: the aside drops to one column on narrow screens",
+  /@media\s*\(max-width:\s*980px\)/.test(gridNarrow) &&
+  /grid-template-columns:\s*minmax\(0,\s*1fr\)/.test(gridNarrow));
+check("contact: sticky aside is released when the grid stacks",
+  /\.quick-aside\s*\{\s*position:\s*static/.test(narrowBlock));
+check("contact: the aside is inside the same grid as the form",
+  /<div class="quick-start-grid">\s*<form[^>]*id="contactForm"[\s\S]*?<\/form>\s*<aside class="quick-aside/.test(contact));
+check("contact: the aside is a heading plus a real ordered list",
+  /<h3 class="quick-aside-title">/.test(asideEl) && /<ol class="quick-steps">/.test(asideEl));
+check("contact: step numbers are decorative, the list carries the order",
+  (asideEl.match(/class="step-num" aria-hidden="true"/g) || []).length === 3);
+check("contact: the aside adds no new form fields", !/<(input|select|textarea)\b/.test(asideEl));
+
 for (const page of ["index.html", "work.html", "services.html", "contact.html"]) {
   const html = read(page);
   check(`${page}: canonical uses dwebstudio.com`, /rel="canonical" href="https:\/\/dwebstudio\.com\//.test(html));
