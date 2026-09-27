@@ -33,11 +33,15 @@
         return theme;
     }
 
+    // The values here must track --ink in css/style.css, or the browser UI
+    // (Android address bar, iOS safe area) paints a colour that matches neither
+    // theme. Kept as literals rather than read from CSS because the meta tag
+    // has to be written in JS, before the stylesheet is available.
     function updateThemeMeta(theme) {
         var themeColor = document.querySelector('meta[name="theme-color"]');
         var colorScheme = document.querySelector('meta[name="color-scheme"]');
 
-        if (themeColor) themeColor.content = theme === "light" ? "#F4F7FC" : "#0C1018";
+        if (themeColor) themeColor.content = theme === "light" ? "#F1F5FB" : "#0B0E13";
         if (colorScheme) colorScheme.content = theme;
     }
 

@@ -1,4 +1,4 @@
-# D Web Studio — Architecture
+# Divy Web Studio — Architecture
 
 ## 1. Architecture Goal
 

@@ -1,21 +1,55 @@
 :root {
-    --ink: #0C0F13;
-    --ink-2: #11151B;
-    --ink-3: #171C24;
+    --ink: #0B0E13;
+    --ink-2: #141922;
+    --ink-3: #1D242F;
     --paper: #F4F1EA;
     --silver: #C3CAD6;
-    --muted: #8B93A2;
-    --muted-2: #949FB0;
+    --muted: #AEB9CA;
+    --muted-2: #8894A8;
 
     --blue: #2268E6;
     --blue-rgb: 34, 104, 230;
     --blue-light: #6FB2FF;
+    --blue-deep: #1A57CF;
 
-    --gold: #D4AF6A;
-    --gold-rgb: 212, 175, 106;
+    --gold: #E3BE78;
+    --gold-rgb: 227, 190, 120;
 
-    --line: rgba(244, 241, 234, 0.09);
-    --line-strong: rgba(244, 241, 234, 0.17);
+    --live: #4ADE9A;
+    --live-rgb: 74, 222, 154;
+    --danger: #FF8A8A;
+    --danger-rgb: 255, 138, 138;
+
+    --line: rgba(244, 241, 234, 0.10);
+    --line-strong: rgba(244, 241, 234, 0.18);
+
+    /* ---------- Theme-aware washes ----------
+       These replace the hardcoded `rgba(255,255,255,x)` fills that were
+       scattered through the base rules. A white wash can only ever lighten a
+       surface, so on the light theme it composited to nothing: `.btn-secondary`
+       landed on 1.002:1 against the page and became nothing but its outline.
+       Darkening the ink instead makes the same declaration work in both
+       themes - the value is "one step off the surface", not "white". */
+    --wash-1: rgba(244, 241, 234, 0.055);
+    --wash-2: rgba(244, 241, 234, 0.10);
+    --wash-3: rgba(244, 241, 234, 0.17);
+    --on-surface: rgba(244, 241, 234, 0.62);
+    --nav-scrim: rgba(11, 14, 19, 0.85);
+    --glass: rgba(13, 18, 28, 0.68);
+    --glass-border: rgba(147, 197, 253, 0.16);
+    --hero-heading: #F2F6FD;
+    --wave-cursor-fill: rgba(233, 236, 242, 0.22);
+    --hero-scrim: linear-gradient(90deg, rgba(12, 16, 24, .92) 0%, rgba(12, 16, 24, .55) 45%, rgba(12, 16, 24, .15) 100%);
+
+    /* ---------- Elevation ----------
+       A dark-mode surface is defined by a lighter patch; a light-mode surface
+       has to be lifted off the page, because the page and the card are both
+       near-white. `--card-shadow` is the only pair of values that separates a
+       white card from a white page, and it is defined per theme because a
+       0.3-alpha black shadow that reads as depth on near-black reads as a
+       smudge on white. */
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.32), 0 10px 26px -18px rgba(0, 0, 0, 0.66);
+    --card-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.38), 0 22px 44px -22px rgba(0, 0, 0, 0.78);
 
     --grad-brand: linear-gradient(100deg, var(--silver), var(--blue));
     --grad-text: linear-gradient(100deg, #E9ECF2, #9CC8FF);
@@ -31,22 +65,61 @@
     color-scheme: dark;
 }
 
+/* ---------- Light theme ----------
+   The light palette is not a dimmed copy of the dark one. Every value below was
+   picked against the light page and checked at 4.5:1 (body text) and 1.08:1
+   (surface-to-surface) - see the theme block at the end of tests/contract.mjs. */
 :root[data-theme="light"] {
-    --ink: #F4F7FC;
+    --ink: #F1F5FB;
     --ink-2: #FFFFFF;
-    --ink-3: #EAF0F8;
-    --paper: #14213A;
+    --ink-3: #E9EFF8;
+    --paper: #0E1B31;
     --silver: #51617B;
-    --muted: #617089;
-    --muted-2: #4C5D78;
+    --muted: #475873;
+    --muted-2: #5A6A85;
 
     --blue: #2563EB;
+    /* Redeclared, not inherited: the light --blue is a slightly different blue
+       (#2563EB vs the dark #2268E6), so inheriting the dark triplet would tint
+       every blue wash on the light page with a hue that no longer exists. */
+    --blue-rgb: 37, 99, 235;
     --blue-light: #1D4ED8;
+    --blue-deep: #1A57CF;
 
-    --gold: #A16B12;
+    --gold: #8A5A0B;
+    --gold-rgb: 138, 90, 11;
 
-    --line: rgba(20, 33, 58, 0.11);
-    --line-strong: rgba(20, 33, 58, 0.20);
+    --live: #0A7A4B;
+    --live-rgb: 10, 122, 75;
+    --danger: #B42318;
+    --danger-rgb: 180, 35, 24;
+
+    --line: rgba(14, 27, 49, 0.13);
+    --line-strong: rgba(14, 27, 49, 0.22);
+
+    /* The darkening half of the wash pair. `--wash-1` on white composites to
+       1.04:1, which is a surface; the same 5% of white on white composited to
+       1.00:1, which is nothing. */
+    --wash-1: rgba(14, 27, 49, 0.05);
+    --wash-2: rgba(14, 27, 49, 0.09);
+    --wash-3: rgba(14, 27, 49, 0.15);
+    --on-surface: rgba(14, 27, 49, 0.66);
+    --nav-scrim: rgba(241, 245, 251, 0.86);
+    --glass: rgba(255, 255, 255, 0.82);
+    --glass-border: rgba(14, 27, 49, 0.12);
+    /* The hero h1 is the one place light mode cannot simply use --paper: the
+       cool white it holds in dark mode has no meaning on a white page, so the
+       token is redeclared as the same ink the rest of the light theme uses. */
+    --hero-heading: #0E1B31;
+    --wave-cursor-fill: rgba(37, 99, 235, 0.16);
+    /* The dark scrim darkens the left half of the hero so the h1 and sub stay
+       legible over the cube. Light mode needs the same job done the other way
+       round - the copy sits on the left, so the wash has to *lighten* that
+       side, not darken it. */
+    --hero-scrim: linear-gradient(90deg, rgba(241, 245, 251, .94) 0%, rgba(241, 245, 251, .68) 45%, rgba(241, 245, 251, .18) 100%);
+
+    --card-shadow: 0 1px 2px rgba(14, 27, 49, 0.05), 0 10px 26px -18px rgba(14, 27, 49, 0.22);
+    --card-shadow-hover: 0 2px 6px rgba(14, 27, 49, 0.07), 0 22px 44px -22px rgba(14, 27, 49, 0.30);
 
     --grad-brand: linear-gradient(100deg, #1D4ED8, #2563EB);
     /* The dark-theme gradient runs #E9ECF2 -> #9CC8FF: bright silver into
@@ -61,7 +134,7 @@
 
        Starting at --blue instead shifts the whole span to a clear blue hue
        while staying well clear of the 4.5:1 normal-text threshold on the
-       least favourable light surface (--ink-3, #EAF0F8): 5.85:1 at the start,
+       least favourable light surface (--ink-3, #E9EFF8): 5.85:1 at the start,
        4.51:1 at the end, against an h1 body colour 2.39:1 away. */
     --grad-text: linear-gradient(100deg, #1D4ED8, #2563EB);
 
@@ -208,7 +281,7 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #262D37;
+    background: #2C333F;
     border-radius: 10px;
     border: 2px solid var(--ink);
 }
@@ -312,7 +385,7 @@ section[id] {
 }
 
 .btn-primary {
-    background: #1A57CF;
+    background: var(--blue-deep);
     color: #fff;
     box-shadow: 0 10px 26px -12px rgba(var(--blue-rgb), 0.8);
 }
@@ -329,7 +402,7 @@ section[id] {
 
 .btn-secondary {
     border-color: var(--line-strong);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--wash-1);
     color: var(--paper);
 }
 
@@ -417,7 +490,7 @@ section[id] {
 .site-nav.scrolled {
     padding-top: 9px;
     padding-bottom: 9px;
-    background: rgba(12, 15, 19, 0.85);
+    background: var(--nav-scrim);
     backdrop-filter: blur(14px) saturate(140%);
     border-bottom-color: var(--line);
 }
@@ -507,18 +580,45 @@ section[id] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    /* The arrow is a real child element here, but .nav-cta is not a .btn, so it
+       never inherited the 9px the button family sets on .btn. Without a gap of
+       its own the glyph rendered flush against the word and "Let's Talk->" read
+       as one token. */
+    gap: 7px;
     border-radius: 999px;
     border: 1px solid var(--blue-light);
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 700;
     color: var(--blue-light);
+    white-space: nowrap;
+    cursor: pointer;
     flex-shrink: 0;
-    transition: background 0.3s, color 0.3s;
+    /* At rest this was a bare 1px outline - the same visual weight as the plain
+       nav links beside it, so the one call to action in the bar did not read as
+       the primary action. A soft brand glow gives it presence while the theme
+       switcher beside it was still a full invert; the switcher is tonal now, but
+       the glow stays because the CTA is the bar's only call to action. */
+    box-shadow: 0 6px 18px -10px rgba(var(--blue-rgb), 0.75);
+    transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s var(--ease);
 }
 
 .nav-cta:hover {
     background: var(--blue-light);
     color: var(--ink);
+    border-color: var(--blue-light);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px -12px rgba(var(--blue-rgb), 0.9);
+}
+
+.nav-cta:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow: 0 6px 14px -10px rgba(var(--blue-rgb), 0.8);
+}
+
+/* The nudge .btn gives its arrow, scoped to `.btn:hover`, so this copy was left
+   frozen. Same 3px, so the two arrow treatments stay identical. */
+.nav-cta:hover .btn-arrow {
+    transform: translateX(3px);
 }
 
 .hamburger {
@@ -629,7 +729,7 @@ section[id] {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #C7D1E0;
+    color: var(--on-surface);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -732,7 +832,7 @@ body.menu-open {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #3EE08A;
+    background: var(--live);
     animation: pulse 2s infinite;
 }
 
@@ -768,7 +868,7 @@ body.menu-open {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(12, 16, 24, .92) 0%, rgba(12, 16, 24, .55) 45%, rgba(12, 16, 24, .15) 100%);
+    background: var(--hero-scrim);
     z-index: 1;
     pointer-events: none;
 }
@@ -781,7 +881,7 @@ body.menu-open {
 #top.hero {
     background:
         radial-gradient(46% 40% at 74% 42%, rgba(47, 126, 242, 0.10), transparent 70%),
-        linear-gradient(180deg, #0A111D 0%, #0C0F13 78%);
+        linear-gradient(180deg, #0A111D 0%, #0B0E13 78%);
 }
 
 .cube-scene {
@@ -970,8 +1070,8 @@ body.menu-open {
     gap: 9px;
     padding: 15px 17px;
     border-radius: 14px;
-    border: 1px solid rgba(147, 197, 253, 0.16);
-    background: rgba(13, 18, 28, 0.68);
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 24px 60px -26px rgba(0, 0, 0, 0.85);
@@ -1003,7 +1103,7 @@ body.menu-open {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.14em;
-    color: #C9D4E4;
+    color: var(--on-surface);
 }
 
 .ui-dot {
@@ -1024,8 +1124,8 @@ body.menu-open {
 }
 
 .ui-dot-green {
-    background: #3EE08A;
-    box-shadow: 0 0 8px rgba(62, 224, 138, 0.8);
+    background: var(--live);
+    box-shadow: 0 0 8px rgba(var(--live-rgb), 0.8);
 }
 
 .ui-card-code {
@@ -1040,7 +1140,7 @@ body.menu-open {
     font-family: "JetBrains Mono", monospace;
     font-size: 12px;
     line-height: 1.7;
-    color: #C9D4E4;
+    color: var(--on-surface);
     white-space: nowrap;
 }
 
@@ -1058,9 +1158,9 @@ body.menu-open {
 
 #top .hero-badge {
     padding: 8px 16px 8px 11px;
-    border-color: rgba(147, 197, 253, 0.22);
-    background: rgba(255, 255, 255, 0.045);
-    color: #C7D1E0;
+    border-color: var(--glass-border);
+    background: var(--wash-1);
+    color: var(--on-surface);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     letter-spacing: 0.02em;
@@ -1073,7 +1173,7 @@ body.menu-open {
     line-height: 1.06;
     letter-spacing: -0.022em;
     text-wrap: balance;
-    color: #F2F6FD;
+    color: var(--hero-heading);
     max-width: 640px;
     margin-top: 20px;
 }
@@ -1083,7 +1183,7 @@ body.menu-open {
     max-width: 530px;
     font-size: 16.5px;
     line-height: 1.75;
-    color: #A6B0C3;
+    color: var(--muted);
 }
 
 #top .hero-btns {
@@ -1106,13 +1206,13 @@ body.menu-open {
 }
 
 #top .btn-secondary {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--wash-1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
 #top .btn-secondary:hover {
-    border-color: rgba(147, 197, 253, 0.45);
+    border-color: var(--line-strong);
 }
 
 #top .hero-tags {
@@ -1145,7 +1245,7 @@ body.menu-open {
    argument for the softer value - it was purely a palette choice, and it is
    being replaced deliberately. */
 #top .hero-tags b {
-    color: #FFFFFF;
+    color: var(--paper);
 }
 
 @keyframes heroFloat {
@@ -1240,17 +1340,20 @@ body.menu-open {
     }
 }
 
+/* The availability dot's ring. `var()` inside a keyframe resolves against the
+   element, so this follows --live-rgb and therefore recolours with the theme
+   instead of staying dark-theme green on the light-mode pill. */
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(62, 224, 138, 0.55);
+        box-shadow: 0 0 0 0 rgba(var(--live-rgb), 0.55);
     }
 
     70% {
-        box-shadow: 0 0 0 8px rgba(62, 224, 138, 0);
+        box-shadow: 0 0 0 8px rgba(var(--live-rgb), 0);
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(62, 224, 138, 0);
+        box-shadow: 0 0 0 0 rgba(var(--live-rgb), 0);
     }
 }
 
@@ -1275,6 +1378,9 @@ body.menu-open {
     border-color: var(--line-strong);
 }
 
+/* Same reason as the two bands above - a raised panel needs a real surface, and
+   `--ink-3` is the one inset colour that stays *darker* than the card in light
+   mode instead of vanishing into it. */
 .icon-panel {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -1302,7 +1408,7 @@ body.menu-open {
     height: 44px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--line-strong);
-    background: var(--ink-2);
+    background: var(--ink-3);
     margin-bottom: 16px;
     flex-shrink: 0;
 }
@@ -1367,11 +1473,15 @@ body.menu-open {
     gap: 22px;
 }
 
+/* The why-card, price-card and focus-panel all sit directly on the page, so
+   they take `--ink-2` (the card colour) rather than `--ink-3`. In dark mode the
+   step up reads as a lift; in light mode it is the difference between a panel
+   and a hole in the page. */
 .why-card {
     padding: 24px 22px;
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    background: var(--ink);
+    background: var(--ink-2);
 }
 
 .why-card h3 {
@@ -1442,9 +1552,9 @@ body.menu-open {
     flex-direction: column;
     gap: 12px;
     padding: 30px 28px;
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-md);
-    background: var(--ink);
+    background: var(--ink-2);
 }
 
 .price-card.featured {
@@ -1466,6 +1576,10 @@ body.menu-open {
     text-transform: uppercase;
 }
 
+/* Both of these are small tiles that sit *on* a card, so they take the inset
+   colour. On the light theme `--ink-2` would be the same white as the card they
+   sit on and the tile disappeared; `--ink-3` is the one value that stays
+   distinct in both themes. */
 .price-icon {
     display: inline-flex;
     align-items: center;
@@ -1474,7 +1588,7 @@ body.menu-open {
     height: 46px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--line-strong);
-    background: var(--ink-2);
+    background: var(--ink-3);
 }
 
 .price-icon svg {
@@ -1634,23 +1748,30 @@ body.menu-open {
     gap: 10px;
 }
 
+/* The chip sits on the page in the homepage "Tech I Use" grid and inside the
+   focus panel on experience.html, so it takes the inset colour: on the light
+   page `--ink-2` is white-on-white and the chip lost its shape entirely. */
 .stack-chip {
     padding: 9px 15px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--line-strong);
-    background: var(--ink);
+    background: var(--ink-2);
     font-size: 13px;
     font-weight: 600;
     color: var(--muted);
 }
 
+/* `--ink-2`, not `--ink`. On the dark theme the two are close enough that it
+   made no difference; on the light theme `--ink` *is* the page colour, so a band
+   painted with it was the page - a shape with an outline and no body. */
 .github-band {
     position: relative;
     overflow: hidden;
     isolation: isolate;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line-strong);
-    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), transparent 65%), var(--ink);
+    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), transparent 65%), var(--ink-2);
+    box-shadow: var(--card-shadow);
     margin-top: 40px;
     padding: clamp(32px, 4.5vw, 48px);
     text-align: center;
@@ -1671,13 +1792,21 @@ body.menu-open {
     margin: 0 auto 22px;
 }
 
+/* The base layer was missing entirely - the rule was a blue wash and nothing
+   underneath it, so the band had no body in either theme and on the light page
+   it read as a pale blue smear rather than a panel. `--ink-2` gives it the same
+   raised surface every other card uses, which is also what the two decorative
+   layers (the ripple canvas and the square wave) are composited against. */
 .contact-band {
     position: relative;
     overflow: hidden;
     isolation: isolate;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line-strong);
-    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.16), transparent 70%);
+    background:
+        linear-gradient(120deg, rgba(var(--blue-rgb), 0.16), transparent 70%),
+        var(--ink-2);
+    box-shadow: var(--card-shadow);
     padding: clamp(38px, 6vw, 64px);
     text-align: center;
 }
@@ -1728,12 +1857,16 @@ body.menu-open {
     will-change: transform;
 }
 
+/* The travelling highlight behind the square wave. It reads over the band in
+   both themes: dark mode wants a pale wash, light mode wants a blue one - a
+   near-white block on a near-white band is invisible, so the token swaps the
+   hue as well as the value. */
 .wave-cursor {
     position: absolute;
     top: 0;
     left: 0;
     border-radius: 18%;
-    background: rgba(233, 236, 242, 0.22);
+    background: var(--wave-cursor-fill);
     box-shadow: 0 0 26px rgba(var(--blue-rgb), 0.75), 0 0 70px rgba(var(--blue-rgb), 0.35);
     will-change: transform;
 }
@@ -1879,7 +2012,7 @@ footer {
 
 .footer-column a {
     font-size: 14px;
-    color: #C7D1E0;
+    color: var(--on-surface);
     transition: color 0.2s, transform 0.2s;
     min-height: 40px;
     display: inline-flex;
@@ -1905,7 +2038,7 @@ footer {
 .footer-bottom p,
 .footer-bottom-links {
     font-size: 12.5px;
-    color: #B0BAC9;
+    color: var(--muted-2);
 }
 
 .footer-bottom-links {
@@ -2029,11 +2162,11 @@ a.contact-tile.reveal:hover {
     flex-wrap: wrap;
     margin-top: 30px;
     font-size: 13px;
-    color: #C7D1E0;
+    color: var(--on-surface);
 }
 
 .hero-tags b {
-    color: #E4E9F2;
+    color: var(--paper);
     font-weight: 600;
 }
 
@@ -2578,6 +2711,10 @@ a.contact-tile.reveal:hover {
     }
 }
 
+/* Sits on top of a project screenshot, which is a photograph in both themes -
+   so the pill keeps a dark scrim rather than flipping with the page. `--paper`
+   at 82% over the image is the same near-black in either theme while tracking
+   the palette if it ever moves. */
 .tagpill {
     position: absolute;
     top: 12px;
@@ -2632,7 +2769,10 @@ a.contact-tile.reveal:hover {
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.14em;
-    color: rgba(244, 241, 234, 0.55);
+    /* The DGYMX card has no screenshot - its thumb is a hand-built dark mock
+       (see `.thumb-mockbar`, same reasoning), so this label stays on the light
+       ink in both themes rather than flipping to dark-on-dark. */
+    color: rgba(244, 241, 234, 0.62);
 }
 
 /* `margin-top: auto` (not a fixed 14px) pushes this to the bottom of the
@@ -2684,9 +2824,9 @@ a.contact-tile.reveal:hover {
 }
 
 .status-tag--live {
-    color: #3EE08A;
-    background: rgba(62, 224, 138, 0.12);
-    border: 1px solid rgba(62, 224, 138, 0.34);
+    color: var(--live);
+    background: rgba(var(--live-rgb), 0.12);
+    border: 1px solid rgba(var(--live-rgb), 0.34);
 }
 
 /* In-progress reads as the gold the .feature-num counters already use, so the
@@ -2899,7 +3039,7 @@ body {
     padding: 3px;
     border: 1px solid var(--line-strong);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--wash-1);
     flex-shrink: 0;
 }
 
@@ -2910,22 +3050,63 @@ body {
     border-radius: 999px;
     background: transparent;
     color: var(--silver);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     line-height: 1;
     letter-spacing: 0.01em;
+    cursor: pointer;
     transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.theme-option:hover {
-    color: var(--paper);
-    background: rgba(255, 255, 255, 0.08);
+/* Gated on a real pointing device, matching the .feature-item pattern above.
+   An ungated :hover latches on a phone: the wash stays painted after a tap until
+   you touch somewhere else, so the button reads as stuck rather than as
+   feedback. */
+@media (hover: hover) and (pointer: fine) {
+    .theme-option:hover {
+        color: var(--paper);
+        background: var(--wash-2);
+    }
 }
 
+/* The global :focus-visible ring is 3px out from the box, and this button only
+   has 3px of padding inside .theme-switcher, so the ring landed directly on the
+   container's own border and read as a smudge. Pulled inside, where the 999px
+   radius carries it around the pill instead. */
+.theme-option:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: -2px;
+    border-radius: 999px;
+}
+
+/* The selected segment used to invert outright - surface-coloured text on a
+   content-coloured fill - which in the dark theme made "Dark" a bright cream
+   disc, the loudest thing in the nav and louder than the "Let's Talk" CTA. It
+   also carried --pill-shadow, so the disc floated inside the track and read as
+   a toggle knob rather than as one segment of a segmented control.
+
+   It is now tonal instead of inverted: full-strength `--paper` text on
+   `--wash-3`, with a crisp inset ring for the edge and no drop shadow. The
+   fill ladder stays monotonic, so "selected" can never be confused with
+   "hovered": transparent -> --wash-2 on hover -> --wash-3 when pressed. */
 .theme-option[aria-pressed="true"] {
-    color: var(--ink);
-    background: var(--paper);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+    color: var(--paper);
+    background: var(--wash-3);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+
+/* The drawer copy is the one a thumb actually operates, so it gets the full
+   44px target; the nav copy stays at 40px because a pointer is precise and the
+   nav is height-constrained. */
+.mobile-theme .theme-option {
+    min-height: 44px;
+    font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-option {
+        transition: none;
+    }
 }
 
 .mobile-theme {
@@ -2943,88 +3124,81 @@ body {
     text-transform: uppercase;
 }
 
-:root[data-theme="light"] .site-nav.scrolled {
-    background: rgba(244, 247, 252, 0.88);
+/* ---------- Shared card elevation ----------
+   One rule for every raised surface on the site, for two reasons.
+
+   1. It is the fix for "the light theme looks washed out". In light mode the
+      page is #F1F5FB and a card is #FFFFFF - 1.09:1. A 0.13-alpha border is
+      the only thing that was separating them, and a hairline is not enough to
+      make a grid of cards read as cards. The dark theme has the mirror-image
+      problem in the other direction: page #0B0E13 against card #141922 is
+      1.10:1, and near-black-on-near-black has no gradient left to help.
+
+   2. Declaring it once means the two themes cannot drift apart. Every one of
+      these selectors was previously carrying its own `box-shadow`, or none.
+
+   `.price-card.featured` (0,2,0) and the `:hover` states (0,2,0) both outrank
+   this (0,1,0), so the featured card and the hover lift still win. */
+.service-card,
+.project-card,
+.step-card,
+.why-card,
+.price-card,
+.contact-tile,
+.feature-item,
+.story-aside,
+.faq-list details,
+.beyond-card,
+.journey-body,
+.value-card,
+.focus-panel {
+    box-shadow: var(--card-shadow);
 }
 
-/* Light-mode fill for every secondary button.
-
-   The base `.btn-secondary` fill is rgba(255,255,255,0.05) - a 5% white wash
-   that is meant to lift the button off a near-black page. Over the light page
-   it composites to #f5f7fc, which is 1.002:1 against the #F4F7FC background:
-   no fill at all, so the button was nothing but its outline. A 5% wash of the
-   theme ink gives 1.102:1 instead, which reads as a surface.
-
-   Kept unscoped on purpose. There used to be an ID-specificity problem here -
-   `#top .btn-secondary` (1,1,0) outranks a light rule written without the ID
-   (0,3,0), because the browser compares ID count first - which is why the
-   hero's own button was stuck on its dark value. The fix for that is to let
-   the hero keep its own `#top`-scoped rule further down, not to narrow this
-   one: an earlier attempt did exactly that and, in stripping the general case,
-   left all 14 secondary buttons outside the hero with the invisible 5% white.
-   The hero is already handled separately. */
-:root[data-theme="light"] .btn-secondary {
-    background: rgba(20, 33, 58, 0.05);
+/* `.feature-item:hover` and `.feature-item.open` are deliberately NOT in this
+   list. Those two already carry a blue-tinted glow that is part of the dark
+   theme's language, and they are declared earlier in the file at the same
+   specificity - so listing them here would silently replace that glow with the
+   neutral shadow in *both* themes. Their light-mode counterpart is handled by
+   the `:root[data-theme="light"]` pair further down, where the glow is swapped
+   for elevation because a blue glow on white reads as a smudge. */
+.service-card:hover,
+.project-card:hover,
+.contact-tile:hover,
+.story-aside:hover,
+.faq-list details:hover,
+.beyond-card:hover,
+.journey-step:hover .journey-body,
+.value-card:hover,
+.focus-panel:hover {
+    box-shadow: var(--card-shadow-hover);
 }
 
-:root[data-theme="light"] .theme-switcher {
-    background: rgba(20, 33, 58, 0.04);
+/* Feature cards in light mode: keep the hover/open signal, but as elevation
+   rather than glow. Same specificity as the dark rules above, declared later,
+   so these win. */
+:root[data-theme="light"] .feature-item:hover,
+:root[data-theme="light"] .feature-item:focus-within,
+:root[data-theme="light"] .feature-item.open {
+    box-shadow: var(--card-shadow-hover);
 }
 
-:root[data-theme="light"] .theme-option:hover {
-    background: rgba(20, 33, 58, 0.08);
-}
+/* ---------- Light mode ----------
+   Everything below is now expressed through the tokens at the top of the file,
+   so this block is only for what a token genuinely cannot cover:
 
-:root[data-theme="light"] .mobile-drawer-title,
-:root[data-theme="light"] .footer-column a,
-:root[data-theme="light"] .footer-bottom p,
-:root[data-theme="light"] .footer-bottom-links,
-:root[data-theme="light"] .hero-tags {
-    color: var(--muted);
-}
-
-:root[data-theme="light"] .footer-column h3 {
-    color: var(--silver);
-}
-
-/* Light-mode colour for the hero tag labels. This one rule closes two separate
-   defects, which is why it looks longer than the change it makes.
-
-   1. Specificity - the reason the row was invisible in light mode. The base
-      colour lives in `#top .hero-tags b` = (1,1,1). A light rule written
-      without the ID - `:root[data-theme="light"] .hero-tags b` - is only
-      (0,3,1), and the browser compares the ID count *first*: 1 > 0, so the
-      dark rule wins no matter how far down the file the light rule sits. That
-      pinned the labels to #C7D1E0 on the #F4F7FC hero at 1.44:1 - all but
-      gone. Repeating the `#top` here lifts this to (1,3,1) and it wins.
-
-   2. Palette - `var(--paper)` rather than a literal black. Note the token
-      inversion used throughout this file: in light mode `--ink` is the
-      near-white surface (#F4F7FC) and `--paper` is the dark navy (#14213A),
-      which is exactly what the light h1 uses. Referencing the token keeps the
-      closing row of the hero in the same ink as the headline above it, and
-      #14213A on #F4F7FC measures 14.94:1.
-
-   Do not drop the `#top` prefix - that is what reintroduced the 1.44:1 bug -
-   and do not soften this back toward a pale grey. The dark twin is #FFFFFF
-   because the dark hero is near-black; light mode needs the opposite extreme,
-   not a dimmer copy of the same idea. */
-:root[data-theme="light"] #top .hero-tags b {
-    color: var(--paper);
-}
+     - the glass cube, whose whole point is additive light and therefore
+       collapses on a white background,
+     - the ID-scoped hero rules that need `:root[data-theme="light"] #top` to
+       outrank their dark twins (ID count is compared first, so a (0,3,1) rule
+       can never beat a (1,1,1) one),
+     - the badge/button fills, which want a *raised* white over the page rather
+       than the `--wash-1` tint the rest of the surface system uses. */
 
 :root[data-theme="light"] #top.hero {
     background:
         radial-gradient(46% 40% at 74% 42%, rgba(37, 99, 235, 0.12), transparent 70%),
-        linear-gradient(180deg, #F8FAFF 0%, #F4F7FC 100%);
-}
-
-:root[data-theme="light"] .hero::after {
-    background: linear-gradient(90deg, rgba(244, 247, 252, 0.94) 0%, rgba(244, 247, 252, 0.68) 45%, rgba(244, 247, 252, 0.18) 100%);
-}
-
-:root[data-theme="light"] #top h1 {
-    color: var(--paper);
+        linear-gradient(180deg, #F8FAFF 0%, #F1F5FB 100%);
 }
 
 /* `.text-grad` carries `color: #9CC8FF` as the fallback for engines without
@@ -3037,69 +3211,20 @@ body {
     color: var(--blue);
 }
 
-:root[data-theme="light"] #top .hero-sub {
-    color: var(--muted);
-}
-
 :root[data-theme="light"] #top .hero-badge {
-    border-color: var(--line-strong);
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.78);
     color: var(--muted);
 }
 
 :root[data-theme="light"] #top .btn-secondary {
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.78);
 }
 
-/* ---------- Light mode: project card ----------
-   The card itself needed nothing: `background: var(--ink-2)` already flips to
-   #FFFFFF and the border to the light theme's ink, so the surface was fine.
-
-   What did not flip is the text painted *on* it. `.tech-tag` is a 12px chip on
-   a `var(--ink-3)` tint, and in light mode that pairing put --muted (#617089)
-   on #EAF0F8 at 4.37:1 - just under the 4.5:1 needed for text this size. The
-   chip background is darker than the card behind it, which is exactly why the
-   same pairing measures 5.64:1 on the dark card and still fails here.
-
-   Stepping to --muted-2 reaches 5.83:1. The other elements in the card body
-   were checked at the same time and all clear: h3 16.05:1, arrow 6.68:1,
-   description 5.02:1, live chip 4.70:1, wip chip 4.95:1. Only this one moved. */
-:root[data-theme="light"] .tech-tag {
-    color: var(--muted-2);
-}
-
-/* Both status colours were picked against the dark card. On white the green
-   falls to roughly 1.9:1 and the gold to about 1.7:1 - unreadable. These are
-   the same hues a step down, so live and in-progress still read apart. */
-:root[data-theme="light"] .status-tag--live {
-    color: #0A7A4B;
-    background: rgba(10, 122, 75, 0.10);
-    border-color: rgba(10, 122, 75, 0.28);
-}
-
-:root[data-theme="light"] .status-tag--wip {
-    color: #8A5A00;
-    background: rgba(var(--gold-rgb), 0.16);
-    border-color: rgba(var(--gold-rgb), 0.40);
-}
-
-/* The band is `blue 10% wash, var(--ink)`. --ink lightens correctly, but a 10%
-   blue over white is a barely-there tint, so the band read as an empty white
-   box. Raised to 16% with a real border. */
-:root[data-theme="light"] .github-band {
-    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.16), transparent 65%), #ffffff;
-    border-color: rgba(var(--blue-rgb), 0.22);
-}
-
-/* The decorative blocks are painted with the theme ink, so on white they
-   became a near-invisible grey grid. Dropping the opacity takes them from
-   "visible dirt" back to "barely there", which is the intent. */
+/* The decorative blocks are painted with saturated hues by js/fun-blocks.js, so
+   on a white band they read as confetti rather than a texture. Dropping the
+   opacity takes them from "visible dirt" back to "barely there". */
 :root[data-theme="light"] .fun-blocks {
     opacity: 0.05;
-}
-
-:root[data-theme="light"] .field-error {
-    color: #B42318;
 }
 
 /* Near-black glass (rgba(13,18,28,0.68)) with a hard dark drop shadow. In light
@@ -3124,8 +3249,8 @@ body {
        can actually see. The shadow spread is pulled in from -26px to -14px so
        it lands under the card instead of dissolving around it. */
     background: #FFFFFF;
-    border-color: rgba(20, 33, 58, 0.18);
-    box-shadow: 0 12px 32px -14px rgba(20, 33, 58, 0.22);
+    border-color: rgba(14, 27, 49, 0.14);
+    box-shadow: 0 12px 32px -14px rgba(14, 27, 49, 0.20);
 
     /* The base rule sets a 12px backdrop blur, and it earns its keep on the dark
        card because that fill is only 68% opaque. Against solid white there is
@@ -3242,51 +3367,16 @@ body {
     background: radial-gradient(50% 50% at 50% 50%, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.05) 58%, transparent 78%);
 }
 
-/* #3EE08A is fine on the dark badge but lands around 1.9:1 on the white
-   light-mode pill, where it was the only thing on the badge carrying any
-   colour. Deepened, same hue. */
-:root[data-theme="light"] .hero-badge .dot {
-    background: #0E9F5B;
-}
+/* The availability dot now reads `--live`, which the light theme already
+   redeclares as #0A7A4B (4.9:1 on the white pill). No override needed. */
 
-:root[data-theme="light"] .form-status.success {
-    color: #18794E;
-}
-
-/* ---------- Light mode: surfaces restyled today ----------
-   A dark-mode surface is a lighter patch; a light-mode surface has to be a
-   slightly *darker* patch, or it disappears into the page. The cards, the CTA
-   band and the GitHub band were all picked against the dark background, so on
-   white they had no separation at all. These only correct what the shared
-   tokens cannot - the token-driven colours already flip correctly. */
-
-/* The base card uses --ink-2, which the light theme already maps to a pale
-   surface, so only the elevation was missing. */
-:root[data-theme="light"] .feature-item {
-    background: #ffffff;
-    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
-}
-
-:root[data-theme="light"] .feature-item:hover,
-:root[data-theme="light"] .feature-item:focus-within {
-    box-shadow: 0 18px 36px -26px rgba(var(--blue-rgb), 0.45);
-}
-
-:root[data-theme="light"] .feature-item.open {
-    box-shadow: 0 18px 36px -28px rgba(var(--blue-rgb), 0.38);
-}
-
-/* Blue at 14% over white is a pale wash that barely separated the open card
-   from its neighbours. 18% keeps the "this one is active" signal readable. */
+/* ---------- Light mode: open-card tint ----------
+   The only capability-card rule left. The card surface, its elevation and the
+   hover lift are all handled by the shared token block; what still needed a
+   light value was the ::after tint, because 14% blue over white is a wash too
+   faint to read as "this one is active". */
 :root[data-theme="light"] .feature-item::after {
-    background: linear-gradient(180deg, rgba(var(--blue-rgb), 0.18), rgba(var(--blue-rgb), 0.04));
-}
-
-/* Same reason as the cards: --ink-2 lightens correctly, but a raised surface
-   with no shadow has nothing separating it from the page behind it. */
-:root[data-theme="light"] .feature-support {
-    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), transparent 68%), #ffffff;
-    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    background: linear-gradient(180deg, rgba(var(--blue-rgb), 0.16), rgba(var(--blue-rgb), 0.04));
 }
 
 @media (max-width: 1180px) {

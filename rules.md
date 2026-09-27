@@ -2,7 +2,7 @@
 ### `rules.md`
 
 ```md
-# D Web Studio — Development Rules
+# Divy Web Studio — Development Rules
 
 ## 1. General
 
@@ -17,7 +17,7 @@ Every section should have a purpose.
 ## 2. Design Rules
 
 - Keep the design premium and clean.
-- Follow the D Web Studio brand colors.
+- Follow the Divy Web Studio brand colors.
 - Avoid generic AI-looking layouts.
 - Avoid unnecessary gradients.
 - Avoid excessive glassmorphism.
@@ -76,4 +76,4 @@ Before considering a feature complete, check:
 - Does it work on mobile?
 - Is the copy understandable?
 - Does it help the visitor?
-- Does it feel like D Web Studio?
+- Does it feel like Divy Web Studio?

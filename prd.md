@@ -1,28 +1,28 @@
-# D Web Studio — Product Requirements Document
+# Divy Web Studio — Product Requirements Document
 
 ## 1. Project Overview
 
-**Project Name:** D Web Studio Portfolio
+**Project Name:** Divy Web Studio Portfolio
 
-D Web Studio is a client-facing portfolio and studio website for showcasing web development work, services, pricing, capabilities, and digital products.
+Divy Web Studio is a client-facing portfolio and studio website for showcasing web development work, services, pricing, capabilities, and digital products.
 
 The website should not feel like a simple developer resume.
 
 Its primary purpose is to help potential clients quickly understand:
 
-- What D Web Studio does
+- What Divy Web Studio does
 - What types of websites and applications can be built
 - Why a business may need a professional website
 - What services are available
 - What the approximate pricing/options are
 - What work has already been completed
-- How to contact D Web Studio
+- How to contact Divy Web Studio
 
 ---
 
 ## 2. Business Goal
 
-The website should act as the main digital presence for D Web Studio.
+The website should act as the main digital presence for Divy Web Studio.
 
 It should help convert visitors into potential clients by clearly communicating value rather than only displaying technical information.
 
@@ -68,13 +68,13 @@ Therefore, the website must explain services in simple business-focused language
 
 The website should answer these questions quickly:
 
-1. Who is D Web Studio?
-2. What can D Web Studio build?
+1. Who is Divy Web Studio?
+2. What can Divy Web Studio build?
 3. Why does my business need a website?
 4. What will a website help my business do?
 5. How much can it cost?
-6. What kind of work has D Web Studio already created?
-7. Why should I contact D Web Studio?
+6. What kind of work has Divy Web Studio already created?
+7. Why should I contact Divy Web Studio?
 8. How can I contact the studio?
 
 ---
@@ -84,7 +84,7 @@ The website should answer these questions quickly:
 ### Hero Section
 Clearly communicate:
 
-- D Web Studio identity
+- Divy Web Studio identity
 - What the studio builds
 - Strong primary CTA
 - Secondary CTA to explore work
@@ -125,7 +125,7 @@ Display selected projects with:
 - Live link where available
 
 ### About
-Introduce Divyansh Kumar and D Web Studio.
+Introduce Divyansh Kumar and Divy Web Studio.
 
 ### Contact
 Make contacting the studio easy through:
@@ -142,7 +142,7 @@ The website is successful when a new visitor can understand the studio and its s
 
 The visitor should be able to:
 
-- Understand what D Web Studio offers
+- Understand what Divy Web Studio offers
 - See examples of work
 - Understand website value
 - See pricing or package information

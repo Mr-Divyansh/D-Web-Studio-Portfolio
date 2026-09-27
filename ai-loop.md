@@ -1,4 +1,4 @@
-# D Web Studio — AI Build & Review Loop
+# Divy Web Studio — AI Build & Review Loop
 
 An autonomous loop for building, reviewing, testing and correcting work on this
 repository. Every change goes through the loop below until it passes every check.
@@ -57,7 +57,7 @@ Never mark work FINAL while a check fails. Never ask a human unless genuinely bl
 - Does it use the `design.md` palette (charcoal, silver, blue accent, cream type)?
 - Are there unnecessary gradients, glass effects or decoration?
 - Is any file, class, rule or script unused?
-- Does it look like D Web Studio, not a generic template?
+- Does it look like Divy Web Studio, not a generic template?
 - Is anything duplicated that should exist once?
 
 ---

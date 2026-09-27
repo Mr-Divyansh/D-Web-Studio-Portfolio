@@ -46,6 +46,10 @@
             backdrop.classList.add("open");
             hamburger.classList.add("active");
             hamburger.setAttribute("aria-expanded", "true");
+            // The accessible name has to follow the state, not just aria-expanded:
+            // left as "Open menu" the button announces the opposite of what it does
+            // while the drawer is open.
+            hamburger.setAttribute("aria-label", "Close menu");
             drawer.setAttribute("aria-hidden", "false");
             document.body.classList.add("menu-open");
             inertPage(true);
@@ -59,6 +63,7 @@
             backdrop.classList.remove("open");
             hamburger.classList.remove("active");
             hamburger.setAttribute("aria-expanded", "false");
+            hamburger.setAttribute("aria-label", "Open menu");
             drawer.setAttribute("aria-hidden", "true");
             document.body.classList.remove("menu-open");
             inertPage(false);

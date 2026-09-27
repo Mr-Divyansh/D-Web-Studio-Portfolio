@@ -113,11 +113,15 @@
     align-items: center;
 }
 
+/* `--ink-2` rather than `--ink`: on the light page `--ink` *is* the page
+   background, so this panel was an unpainted hole. It also has to be a step
+   lighter than the `.journey-body` cards around it to read as the inset panel
+   it is. */
 .focus-panel {
     padding: 30px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-lg);
-    background: var(--ink);
+    background: var(--ink-2);
 }
 
 .focus-panel-title {

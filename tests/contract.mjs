@@ -54,6 +54,181 @@ check("theme: persists the selected option",
 check("theme: light palette and accessible pressed states are defined",
   css.includes(':root[data-theme="light"]') && css.includes('.theme-option[aria-pressed="true"]'));
 
+// ---------------------------------------------------------------------------
+// Theme tokens
+//
+// These read the real custom-property values out of css/style.css and
+// recompute WCAG ratios, so a palette change that quietly breaks contrast
+// fails here instead of shipping. Nothing below trusts a comment.
+// ---------------------------------------------------------------------------
+
+// Pulls the custom properties out of one `:root` / `:root[...]` block.
+// Comments are stripped first: the light block explains itself in prose that
+// contains token names ("--paper:" inside a sentence), and a naive regex
+// happily reads the sentence as the declaration and overwrites the real value.
+const readTokens = (selector) => {
+  const source = css.replace(/\/\*[\s\S]*?\*\//g, "");
+  const at = source.indexOf(selector + " {");
+  if (at < 0) return null;
+  const block = source.slice(at, source.indexOf("}", at));
+  const out = {};
+  for (const m of block.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;]+);/g)) out[m[1]] = m[2].trim();
+  return out;
+};
+const hex = (v) => {
+  const m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(v ?? "").trim());
+  if (!m) return null;
+  const h = m[1].length === 3 ? m[1].split("").map(c => c + c).join("") : m[1];
+  return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16));
+};
+const chan = (c) => { const s = c / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); };
+const lum = (rgb) => 0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
+const ratio = (a, b) => {
+  const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+// An rgba(r, g, b, a) fill composited onto an opaque backdrop, for --line*.
+const composite = (triplet, alpha, bg) => {
+  const p = String(triplet).split(",").map(parseFloat);
+  return [0, 1, 2].map(i => p[i] * alpha + bg[i] * (1 - alpha));
+};
+const MIN_TEXT = 4.5;      // WCAG AA for body-size text
+const MIN_SURFACE = 1.08;  // non-text separation floor for this design
+
+const darkTokens = readTokens(":root");
+const lightTokens = readTokens(':root[data-theme="light"]');
+
+check("theme: both token blocks are parseable", Boolean(darkTokens && lightTokens));
+check("theme: the light block is not the dark block with the words swapped",
+  Boolean(darkTokens && lightTokens && darkTokens["--ink"] !== lightTokens["--ink"]));
+
+if (darkTokens && lightTokens) {
+  for (const [label, tokens] of [["dark", darkTokens], ["light", lightTokens]]) {
+    const page = hex(tokens["--ink"]);
+    const card = hex(tokens["--ink-2"]);
+    const chip = hex(tokens["--ink-3"]);
+    check(`theme ${label}: --ink / --ink-2 / --ink-3 are valid colours`, Boolean(page && card && chip));
+
+    // Text. --muted-2 is the *tertiary* token, so it has to be the
+    // lower-contrast of the two - it used to be inverted in both themes.
+    const paper = hex(tokens["--paper"]);
+    const muted = hex(tokens["--muted"]);
+    const muted2 = hex(tokens["--muted-2"]);
+    for (const [name, value, surfaceName, surface] of [
+      ["--paper", paper, "page", page], ["--muted", muted, "page", page],
+      ["--muted-2", muted2, "page", page], ["--muted", muted, "card", card],
+      ["--muted-2", muted2, "card", card], ["--muted-2", muted2, "chip", chip],
+    ]) {
+      check(`theme ${label}: ${name} on ${surfaceName} >= ${MIN_TEXT}:1`,
+        Boolean(value && surface) && ratio(value, surface) >= MIN_TEXT,
+        value && surface ? `${ratio(value, surface).toFixed(2)}:1` : "missing token");
+    }
+    check(`theme ${label}: --muted-2 is lower contrast than --muted (hierarchy)`,
+      ratio(muted2, page) < ratio(muted, page),
+      `muted ${ratio(muted, page).toFixed(2)} vs muted-2 ${ratio(muted2, page).toFixed(2)}`);
+
+    // Accents that carry text.
+    for (const name of ["--blue-light", "--gold", "--live", "--danger"]) {
+      const v = hex(tokens[name]);
+      check(`theme ${label}: ${name} on page >= ${MIN_TEXT}:1`,
+        Boolean(v) && ratio(v, page) >= MIN_TEXT, v ? `${ratio(v, page).toFixed(2)}:1` : "not a hex value");
+    }
+    check(`theme ${label}: white on --blue-deep button >= ${MIN_TEXT}:1`,
+      ratio(hex(tokens["--blue-deep"]), [255, 255, 255]) >= MIN_TEXT);
+
+    // Surface separation. This is the check that catches a washed-out theme:
+    // a white card on a near-white page measures about 1.03:1.
+    check(`theme ${label}: page vs card surfaces >= ${MIN_SURFACE}:1`,
+      ratio(page, card) >= MIN_SURFACE, `${ratio(page, card).toFixed(2)}:1`);
+    check(`theme ${label}: card vs chip surfaces >= ${MIN_SURFACE}:1`,
+      ratio(card, chip) >= MIN_SURFACE, `${ratio(card, chip).toFixed(2)}:1`);
+
+    // A border has to be visible against the surface it sits on.
+    for (const name of ["--line", "--line-strong"]) {
+      const m = /rgba?\(([^)]+)\)/.exec(tokens[name] || "");
+      const rgb = m ? m[1].split(",").map(parseFloat) : null;
+      const alpha = rgb && rgb.length === 4 ? rgb[3] : 1;
+      const mixed = rgb ? composite(rgb.slice(0, 3), alpha, card) : null;
+      check(`theme ${label}: ${name} visible on its surface >= 1.3:1`,
+        Boolean(mixed) && ratio(mixed, card) >= 1.3,
+        mixed ? `${ratio(mixed, card).toFixed(2)}:1` : "unparseable");
+    }
+
+    // Every accent used at low alpha needs its -rgb companion. --gold-rgb was
+    // missing from the light block, which left the gold pills on dark-theme
+    // alphas over a white page. --blue-rgb is deliberately shared.
+    for (const rgbName of ["--blue-rgb", "--gold-rgb", "--live-rgb", "--danger-rgb"]) {
+      check(`theme ${label}: ${rgbName} is declared`, Boolean(tokens[rgbName]),
+        "needed for the rgba() washes");
+    }
+  }
+
+  check("theme: light redeclares --gold-rgb (the gold-pill bug)",
+    Boolean(lightTokens["--gold-rgb"]) && lightTokens["--gold-rgb"] !== darkTokens["--gold-rgb"]);
+  check("theme: elevation tokens are declared per theme",
+    darkTokens["--card-shadow"] !== lightTokens["--card-shadow"]);
+  check("theme: --wash-1 darkens on the light theme (a white wash cannot)",
+    /rgba\(\s*244/.test(darkTokens["--wash-1"] || "") && /rgba\(\s*14/.test(lightTokens["--wash-1"] || ""));
+}
+
+// theme.js writes the theme-colour meta tag in JS, so nothing in CSS can catch
+// a drift. Assert both literals against the --ink tokens they mirror.
+for (const [theme, ink] of [["light", lightTokens?.["--ink"]], ["dark", darkTokens?.["--ink"]]]) {
+  check(`theme: js/theme.js theme-color meta matches --ink for ${theme}`,
+    Boolean(ink) && themeScript.includes(`"${ink}"`),
+    `expected meta theme-color "${ink}" - the browser chrome paints a colour matching neither theme if these drift`);
+}
+
+// One shared elevation rule, so the two themes cannot drift apart again.
+const SHADOWED = [".service-card", ".project-card", ".step-card", ".why-card", ".price-card",
+  ".contact-tile", ".feature-item", ".story-aside", ".faq-list details", ".beyond-card",
+  ".journey-body", ".value-card", ".focus-panel"];
+const sharedShadow = css.match(/(\.service-card,[\s\S]*?)\{\s*box-shadow:\s*var\(--card-shadow\);/);
+check("css: every card surface takes its elevation from the shared rule",
+  Boolean(sharedShadow) && SHADOWED.every(s => sharedShadow[1].includes(s)),
+  sharedShadow ? "missing: " + SHADOWED.filter(s => !sharedShadow[1].includes(s)).join(", ") : "rule not found");
+// A white fill can only lighten, so on a white page it composites to nothing -
+// that was the original washed-out light theme. This forbids white fills in the
+// *theme-agnostic* layer only, and only when the surrounding markup proves the
+// element sits on a themed surface. Two carve-outs are legitimate and stay:
+//   - `.thumb-mockbar span` draws the browser-chrome dots of the WIP card's
+//     hand-built dark mock, which is a fixed dark surface in both themes;
+//   - the `:root[data-theme="light"]` override block, where white IS the point.
+const LAYER = css.replace(/:root\[data-theme="light"\][^{]*\{[\s\S]*?\n\}/g, "");
+const whiteFills = [...LAYER.matchAll(/^([^{}]+)\{([^{}]*)\}/gm)]
+  .filter(([, , body]) => /background:\s*rgba\(255,\s*255,\s*255/.test(body))
+  .map(([, sel]) => sel.trim().split(",").pop().trim())
+  .filter(sel => sel !== ".thumb-mockbar span");
+check("css: no themed surface is filled with a wash that cannot flip",
+  whiteFills.length === 0,
+  whiteFills.length ? "use var(--wash-1) / var(--wash-2) in: " + whiteFills.join(", ") : "");
+check("css: the WIP card's hand-built dark mock keeps its white chrome dots",
+  /\.thumb-mockbar span\s*\{[^}]*background:\s*rgba\(255,\s*255,\s*255,\s*0\.2\)/.test(css),
+  "fixed dark mock surface, deliberately theme-independent");
+check("css: the two CTA bands are painted on a real surface, not just a wash",
+  /\.contact-band\s*\{[\s\S]{0,400}var\(--ink-2\)/.test(css) &&
+  /\.github-band\s*\{[\s\S]{0,400}var\(--ink-2\)/.test(css));
+
+// ---------------------------------------------------------------------------
+// Brand
+// ---------------------------------------------------------------------------
+for (const page of PAGES) {
+  const html = read(page);
+  check(`${page}: brand mark reads "Divy Web Studio"`,
+    html.includes('Divy Web <span class="studio">Studio</span>'));
+  check(`${page}: no leftover "D Web Studio" display name`, !html.includes("D Web Studio"));
+  check(`${page}: copyright line uses the new name`,
+    /<span id="year">\d{4}<\/span> Divy Web Studio\./.test(html));
+  check(`${page}: logo alt text uses the new name`, !/alt="D Web Studio/.test(html));
+}
+const allPagesHtml = PAGES.map(read).join("\n");
+check("brand: real-world identifiers survived the display-name rename",
+  allPagesHtml.includes("dwebstudio00@gmail.com") && allPagesHtml.includes("d__web_studio") &&
+  allPagesHtml.includes("Mr-Divyansh") && allPagesHtml.includes("dwebstudio.com"),
+  "domain / email / handles must not be renamed");
+check("brand: theme storage key kept so saved preferences survive",
+  themeScript.includes('"dweb-theme"'));
+
 const featureToggleIds = [...indexHtml.matchAll(/<button class="feature-toggle" id="([^"]+)"/g)].map(match => match[1]);
 const featurePanelIds = [...indexHtml.matchAll(/<div class="feature-panel" id="([^"]+)"/g)].map(match => match[1]);
 check("index: four feature accordion controls are present",
@@ -173,6 +348,121 @@ for (const sheet of ["css/style.css", ...Object.values(PAGE_CSS)]) {
 check("img/logo.png excluded from deploys via .assetsignore",
   /^img\/logo\.png$/m.test(read(".assetsignore")) &&
   !PAGES.some(p => read(p).includes("logo.png")));
+
+// ---- Header: landmarks, current-page state, markup shape ----------------
+// The header is copy-pasted across all seven pages, which is exactly how the
+// three bugs below survived review: aria-current and the nav's accessible name
+// existed on index.html only, and the switcher block was misindented. None of it
+// is visible in a screenshot.
+const VOID_TAG = /<(?:img|br|hr|input|meta|link|source)\b[^>]*>/gi;
+for (const page of PAGES) {
+  const html = read(page);
+  const is404 = page === "404.html";
+
+  // Two <nav> landmarks per page (primary + mobile drawer), so both need names
+  // or a screen reader announces two identical "navigation" regions.
+  const navs = [...html.matchAll(/<nav\b[^>]*>/g)].map((m) => m[0]);
+  check(`${page}: every <nav> landmark has an accessible name`,
+    navs.length === 2 && navs.every((tag) => /aria-(?:label|labelledby)="/.test(tag)),
+    `${navs.length} nav landmarks`);
+  check(`${page}: primary nav is labelled "Main navigation"`,
+    /<nav class="site-nav" id="siteNav" aria-label="Main navigation">/.test(html));
+
+  // aria-current has to follow the page, in the desktop nav AND the drawer copy.
+  // On 404 no page is current, so zero is the correct answer there.
+  const currents = [...html.matchAll(/aria-current="page"/g)].length;
+  check(`${page}: ${is404 ? "no" : "both"} nav copies mark the current page`,
+    is404 ? currents === 0 : currents === 2,
+    `aria-current=${currents}, nav-link active=${[...html.matchAll(/class="nav-link active"/g)].length}`);
+  check(`${page}: aria-current sits on the active link, never elsewhere`,
+    [...html.matchAll(/<a\b[^>]*aria-current="page"[^>]*>/g)]
+      .every((tag) => /class="nav-link active"/.test(tag)) &&
+    (is404 || [...html.matchAll(/class="nav-link active"/g)].length === 2));
+
+  check(`${page}: hamburger is labelled and controls a drawer that exists`,
+    /<button[^>]*id="hamburger"[^>]*aria-label="[^"]+"[^>]*aria-controls="mobileDrawer"/.test(html) &&
+    /<nav[^>]*id="mobileDrawer"/.test(html));
+
+  // Structure of the nav block, which is what caught the misindented switcher:
+  // a closing tag must line up with the line that opened it, and a line nested
+  // one level deeper than the previous one must be indented further.
+  // From the start of the opening line, not from the tag itself, or the <nav>
+  // opener is read at indent 0 and then "mismatches" its own closer.
+  const block = html.slice(
+    html.lastIndexOf("\n", html.indexOf('<nav class="site-nav"')) + 1,
+    html.indexOf("</nav>") + 6);
+  const stack = [];
+  const problems = [];
+  let depth = 0, prevLineDepth = -1, prevIndent = -1;
+  for (const raw of block.split("\n")) {
+    const trimmed = raw.trim();
+    if (!trimmed) continue;
+    const indent = raw.length - raw.trimStart().length;
+    const lineDepth = depth;
+    const line = trimmed.replace(VOID_TAG, "");
+    const closer = /^<\/[a-z0-9]+>$/i.test(line);
+    if (closer) {
+      const openedAt = stack.pop();
+      if (openedAt !== undefined && openedAt !== indent) {
+        problems.push(`${line} indent ${indent} != opener ${openedAt}`);
+      }
+      depth = Math.max(0, depth - 1);
+    } else {
+      if (lineDepth > prevLineDepth && indent <= prevIndent) {
+        problems.push(`"${line.slice(0, 24)}" indent ${indent} not > parent ${prevIndent}`);
+      }
+      const opens = (line.match(/<[a-z][a-z0-9]*\b/gi) || []).length - (line.match(/<\//g) || []).length;
+      for (let i = 0; i < opens; i++) stack.push(indent);
+      depth += Math.max(0, opens);
+    }
+    prevLineDepth = lineDepth;
+    prevIndent = indent;
+  }
+  check(`${page}: nav block is consistently indented and nested`, problems.length === 0,
+    problems.slice(0, 2).join(" / "));
+}
+
+// aria-expanded alone is not enough: the accessible name has to flip too, or the
+// button announces "Open menu" while it is closing one.
+check("js/main.js: hamburger label follows the drawer state",
+  /var openDrawer[\s\S]{0,500}aria-label", "Close menu"/.test(mainJs) &&
+  /var closeDrawer[\s\S]{0,500}aria-label", "Open menu"/.test(mainJs));
+
+// ---- Theme switcher interaction affordances ----------------------------
+// The switcher is the one control that repaints the entire page, so it has to
+// survive a keyboard, a thumb and reduced-motion. All of it is invisible in a
+// screenshot and trivial to lose in a refactor.
+const optRule = /\.theme-option\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+check("theme switcher: pointer cursor", /cursor:\s*pointer/.test(optRule));
+check("theme switcher: declares its own focus ring",
+  /\.theme-option:focus-visible\s*\{[^}]*outline:/.test(css));
+// An ungated :hover latches on touch devices, so the rule must only exist
+// inside a hover-capable media block, never at the top level as well.
+check("theme switcher: hover gated behind a real pointer",
+  /@media \(hover: hover\)[^{]*\{\s*\.theme-option:hover\s*\{/.test(css) &&
+  !/\n\.theme-option:hover\s*\{/.test(css));
+const mobileOpt = /\.mobile-theme \.theme-option\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+check("theme switcher: drawer copy is a 44px touch target", /min-height:\s*44px/.test(mobileOpt));
+check("theme switcher: honours prefers-reduced-motion",
+  /@media \(prefers-reduced-motion: reduce\)\s*\{\s*\.theme-option\s*\{[^}]*transition:\s*none/.test(css));
+
+// ---- Nav CTA -------------------------------------------------------------
+// .nav-cta is not a .btn, so nothing in the button family reaches it. It was
+// missing the gap that keeps its arrow off the label, the arrow nudge (that rule
+// is scoped to `.btn:hover`), any press feedback and a pointer cursor - the one
+// call to action in the bar rendering with less care than the links around it.
+const ctaRule = /\.nav-cta\s*\{([^}]*)\}/.exec(css)?.[1] ?? "";
+check("nav CTA: arrow is separated from the label", /gap:\s*\d/.test(ctaRule), ctaRule.slice(0, 60));
+check("nav CTA: pointer cursor", /cursor:\s*pointer/.test(ctaRule));
+check("nav CTA: never wraps", /white-space:\s*nowrap/.test(ctaRule));
+check("nav CTA: lifts and has a pressed state",
+  /\.nav-cta:hover\s*\{[^}]*transform:/.test(css) && /\.nav-cta:active\s*\{[^}]*transform:/.test(css));
+check("nav CTA: arrow nudges on hover, same as .btn",
+  /\.nav-cta:hover \.btn-arrow\s*\{[^}]*translateX\(\s*3px\s*\)/.test(css));
+for (const page of PAGES) {
+  check(`${page}: nav CTA has a label and an arrow`,
+    /class="nav-cta"[^>]*>[^<]*<span class="btn-arrow" aria-hidden="true">/.test(read(page)));
+}
 
 console.log(`\ncontract: ${pass} passed, ${fails.length} failed`);
 if (fails.length) {

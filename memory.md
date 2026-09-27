@@ -1,8 +1,8 @@
-# D Web Studio — Project Memory
+# Divy Web Studio — Project Memory
 
 ## Brand
 
-**Name:** D Web Studio
+**Name:** Divy Web Studio
 
 **Founder:** Divyansh Kumar
 
@@ -30,7 +30,7 @@ These values are mirrored in the markup of every page (`nav`, footer `Connect` c
 
 ## Business
 
-D Web Studio creates:
+Divy Web Studio creates:
 
 - Websites
 - Landing Pages
@@ -58,7 +58,7 @@ Primary client categories include:
 
 ## Main Website Purpose
 
-The D Web Studio portfolio is designed to:
+The Divy Web Studio portfolio is designed to:
 
 1. Showcase work
 2. Explain services
@@ -118,7 +118,19 @@ The project is an actively developing portfolio/studio website.
 
 The design, content, technology, services, pricing, and project showcase may evolve over time.
 
-**Rebrand:** the site files previously used the name "DivyWebStudio" in titles, meta tags, JSON-LD, the nav brand, the footer brand and the copyright line. Every occurrence now reads "D Web Studio" (the nav/footer mark is rendered as `D Web <span class="studio">Studio</span>`, where `.studio` colours the word blue). The old `divywebstudio@gmail.com` address and the old `instagram.com/divywebstudio` handle have also been replaced. Do not reintroduce the old name.
+**Rebrand:** the site files previously used the name "D Web Studio" in titles, meta tags, JSON-LD, the nav brand, the footer brand, the copyright line and the self-referencing project card. Every occurrence now reads "Divy Web Studio" (the nav/footer mark is rendered as `Divy Web <span class="studio">Studio</span>`, where `.studio` colours the word blue). The old `divywebstudio@gmail.com` address and the old `instagram.com/divywebstudio` handle were replaced earlier. Do not reintroduce either old name.
+
+**Unchanged by the rename, deliberately:** the domain (`dwebstudio.com`), the email (`dwebstudio00@gmail.com`), the Instagram handle (`@d__web_studio`) and the GitHub handle (`Mr-Divyansh`) are real-world identifiers, not display strings. The name changed; those did not. The `dweb-theme` localStorage key in `js/theme.js` is likewise kept so returning visitors do not silently lose their saved theme choice.
+
+**Two test suites, both dependency-free, run them after any theme or layout change:**
+- `node tests/contract.mjs` (225 checks) — static. Parses the CSS/HTML/JS as text: token pairs, recomputed WCAG ratios, surface separation, border visibility, the shared elevation list, branding, preserved identifiers, and that `js/theme.js`'s `theme-color` literals still match `--ink` in `css/style.css`.
+- `node tests/interaction.mjs` (343 checks) — runtime. Serves the project on a throwaway HTTP origin and drives Chrome headless over all seven pages: theme switching and localStorage persistence, the `theme-color`/`color-scheme` meta tags, the resolved light-theme custom properties, the mobile drawer, contact-form validation, the reveal observer and the FAQ accordions. Skips with exit 0 if no browser is found; `CHROME_PATH` overrides discovery.
+
+Why the runtime suite exists: the light theme produced screenshots that looked washed out while every token was in fact correct. The cause was sampling, not CSS — a `background-color` transition read mid-tween by `getComputedStyle`, and `scroll-behavior: smooth` never advancing in headless. A static suite structurally cannot catch either, so anything verified by reading a computed colour or scrolling needs `interaction.mjs` behind it.
+
+Header controls audited against the `.btn` family, which does not reach them because neither carries that class: `.nav-cta` (arrow rendering flush against its label, no hover nudge, no pressed state, no pointer cursor) and `.theme-option` (focus ring landing on its container border, `:hover` latching on touch devices, 40px drawer touch target). Both are now pinned by `contract.mjs`.
+
+One inconsistency left in place deliberately: `contact.html`'s nav CTA is "WhatsApp Me →" pointing at `wa.me` with `target="_blank"`, i.e. an external new-tab link wearing the internal "onward to another page" arrow. `css/style.css` argues explicitly against exactly that (see the `.btn-github` comment: the GitHub button uses a mark instead of the arrow precisely because the arrow reads as a nudge further in, not a jump out to a new tab). It is a content/design call rather than a defect, so it was left alone — `contract.mjs` only pins that every nav CTA has a label and an arrow. Drop the arrow on the two external CTAs (the nav one and the drawer's "WhatsApp Us") if you want it consistent.
 
 ---
 
@@ -176,7 +188,7 @@ Do not switch `html_handling` back to the default `auto-trailing-slash` unless e
 
 ## Long-Term Vision
 
-D Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:
+Divy Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:
 
 - Client work
 - Web applications
