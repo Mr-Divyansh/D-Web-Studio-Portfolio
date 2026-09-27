@@ -194,8 +194,41 @@
     flex-wrap: wrap;
 }
 
+/* ---------- Tools of the trade (#stack) ----------
+
+   The three groups were stacked as label-plus-chip-rows, and each one ran to
+   roughly 455px of label+chips inside a 1200px container. At every desktop
+   width the right half of the section was simply empty, so it read as an
+   unfinished block rather than as a deliberate list - the heading promised a
+   section and the body only filled a third of it.
+
+   They are now a three-up card row, built from the same surface the site
+   already uses for a set of equal items (`.feature-item` / `.value-card`:
+   `--line` border, `--radius-md`, `--ink-2` fill, `--card-shadow` elevation).
+   That puts it in the same visual language as the "How I Work" strip directly
+   below it, and `minmax(0, 1fr)` keeps a long chip like "Tailwind CSS" from
+   forcing the column wider than its share.
+
+   Scope note: `.stack-cat` lives in this page-only stylesheet, so it is safe
+   to restyle outright. `.stack-grid` and `.stack-chip` are NOT - they are the
+   same pair the home page and experience.html's focus panel use - so the chip
+   rules below are scoped to `#stack` and carry an ID specifically to outrank
+   the shared base rule in style.css. */
+.stack-cats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
 .stack-cat {
-    margin-bottom: 26px;
+    display: flex;
+    flex-direction: column;
+    /* No margin-bottom: as grid items that would add to the row's height and
+       push the three cards out of alignment. The grid gap separates them. */
+    padding: 24px 22px 26px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-2);
 }
 
 .stack-cat h3 {
@@ -204,7 +237,49 @@
     color: var(--muted-2);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+}
+
+/* Matches `.about--profile .about-stack` on the home page, so the same chips
+   are spaced the same way wherever they appear. */
+#stack .stack-grid {
+    gap: 9px;
+}
+
+/* The shared `.stack-chip` is padding-boxed (`9px 15px`), so its height floats
+   with the font and a two-line label would undo the row. Same treatment the
+   home page already applies to these chips: one fixed box, never wrapping. */
+#stack .stack-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 13px;
+    white-space: nowrap;
+    /* Restated: the site-wide `*` transition lists colours only, so without
+       this the lift would snap instead of easing. */
+    transition: transform 0.3s var(--ease), border-color 0.3s ease,
+                background-color 0.3s ease, color 0.3s ease;
+}
+
+#stack .stack-chip:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--blue-rgb), 0.40);
+    background: rgba(var(--blue-rgb), 0.08);
+    color: var(--paper);
+}
+
+@media (max-width: 900px) {
+    .stack-cats {
+        grid-template-columns: 1fr;
+    }
+
+    .stack-cat {
+        padding: 20px 18px 22px;
+    }
+
+    .stack-cat h3 {
+        margin-bottom: 12px;
+    }
 }
 
 @media (max-width: 900px) {
