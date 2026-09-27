@@ -385,6 +385,16 @@ section[id] {
     line-height: 1.08;
     letter-spacing: -0.02em;
     max-width: 780px;
+    /* Same fix as `.about-hero h1` in about.css, for the same reason, and these
+       two rules are otherwise byte-identical. Every other large heading here
+       balances - `#top h1`, `.feature-title` and both feature-row titles.
+
+       Measured across 1440/1024/768/390, this rule was leaving the `.text-grad`
+       span of the heading broken across a line boundary on 10 of 15 page/width
+       combinations: experience at 1024/768/390, services at 1440/1024/390, work
+       at 390, contact at 1440/1024. The gradient is applied to a phrase, and a
+       phrase cut in half stops reading as the one highlighted idea. */
+    text-wrap: balance;
 }
 
 .page-hero .section-sub {

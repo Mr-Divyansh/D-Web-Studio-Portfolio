@@ -7,6 +7,18 @@
     line-height: 1.08;
     letter-spacing: -0.02em;
     max-width: 780px;
+    /* This was the only large heading on the site without `text-wrap: balance`.
+       `#top h1`, `.feature-title`, `.features-strip--modules .feature-title` and
+       `.features-row--services .feature-item h3` all carry it.
+
+       Without it, at 58px inside the 780px measure this heading wrapped to three
+       lines and left "software." alone on the third. That reads as a mistake on
+       its own, but it also split the `.text-grad` span - the gradient phrase
+       "working software." ran from the end of line two onto line three, so the
+       one piece of the heading that is coloured looked like two unrelated words
+       in two different places. Balancing evens the three lines and keeps the
+       gradient phrase whole. */
+    text-wrap: balance;
 }
 
 .about-hero .section-sub {
