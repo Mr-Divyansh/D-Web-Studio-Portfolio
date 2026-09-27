@@ -18,6 +18,9 @@ const LIVE_PROJECTS = [
   ["Divyansh Restaurant", "https://divyansh-restaurant-studio.netlify.app/"],
   ["VELOUR — New Collection", "https://divyanshladingpage.netlify.app/"],
   ["PRIME FITNESS",       "https://prime-fitness-beta.vercel.app/"],
+  // The studio's own portfolio, deployed on Vercel. It was a non-clickable
+  // <div> until it was given a real live URL like every other shipped project.
+  ["Divy Web Studio",     "https://divywebstudio-portfolio.vercel.app/"],
 ];
 
 for (const page of ["index.html", "work.html"]) {
@@ -175,6 +178,70 @@ if (darkTokens && lightTokens) {
     /rgba\(\s*244/.test(darkTokens["--wash-1"] || "") && /rgba\(\s*14/.test(lightTokens["--wash-1"] || ""));
 }
 
+// ---------------------------------------------------------------------------
+// Overlay chip (project .tagpill)
+//
+// The pill sits on a project screenshot - a photograph, identical in both
+// themes - so its scrim is a fixed near-black. It used to declare no `color`,
+// so the label inherited the page ink: cream in dark mode (17:1) but the light
+// theme's dark navy in light mode, which is the same colour as its own scrim.
+// DGYMX's "SaaS Concept" measured 1.19:1 - invisible, which is exactly the
+// report this block exists for.
+//
+// The rule that matters: a fixed scrim forces a fixed foreground. Assert the
+// scrim/ink pair, assert it is declared once in :root and never redeclared in
+// the light block, and recompute the worst case - the pill over pure white.
+// ---------------------------------------------------------------------------
+{
+  const pillRule = (() => {
+    const clean = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    const at = clean.indexOf(".tagpill {");
+    return at < 0 ? null : clean.slice(at, clean.indexOf("}", at));
+  })();
+
+  check("pill: .tagpill rule exists", Boolean(pillRule));
+  if (pillRule) {
+    // `color` must be stated outright. An inherited colour is the whole bug:
+    // every value here is a fixed light, so a missing declaration is silent.
+    check("pill: .tagpill states its own color (never inherited)",
+      /(?:^|[;{\s])color\s*:/.test(pillRule),
+      "an inherited color is the light-mode 1.19:1 regression");
+    check("pill: .tagpill uses the --pill-* tokens for all three parts",
+      /background\s*:\s*var\(--pill-scrim\)/.test(pillRule) &&
+      /color\s*:\s*var\(--pill-ink\)/.test(pillRule) &&
+      /border\s*:[^;]*var\(--pill-line\)/.test(pillRule));
+    // The old rule hardcoded the scrim and borrowed --line-strong, so the
+    // hairline flipped with the theme while the scrim did not.
+    check("pill: .tagpill does not hardcode its scrim colour",
+      !/background\s*:\s*rgba/.test(pillRule) && !/border\s*:[^;]*var\(--line/.test(pillRule));
+  }
+
+  for (const name of ["--pill-scrim", "--pill-ink", "--pill-line"]) {
+    check(`pill: ${name} is declared in :root`, Boolean(darkTokens?.[name]));
+    check(`pill: ${name} is NOT redeclared in the light block`,
+      lightTokens?.[name] === undefined,
+      "the scrim is a fixed dark in both themes, so its parts must not flip");
+  }
+
+  // Worst case is a pill sitting over pure white, which is the lightest a
+  // project screenshot can be - the real DGYMX shot averages 248,238,239.
+  const scrimRgb = (() => {
+    const m = /rgba?\(([^)]+)\)/.exec(darkTokens?.["--pill-scrim"] || "");
+    if (!m) return null;
+    const p = m[1].split(",").map(parseFloat);
+    return p.length === 4 ? p : [...p, 1];
+  })();
+  const pillInk = hex(darkTokens?.["--pill-ink"]);
+  check("pill: --pill-ink is a valid colour", Boolean(pillInk));
+
+  if (scrimRgb && pillInk) {
+    const overWhite = composite(scrimRgb.slice(0, 3), scrimRgb[3], [255, 255, 255]);
+    const r = ratio(pillInk, overWhite);
+    check(`pill: label on its scrim over pure white >= ${MIN_TEXT}:1`, r >= MIN_TEXT,
+      `${r.toFixed(2)}:1`);
+  }
+}
+
 // theme.js writes the theme-colour meta tag in JS, so nothing in CSS can catch
 // a drift. Assert both literals against the --ink tokens they mirror.
 for (const [theme, ink] of [["light", lightTokens?.["--ink"]], ["dark", darkTokens?.["--ink"]]]) {
@@ -216,8 +283,19 @@ check("css: the two CTA bands are painted on a real surface, not just a wash",
 // ---------------------------------------------------------------------------
 for (const page of PAGES) {
   const html = read(page);
-  check(`${page}: brand mark reads "Divy Web Studio"`,
-    html.includes('Divy Web <span class="studio">Studio</span>'));
+  // The header lockup is the one place the name is deliberately NOT spaced.
+  // "Web" and "Studio" touch, so the navy-to-blue change reads as a split
+  // inside a single word - "Divy WebStudio" - rather than as two words that
+  // happen to be adjacent. Everything else (the footer, titles, JSON-LD) keeps
+  // the spaced display name, so both halves are pinned: a blanket find/replace
+  // that dropped the space everywhere would fail the second check, and one that
+  // missed the header would fail the first.
+  check(`${page}: header brand is the tight "Divy WebStudio" lockup`,
+    /class="nav-brand"><img src="img\/logo\.jpg" alt="Divy Web Studio logo">Divy Web<span class="studio">Studio<\/span>/.test(html),
+    'expected: ...>Divy Web<span class="studio">Studio</span></a> with no space before the span');
+  check(`${page}: the spaced display name survives everywhere else`,
+    html.includes('Divy Web <span class="studio">Studio</span>'),
+    "the footer lockup and the page copy must not lose the space");
   check(`${page}: no leftover "D Web Studio" display name`, !html.includes("D Web Studio"));
   check(`${page}: copyright line uses the new name`,
     /<span id="year">\d{4}<\/span> Divy Web Studio\./.test(html));
