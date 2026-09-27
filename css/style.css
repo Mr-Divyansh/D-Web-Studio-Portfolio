@@ -577,19 +577,23 @@ section[id] {
 .nav-brand {
     display: flex;
     align-items: center;
-    /* 10px optical gap between the mark and the word. */
-    gap: 10px;
+    /* NO `gap` here, and this is load-bearing rather than an omission. A flex
+       container wraps every contiguous run of child text in an anonymous flex
+       item, so "Divy Web " and <span class="studio">Studio</span> are two
+       siblings - and a 10px column-gap was being inserted between the "b" and
+       the "S", which is precisely the seam the markup was written to close.
+       The icon-to-text distance comes from a margin on the mark instead, so it
+       can be set without also spacing the two halves of the word. */
     font-weight: 800;
     font-size: 19px;
     flex-shrink: 0;
     padding: 4px 0;
     min-height: 40px;
     white-space: nowrap;
-    /* The markup carries no space between "Web" and the span, so the two runs
-       are already touching. -0.02em closes the remaining seam at the b/S
-       junction so the colour change reads as a split inside one name rather
-       than as two words that happen to collide. This is the most the face
-       takes before "WebStudio" starts to look kerned by hand. */
+    /* Tracking, on top of the removed space. -0.02em pulls the "b" and the "S"
+       together across the colour change, so "WebStudio" reads as one name that
+       happens to be two colours rather than as two words that happen to touch.
+       This is the most the face takes before it looks kerned by hand. */
     letter-spacing: -0.02em;
 }
 
@@ -598,6 +602,9 @@ section[id] {
     height: 34px;
     border-radius: 8px;
     object-fit: contain;
+    /* The 10px optical gap between the mark and the word, which is a margin
+       rather than a flex gap for the reason given on .nav-brand. */
+    margin-right: 10px;
 }
 
 .studio {
@@ -2736,6 +2743,251 @@ a.contact-tile.reveal:hover {
     flex-shrink: 0;
 }
 
+/* ---------- Core capabilities: service modules (index.html only) ----------
+
+   `.feature-item`, `.feature-num`, `.feature-toggle`, `.feature-panel` and
+   `.feature-support` are all shared with about.html, where the same classes
+   carry a different static markup: four numbered steps, no accordion, no icons
+   and no CTA band. Restyling them at the base would have quietly redesigned
+   that page as well, so every rule below is scoped to `.features-strip--modules`
+   - one level deeper than the rule it overrides, and declared late enough to
+   win on source order.
+
+   Two decisions here are load-bearing rather than restyling:
+
+   - `align-items: stretch` replaces the base `start`. The base chose `start` so
+     one open card would not leave its neighbours with a hole under them, which
+     is a fair complaint, but it also meant four cards of visibly different
+     heights. Equal height plus `.feature-panel { margin-top: auto }` gets both
+     at once: the panel is pinned to the card's foot, so the slack lands *below*
+     the title as padding rather than as a gap in the middle of a card.
+   - The icon chip and the number both sit inside the `<button>`, not beside it.
+     The whole header block is then one large target, which is what a phone
+     actually needs, and the icon stays decorative (`aria-hidden`) so the
+     button's accessible name is still "01 Custom Web Development". */
+
+.features-strip--modules .features-head {
+    max-width: 680px;
+    margin: 0 auto 54px;
+}
+
+.features-strip--modules .features-head h2 {
+    letter-spacing: -0.022em;
+}
+
+.features-strip--modules .features-head p {
+    max-width: 58ch;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15.5px;
+}
+
+.features-strip--modules .features-row {
+    gap: 20px;
+    align-items: stretch;
+}
+
+.features-strip--modules .feature-item {
+    height: 100%;
+    padding: 28px 26px 30px;
+}
+
+/* Icon, title and number stack down the card, with the action control opposite
+   the icon on the first row. `grid-template-areas` rather than source order,
+   so the markup stays in reading order (icon, number, title, action) for
+   anyone reading it as text. */
+.features-strip--modules .feature-toggle {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+        "ico  plus"
+        "ttl  ttl"
+        "num  num";
+    row-gap: 18px;
+    column-gap: 14px;
+    align-items: center;
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.features-strip--modules .feature-toggle:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 3px;
+    border-radius: 14px;
+}
+
+/* The supporting layer: enough to name the capability at a glance, quiet
+   enough that the title stays the first thing read. `--blue-light` rather
+   than `--blue` for the glyph - on a 10% blue tint over `--ink-2` the darker
+   blue measures 3.3:1, and this is the one colour on the card that is not
+   text and therefore has to clear 3:1 on its own. */
+.features-strip--modules .feature-ico {
+    grid-area: ico;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(var(--blue-rgb), 0.2);
+    border-radius: 13px;
+    background: rgba(var(--blue-rgb), 0.1);
+    color: var(--blue-light);
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+                color 0.3s ease, transform 0.3s var(--ease);
+}
+
+/* 1.75px rather than Lucide's 2px default: at 22px inside a 46px chip the
+   stock stroke crowds the rounded square's corners. */
+.features-strip--modules .feature-ico svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.75;
+}
+
+/* Was a 36x26 gold pill - filled, bordered and coloured, sitting on the same
+   card as the title, so "01" was competing with "Custom Web Development" for
+   the first read. Tracked-out mono in `--muted`, with the pill chrome removed
+   entirely, puts it firmly in the third layer of the hierarchy. The face is
+   inherited from the base rule and kept, because mono is what makes a two-digit
+   index look like an index. */
+.features-strip--modules .feature-num {
+    grid-area: num;
+    display: block;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+}
+
+/* The main focus. 16px -> 17px, and full `--paper` ink instead of the muted
+   grey the panel copy uses. */
+.features-strip--modules .feature-title {
+    grid-area: ttl;
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 800;
+    letter-spacing: -0.014em;
+    color: var(--paper);
+    text-wrap: balance;
+}
+
+/* The action control: a compact rounded square with a hairline border and a
+   plus drawn from two 11px bars, which stays optically centred at this size. */
+.features-strip--modules .feature-toggle-icon {
+    grid-area: plus;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: transparent;
+    border-color: var(--line-strong);
+}
+
+/* Hover takes colour only. The base rule rotated this control 90 degrees on
+   `.feature-toggle:hover`, so the plus was a minus the moment the pointer
+   crossed the card and snapped back on the way out - a rotation that meant
+   nothing, because it did not track any state. It now tracks the accordion
+   instead: the rotation belongs to open/close, and hover only says "this is
+   clickable". */
+.features-strip--modules .feature-toggle:hover .feature-toggle-icon,
+.features-strip--modules .feature-toggle:focus-visible .feature-toggle-icon {
+    transform: none;
+    border-color: rgba(var(--blue-rgb), 0.5);
+    background: rgba(var(--blue-rgb), 0.1);
+    color: var(--blue-light);
+}
+
+/* Open: filled, and turned 45 degrees so the plus reads as a close. Declared
+   after the hover rule because the two are both (0,4,0) and only source order
+   separates them - a card that is both open and hovered has to keep the open
+   treatment, or it reads as half-open. */
+.features-strip--modules .feature-toggle[aria-expanded="true"] .feature-toggle-icon {
+    transform: rotate(45deg);
+    border-color: var(--blue);
+    background: var(--blue);
+    color: #ffffff;
+}
+
+/* The base open rule turns the vertical bar to 0deg to draw a minus, which a
+   45deg rotation would then carry round to a backslash. Putting it back at
+   90deg leaves the glyph a plus, and the rotation alone carries the meaning. */
+.features-strip--modules .feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+/* Pin the description to the card's foot. As an `auto` margin on a flex child
+   it absorbs the card's free space, so a closed card's panel sits flush with
+   the bottom padding (height 0, nothing showing) and an open one opens upward
+   from the card's baseline rather than hanging off the end of a ragged edge. */
+.features-strip--modules .feature-panel {
+    margin-top: auto;
+}
+
+/* 3px, inside the 2-4px range the brief asks for. The base used -5px, which
+   against a card this much taller was reading as a pop rather than a lift.
+   Both states are re-stated because the base `.open` is (0,2,0) and its
+   `.reveal:hover` is (0,3,0). */
+.features-strip--modules .feature-item.open,
+.features-strip--modules .feature-item.reveal:hover {
+    transform: translateY(-3px);
+}
+
+/* Gated on a real pointing device, same reason as the base card hover: ungated,
+   :hover fires on tap and the icon stays lifted until you touch somewhere else.
+   The number is deliberately left alone - tinting it on hover would make it
+   the most colourful thing on the card at the exact moment the title should
+   be winning, which inverts the hierarchy the rest of the card is built on. */
+@media (hover: hover) and (pointer: fine) {
+    .features-strip--modules .feature-item:hover .feature-ico {
+        background: rgba(var(--blue-rgb), 0.17);
+        border-color: rgba(var(--blue-rgb), 0.4);
+        transform: translateY(-1px);
+    }
+}
+
+/* The CTA band. Radius dropped from `--radius-lg` (22px) to `--radius-md`
+   (16px) so it matches the cards it sits directly under - that shared corner
+   is most of what makes it read as part of this section rather than as a
+   separate widget bolted on the bottom - and the border picked up a blue tint
+   for the same reason. Its soft depth comes from the shared elevation rule
+   further down the file, not from a shadow written here. */
+.features-strip--modules .feature-support {
+    align-items: center;
+    gap: 26px 40px;
+    margin-top: 40px;
+    padding: clamp(26px, 3.4vw, 38px) clamp(24px, 3.4vw, 40px);
+    border-radius: var(--radius-md);
+    border-color: rgba(var(--blue-rgb), 0.24);
+    background:
+        linear-gradient(115deg, rgba(var(--blue-rgb), 0.13),
+                        rgba(var(--blue-rgb), 0.03) 62%, transparent),
+        var(--ink-2);
+}
+
+/* Both buttons are the same control at two weights, so they get one height.
+   Left to the shared `.btn` padding they already match; stating it here means
+   the pair cannot drift apart the day one of them is edited on its own. */
+.features-strip--modules .feature-support-a .btn {
+    min-height: 50px;
+    padding: 0 26px;
+}
+
+/* The base media queries above are (0,1,0) and this block is (0,2,0), so
+   anything they set for `.features-row` / `.feature-item` / `.feature-support`
+   would be outranked by the scoped rules here. The scoped responsive overrides
+   therefore have to be restated at matching width rather than inherited. */
 @media (max-width: 1080px) {
     .features-strip {
         padding: 64px 0;
@@ -2784,6 +3036,68 @@ a.contact-tile.reveal:hover {
     }
 
     .feature-support-a .btn {
+        width: 100%;
+    }
+}
+
+/* Scoped responsive overrides. These have to exist as their own rules rather
+   than being inherited from the base media queries above, because the base
+   selectors are (0,1,0) and everything in the modules block is (0,2,0) - the
+   base tablet and phone values for `.features-row`, `.feature-item` and
+   `.feature-support` are simply outranked and never apply here. */
+@media (max-width: 1080px) {
+    .features-strip--modules .features-head {
+        margin-bottom: 44px;
+    }
+
+    .features-strip--modules .features-row {
+        gap: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .features-strip--modules .features-head {
+        margin-bottom: 32px;
+    }
+
+    .features-strip--modules .features-row {
+        gap: 14px;
+    }
+
+    .features-strip--modules .feature-item {
+        padding: 22px 20px 24px;
+    }
+
+    .features-strip--modules .feature-toggle {
+        row-gap: 16px;
+    }
+
+    .features-strip--modules .feature-ico {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .features-strip--modules .feature-ico svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .features-strip--modules .feature-title {
+        font-size: 16.5px;
+    }
+
+    .features-strip--modules .feature-support {
+        margin-top: 30px;
+        padding: 24px 20px;
+    }
+
+    /* Stack the copy off the actions, and let both buttons go full width, so
+       the band reads as one block on a phone instead of a squeezed row. */
+    .features-strip--modules .feature-support-a {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
         width: 100%;
     }
 }
@@ -2939,6 +3253,636 @@ a.contact-tile.reveal:hover {
 .dot2 {
     color: var(--gold);
     flex-shrink: 0;
+}
+
+/* ---------- About: developer profile (index.html only) ----------
+
+   `.about-grid`, `.about-text`, `.stack-grid` and `.stack-chip` all look
+   exclusive to the home page and are not. `about.html` renders the same
+   `.stack-grid` / `.stack-chip` pair three times over (Frontend, Backend &
+   Data, Tooling), and `experience.html` renders both again inside
+   `.focus-panel`, next to its own copy of `.now-list`, `.dot2` and
+   `.section-cta`. Restyling any of them at the base would have quietly
+   redesigned two other pages, so this section carries an `about--profile`
+   modifier and every rule below is scoped to it - one level deeper than the
+   rule it overrides, exactly as `.features-strip--modules` does.
+
+   Two consequences, both of which have bitten this file before:
+
+   - The base `@media (max-width: 1080px)` rule for `.about-grid` is (0,1,0)
+     and everything here is (0,2,0), so it is outranked and the two columns
+     would never stack. The stacked values therefore have to be restated
+     below rather than inherited. The base media query is left alone for
+     `about.html`.
+   - The site-wide `*` rule sets `transition-property` to colours only, so
+     any `transform` on hover is invisible unless the element declares its
+     own `transition`. `.about-fact::before` and `.stack-chip` both do.
+
+   The panel behind the highlight rows is the only surface added here; the
+   services are deliberately left as a ruled list rather than cards, so the
+   column still reads as a document. */
+
+/* The one decorative element: a fine technical grid, top-right, faded out by
+   a radial mask so it has no hard edge. `--line` rather than a fixed blue, so
+   it re-tints itself for the light theme, and `pointer-events: none` so the
+   row hover states underneath stay reachable. */
+.about--profile {
+    position: relative;
+    isolation: isolate;
+}
+
+.about--profile::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 34px 34px;
+    opacity: 0.6;
+    -webkit-mask-image: radial-gradient(115% 85% at 100% 0%, #000 0%, transparent 70%);
+    mask-image: radial-gradient(115% 85% at 100% 0%, #000 0%, transparent 70%);
+}
+
+.about--profile > .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Was 1.15fr / 0.85fr. The story column is the one with the long measure and
+   the heading set at 45px, so it still gets the larger share - but only just.
+   At 0.85 the capability column was 380px and "Tailwind CSS" wrapped to its
+   own line, which made the tech list read as a column of orphans. `minmax(0,
+   1fr)` on both sides: the default `auto` minimum is the content's min-content
+   width, and a single unbreakable chip is enough to push the grid past the
+   container and start a horizontal scrollbar. */
+.about--profile .about-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(40px, 5vw, 64px);
+    align-items: start;
+}
+
+.about--profile .about-col {
+    min-width: 0;
+}
+
+/* A touch larger and tighter than the shared `.section-title` (which caps at
+   40px). The `<br>` in the markup already fixes the break, so this is only
+   about the second line having enough room to not break again. */
+.about--profile .about-title {
+    font-size: clamp(30px, 3.7vw, 45px);
+    line-height: 1.14;
+    letter-spacing: -0.028em;
+    margin-bottom: 20px;
+}
+
+/* 54ch caps the measure at roughly 62-66 characters on this column, which is
+   where body copy stops being scannable; `1.75` because 1.65 was set for
+   short strings in cards, not for two full paragraphs. */
+.about--profile .about-text {
+    max-width: 54ch;
+}
+
+.about--profile .about-text p {
+    font-size: 15.5px;
+    line-height: 1.75;
+    margin-bottom: 16px;
+}
+
+.about--profile .about-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Profile highlights ----------
+
+   One panel with ruled rows, not three cards: a shared border plus internal
+   dividers gives the same "these belong together" signal at a third of the
+   visual weight. `.now-list` and `.dot2` are left exactly as they are for
+   `experience.html`. */
+.about--profile .about-facts {
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--ink-2);
+    overflow: hidden;
+}
+
+.about--profile .about-fact {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 64px;
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 0.3s ease;
+}
+
+.about--profile .about-fact:last-child {
+    border-bottom: 0;
+}
+
+/* A 2px edge that grows in from the centre rather than sliding, so the row
+   does not appear to shift. `top`/`bottom` insets keep it off the dividers -
+   at full row height the top and bottom rules would be drawn over. */
+.about--profile .about-fact::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 11px;
+    bottom: 11px;
+    width: 2px;
+    border-radius: 0 2px 2px 0;
+    background: var(--blue);
+    transform: scaleY(0);
+    transition: transform 0.32s var(--ease);
+}
+
+.about--profile .about-fact:hover {
+    background: var(--wash-1);
+}
+
+.about--profile .about-fact:hover::before {
+    transform: scaleY(1);
+}
+
+.about--profile .about-fact-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    border: 1px solid rgba(var(--blue-rgb), 0.18);
+    background: rgba(var(--blue-rgb), 0.09);
+    color: var(--blue-light);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 1.9 rather than Lucide's 2: at 18px inside a 36px chip the stock stroke
+   touches the rounded corners. `--blue-light` (not `--blue`) for the glyph -
+   over a 9% blue tint on `--ink-2` the darker blue measures under 3:1, and an
+   icon is not text, so it has to clear that bar on its own. */
+.about--profile .about-fact-ico svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.9;
+}
+
+.about--profile .about-fact:hover .about-fact-ico {
+    border-color: rgba(var(--blue-rgb), 0.34);
+    background: rgba(var(--blue-rgb), 0.15);
+}
+
+.about--profile .about-fact-text {
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--paper);
+}
+
+/* ---------- Tech stack ----------
+
+   10px radius and a fixed 38px height. The height is the point: free-height
+   chips sat on different baselines row to row, so a 4-across row read as
+   four slightly different objects. `white-space: nowrap` keeps each label on
+   one line - wrapping a chip to two lines would undo the fixed height. */
+.about--profile .about-stack {
+    gap: 9px;
+}
+
+.about--profile .stack-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    color: var(--muted);
+    white-space: nowrap;
+    /* Declared rather than inherited: the site-wide `*` transition lists
+       colours only, so without this the lift would snap instead of easing. */
+    transition: transform 0.3s var(--ease), border-color 0.3s ease,
+                background-color 0.3s ease, color 0.3s ease;
+}
+
+.about--profile .stack-chip:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--blue-rgb), 0.40);
+    background: rgba(var(--blue-rgb), 0.08);
+    color: var(--paper);
+}
+
+/* ---------- Capability column structure ----------
+
+   The rule between the two groups does the separating, so the space above it
+   only has to be enough to read as a break - 32/28 rather than the inline
+   `margin-top:42px` this replaced, which reserved a full empty band. */
+.about--profile .about-group + .about-group {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+}
+
+.about--profile .about-group .eyebrow {
+    margin-bottom: 16px;
+}
+
+/* ---------- What I build ----------
+
+   Ruled rows, not cards. The h3/p split carries the hierarchy the old
+   `<strong>+<br>` markup could not: 15.5px/700 in full `--paper` against
+   14px/400 in `--muted` is a size and a weight apart, so the three service
+   names are findable without reading the descriptions. */
+.about--profile .about-services {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.about--profile .about-service {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background-color 0.3s ease;
+}
+
+.about--profile .about-service:first-child {
+    padding-top: 2px;
+}
+
+.about--profile .about-service:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.about--profile .about-service:hover {
+    background: var(--wash-1);
+}
+
+.about--profile .about-service-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    margin-top: 1px;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--blue-rgb), 0.18);
+    background: rgba(var(--blue-rgb), 0.09);
+    color: var(--blue-light);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.about--profile .about-service-ico svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 1.9;
+}
+
+.about--profile .about-service:hover .about-service-ico {
+    border-color: rgba(var(--blue-rgb), 0.34);
+    background: rgba(var(--blue-rgb), 0.15);
+}
+
+.about--profile .about-service-body {
+    min-width: 0;
+}
+
+.about--profile .about-service h3 {
+    font-size: 15.5px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    color: var(--paper);
+    margin: 0 0 5px;
+}
+
+.about--profile .about-service p {
+    font-size: 14px;
+    line-height: 1.62;
+    color: var(--muted);
+    max-width: 46ch;
+    margin: 0;
+}
+
+/* ---------- Section CTA ----------
+
+   12px, not the 999px the shared `.btn` carries. A 50px-tall lozenge at this
+   size reads as a pill-shaped badge rather than a button, and the brief for
+   this section was explicitly "not a giant pill". The lift and the arrow
+   nudge come from `.section-cta` and `.btn-arrow` already. */
+.about--profile .about-cta {
+    margin-top: 30px;
+    min-height: 50px;
+    padding: 0 24px;
+    border-radius: 12px;
+    border-color: var(--line-strong);
+}
+
+/* (0,3,0) - beats `.btn-secondary:hover` (0,2,0) on both the border and the
+   background, without having to touch the shared button rule. */
+.about--profile .about-cta:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--blue-rgb), 0.45);
+    background: var(--wash-2);
+}
+
+/* ---------- Responsive ----------
+
+   Restated rather than inherited - see the note at the top of this block. */
+@media (max-width: 1080px) {
+    .about--profile .about-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 48px;
+    }
+
+    /* One column now, so the measure cap can relax without the text running
+       the full 1200px. */
+    .about--profile .about-text {
+        max-width: 62ch;
+    }
+
+    .about--profile::before {
+        width: 60%;
+    }
+}
+
+@media (max-width: 640px) {
+    .about--profile .about-title {
+        font-size: clamp(28px, 8.4vw, 34px);
+        line-height: 1.16;
+    }
+
+    .about--profile .about-text p {
+        font-size: 15px;
+    }
+
+    .about--profile .about-facts {
+        margin-top: 26px;
+    }
+
+    /* `min-height: 0` is deliberately NOT set here. The third highlight wraps to
+       two lines below ~420px, and a min-height only sets a floor - it cannot
+       make a two-line row match a one-line one, so forcing one would just add
+       dead space above the short rows. The rows stay content-sized, and the
+       hairline dividers make the variation read as rhythm rather than as a
+       mistake. Padding is trimmed instead, which is the part that was actually
+       too generous at this width. */
+    .about--profile .about-fact {
+        padding: 12px 16px;
+        gap: 12px;
+    }
+
+    .about--profile .about-fact-ico {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+    }
+
+    .about--profile .about-fact-ico svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .about--profile .about-fact-text {
+        font-size: 14px;
+    }
+
+    /* Full width, so the tap target is the whole row rather than a 50px-tall
+       island of text in a 350px column. */
+    .about--profile .about-cta {
+        width: 100%;
+    }
+
+    .about--profile .about-group + .about-group {
+        margin-top: 28px;
+        padding-top: 24px;
+    }
+
+    .about--profile .about-service {
+        gap: 13px;
+        padding: 16px 0;
+    }
+
+    .about--profile .about-service-ico {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+    }
+
+    .about--profile .about-service-ico svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    .about--profile::before {
+        width: 100%;
+        opacity: 0.45;
+    }
+}
+
+/* ---------- Contact section: the two project-type rows (index.html only) ----------
+
+   The last of the three places `.features-row` / `.feature-item` /
+   `.feature-num` are restyled per-page. The same trap as
+   `.features-strip--modules` and `.about--profile`, one level deeper than the
+   rule it overrides:
+
+     about.html          four numbered steps, no icons, no links
+     index.html #features the accordion
+     index.html #contact  these two rows
+
+   So the row carries a `features-row--services` modifier and every rule below
+   is scoped to it. Editing the base card would have silently restyled the
+   accordion and about.html as well.
+
+   What the base gave these cards: a filled gold `01` pill on its own line, a
+   16px title, and a paragraph - four text blocks with no visual anchor, so the
+   row read as a wall of copy. What it gives them here is a fixed top line
+   (icon leading, index trailing) and the title promoted to the card's primary
+   element, which is the same hierarchy `.features-strip--modules` already
+   established one screen up. Consistency between the two rows on one page is
+   the point: they sit ~35px apart and must not look like two components. */
+
+.features-row--services {
+    align-items: stretch;
+}
+
+/* The card is an <a>, so the hit area is the whole surface rather than a
+   20px-tall title. `color: inherit` because the base `a` rule sets it, but the
+   card paints its own text through --paper/--muted and must not turn into a
+   link-coloured block. */
+.features-row--services .feature-item {
+    color: inherit;
+}
+
+/* The top line. A flex row rather than a grid because both children are
+   content-sized and the only job here is pushing the index to the far corner. */
+.features-row--services .feature-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+/* Same icon chip as the accordion above, so the two card families on this page
+   are visibly the same object. --blue-light for the glyph: on a 10% blue tint
+   over --ink-2 the darker blue measures ~3.3:1 and an icon is not text, so it
+   has to clear 3:1 on its own. */
+.features-row--services .feature-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border: 1px solid rgba(var(--blue-rgb), 0.2);
+    border-radius: 13px;
+    background: rgba(var(--blue-rgb), 0.1);
+    color: var(--blue-light);
+    transition: background-color 0.3s ease, border-color 0.3s ease,
+                color 0.3s ease, transform 0.3s var(--ease);
+}
+
+.features-row--services .feature-ico svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.75;
+}
+
+/* The gold pill is dropped for the same reason it is dropped in the accordion:
+   a filled, bordered, coloured chip beside the title competes with it for the
+   first read, and gold is not this section's palette. Mono is kept, because
+   mono is what makes a two-digit index read as an index. `align-self` is
+   restated because the base `.feature-item > .feature-num` sets flex-start,
+   and the number is now a child of .feature-top, not of the card. */
+.features-row--services .feature-num {
+    display: block;
+    align-self: auto;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+}
+
+/* The card's primary element: 16px -> 17px, and full --paper ink rather than
+   the muted grey the panel copy uses. The base also carries a
+   `.feature-num + h3 { margin-top }` rule written for the about.html markup;
+   that adjacency no longer exists here and the gap is the top line's margin
+   instead, so it is cancelled explicitly. */
+.features-row--services .feature-item h3 {
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 800;
+    letter-spacing: -0.014em;
+    color: var(--paper);
+    text-wrap: balance;
+    margin-top: 0;
+}
+
+/* `margin-bottom: 0` matters more than usual here. The card is a column flex
+   and the paragraph is followed by the arrow, so the base's bottom margin
+   would push the arrow below the baseline the other three cards put it on. */
+.features-row--services .feature-item > p {
+    font-size: 13.8px;
+    line-height: 1.72;
+    color: var(--muted);
+    margin-bottom: 0;
+}
+
+/* The "there is a page behind this" cue, pinned to the card's foot with an auto
+   margin so all four arrows sit on one baseline instead of four different
+   ones. Only the first row is a link, so only the first row has one. */
+.features-row--services .feature-go {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 15px;
+    line-height: 1;
+    color: var(--muted-2);
+    transition: color 0.3s ease, transform 0.3s var(--ease);
+}
+
+/* Keyboard focus needs a ring now that the card is a link. Offset 3px rather
+   than 4px because the cards sit flush against each other in a 4-up grid and
+   a wider ring would land on the neighbour. The lift is deliberately not
+   repeated - the base `:focus-within` already takes the border and the rail. */
+.features-row--services .feature-item:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 3px;
+}
+
+/* Gated on a real pointing device, same reason as the base card hover and the
+   accordion icon: ungated, :hover fires on tap and the arrow stays nudged
+   until you touch somewhere else. */
+@media (hover: hover) and (pointer: fine) {
+    .features-row--services .feature-item:hover .feature-ico {
+        background: rgba(var(--blue-rgb), 0.17);
+        border-color: rgba(var(--blue-rgb), 0.4);
+        transform: translateY(-1px);
+    }
+
+    .features-row--services .feature-item:hover .feature-go {
+        color: var(--blue-light);
+        transform: translateX(4px);
+    }
+}
+
+/* The base media queries are (0,1,0) and this block is (0,2,0), so their
+   tablet and phone values for `.features-row` and `.feature-item` are
+   outranked and never apply here. They have to be restated at matching width,
+   exactly as `.features-strip--modules` does. */
+@media (max-width: 1080px) {
+    .features-row--services {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .features-row--services {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .features-row--services .feature-item {
+        padding: 22px 20px 22px;
+    }
+
+    .features-row--services .feature-top {
+        margin-bottom: 16px;
+    }
+
+    .features-row--services .feature-ico {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .features-row--services .feature-ico svg {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .contact-links {
@@ -3244,7 +4188,8 @@ body {
 .beyond-card,
 .journey-body,
 .value-card,
-.focus-panel {
+.focus-panel,
+.feature-support {
     box-shadow: var(--card-shadow);
 }
 
