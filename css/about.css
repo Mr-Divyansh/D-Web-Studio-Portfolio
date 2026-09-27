@@ -38,9 +38,30 @@
     background: var(--ink-2);
 }
 
+/* The card was an unlabelled definition list, so it read as a floating box of
+   pairs with nothing to say what it was. It now carries a heading in the same
+   mono/uppercase treatment as .stack-cat h3 below, which is how every other
+   group of labels on this page gets introduced. */
+.story-aside-title {
+    display: block;
+    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-bottom: 13px;
+    border-bottom: 1px solid var(--line-strong);
+}
+
+/* Grid, not space-between flex. space-between has no minimum gap, so a short
+   value like "Fiverr" was thrown to the far edge and left a gulf after its
+   label. The value column is `auto` and the label column is `minmax(0, 1fr)`,
+   so the label keeps its room and a long value wraps instead of overflowing. */
 .story-aside .row {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 18px;
+    align-items: baseline;
     padding: 12px 0;
     border-bottom: 1px solid var(--line);
     font-size: 13.5px;
@@ -50,13 +71,57 @@
     border-bottom: none;
 }
 
-.story-aside .row span:first-child {
+/* :first-child / :last-child rather than the old span-tagged selectors, because
+   the last cell is now sometimes an <a> (see below), which span:last-child
+   would no longer have matched. */
+.story-aside .row > :first-child {
     color: var(--muted-2);
 }
 
-.story-aside .row span:last-child {
+.story-aside .row > :last-child {
     font-weight: 700;
     text-align: right;
+}
+
+/* "GitHub · Mr-Divyansh" was plain text while the same handle is a real link in
+   the contact band and the footer, so it read as dead copy. It is a link now, so
+   it needs the affordance back: it keeps the value styling and picks up colour
+   and an underline on hover. */
+.story-aside .row a {
+    color: var(--paper);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .story-aside .row a:hover {
+        color: var(--blue-light);
+        text-decoration: underline;
+    }
+}
+
+.story-aside .row a:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+@media (max-width: 420px) {
+    .story-aside {
+        padding: 20px;
+    }
+
+    /* Two columns stop fitting once the value is "Shadow-Weaver, CHIKA" and the
+       label is "Currently building": the value column gets crushed. Stack the
+       pair rather than let it wrap into something unreadable. */
+    .story-aside .row {
+        grid-template-columns: 1fr;
+        row-gap: 2px;
+    }
+
+    .story-aside .row > :last-child {
+        text-align: left;
+    }
 }
 
 .beyond-card {

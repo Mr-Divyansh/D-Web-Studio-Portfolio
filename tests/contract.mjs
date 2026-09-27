@@ -249,6 +249,33 @@ for (const page of ["index.html", "work.html"]) {
     /<img[^>]*ProjectImage[^>]*width="\d+"[^>]*height="\d+"/.test(read(page)));
 }
 
+// ---------------------------------------------------------------------------
+// About: the "at a glance" card
+//
+// The card was an unlabelled two-column definition list whose last cell was a
+// <span> addressed by `span:last-child`. Turning that cell into a real <a> link
+// silently un-styled it - `span:last-child` no longer matched - so the
+// assertions below pin the parts that regress quietly.
+// ---------------------------------------------------------------------------
+
+const aboutHtml = read("about.html");
+const aboutCss = read("css/about.css");
+const aside = aboutHtml.match(/<div class="story-aside[\s\S]*?<\/div>\s*<\/div>/)?.[0] ?? "";
+const asideRows = [...aside.matchAll(/<div class="row">([\s\S]*?)<\/div>/g)].map(m => m[1]);
+
+check("about: the story-aside card is labelled, not a bare definition list",
+  /<span class="story-aside-title">[^<]+<\/span>/.test(aside) && /\.story-aside-title\s*\{/.test(aboutCss));
+check("about: every story-aside row is a label/value pair",
+  asideRows.length === 5 && asideRows.every(r => (r.match(/<(span|a)\b/g) ?? []).length === 2),
+  `rows=${asideRows.length} cells=${asideRows.map(r => (r.match(/<(span|a)\b/g) ?? []).length).join(",")}`);
+check("about: the story-aside GitHub cell is a real external link",
+  /<div class="row"><span>Also on<\/span><a href="https:\/\/github\.com\/Mr-Divyansh" target="_blank" rel="noopener noreferrer">/.test(aside));
+check("about: story-aside value column is styled tag-agnostically",
+  /\.story-aside \.row > :last-child\s*\{/.test(aboutCss) && !/\.story-aside \.row span:last-child/.test(aboutCss),
+  "a span-tagged selector would drop the <a> value back to unstyled");
+check("about: story-aside rows stack on narrow viewports",
+  /@media \(max-width: 420px\)[\s\S]*?\.story-aside \.row \{[\s\S]*?grid-template-columns: 1fr/.test(aboutCss));
+
 const FORBIDDEN_PREFIXES = ["img/ServicesImage/", "img/Icone/", "img/PricingGridImage/"];
 const allHtml = PAGES.map(read).join("\n") + "\n" + read("data/services.json");
 for (const prefix of FORBIDDEN_PREFIXES) check(`no reference to deleted ${prefix}`, !allHtml.includes(prefix));
