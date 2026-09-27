@@ -22,9 +22,20 @@
 
 **GitHub:** Mr-Divyansh — https://github.com/Mr-Divyansh
 
-**WhatsApp:** +91 80912 73525
+**WhatsApp:** +91 80912 73525 — https://wa.me/918091273525
+
+**YouTube (studio):** @divyanshwebstudio — https://www.youtube.com/@divyanshwebstudio
+
+**YouTube (Minecraft/personal):** @DG2_BOSS — https://www.youtube.com/@DG2_BOSS/shorts
 
 These values are mirrored in the markup of every page (`nav`, footer `Connect` column, `mailto:` links and the `Organization` JSON-LD block in `index.html`). Keep them in sync when any of them changes.
+
+Notes on the footer specifically:
+
+- The footer CTA panel, the availability chip and the five social buttons are the same on every page. **The one deliberate exception is YouTube:** the six brand pages point at the studio channel `@divyanshwebstudio`, and `about.html` points at the personal Minecraft channel `@DG2_BOSS/shorts`. About is the personal page, and its "Beyond The Code" section is about Minecraft cinematics, so the personal channel is the honest link there. Everything else in the footer must stay identical across all seven pages.
+- **The five social platforms are GitHub, Instagram, WhatsApp, Gmail and YouTube. Nothing else.** LinkedIn, Facebook, X/Twitter, Telegram and Discord are deliberately absent and must not be reintroduced.
+- Lucide 0.544.0 ships **no `whatsapp` icon** (it does ship `github`, `instagram`, `youtube`, `mail`). WhatsApp therefore uses `message-circle`, which is the mapping `contact.html` already used. Don't swap in `data-lucide="whatsapp"` — it renders nothing.
+
 
 ---
 

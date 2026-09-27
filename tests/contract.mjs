@@ -362,11 +362,17 @@ for (const prefix of FORBIDDEN_PREFIXES) check(`no reference to deleted ${prefix
 const imgRefs = [...new Set([...allHtml.matchAll(/(?:src)="(img\/[^"]+)"/g)].map(m => m[1]))];
 for (const ref of imgRefs) check(`image exists: ${ref}`, existsSync(ref));
 
-const ICON_PAGES = ["index.html", "services.html", "contact.html"];
+// Lucide is a real payload, so the site only ships it to pages that actually
+// draw an icon. This used to compare against a hardcoded list of three pages,
+// which meant the check silently went stale the moment a fourth page grew an
+// icon - and it did: the footer added five to every page. The expectation is
+// now derived from the markup, so what is under test is the invariant ("loaded
+// exactly where it is used") rather than a list someone has to remember to edit.
+const iconPages = PAGES.filter(p => read(p).includes("data-lucide="));
 const lucidePages = PAGES.filter(p => /<script[^>]*lucide/.test(read(p)));
 check("lucide loaded exactly on icon-using pages",
-  lucidePages.length === ICON_PAGES.length && ICON_PAGES.every(p => lucidePages.includes(p)),
-  `got: ${lucidePages.join(", ")}`);
+  lucidePages.length === iconPages.length && iconPages.every(p => lucidePages.includes(p)),
+  `icon pages: ${iconPages.join(", ")} | lucide pages: ${lucidePages.join(", ")}`);
 for (const page of lucidePages) {
   check(`${page}: lucide pinned to 0.544.0`, read(page).includes("lucide@0.544.0"));
   check(`${page}: no unpinned lucide@latest`, !read(page).includes("lucide@latest"));

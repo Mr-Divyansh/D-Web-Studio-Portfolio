@@ -2174,6 +2174,137 @@ footer {
     gap: 10px;
 }
 
+/* ---------- Footer: CTA panel, brand status, social row ----------
+   Added after the base footer rules above rather than replacing them, so the
+   three existing `.footer-*` classes keep doing the job they were written for
+   and only the new furniture is declared here.
+
+   Every rule is scoped to a new `.footer-cta*` / `.footer-social*` / `.status-*`
+   name. `.footer-row`, `.footer-column` and `.footer-bottom` are untouched, and
+   the same footer markup ships on all seven pages, so a change to any of those
+   three would have moved every footer on the site at once. */
+
+.footer-cta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 34px;
+    padding: 40px 44px;
+    margin-bottom: 54px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), rgba(var(--blue-rgb), 0.02) 46%, transparent 78%), var(--wash-1);
+    box-shadow: var(--card-shadow);
+    transition: border-color 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.footer-cta:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-2px);
+}
+
+.footer-cta-eyebrow {
+    margin-bottom: 12px;
+}
+
+.footer-cta-title {
+    font-size: clamp(24px, 3.4vw, 34px);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+}
+
+.footer-cta-text {
+    margin-top: 12px;
+    font-size: 14.5px;
+    color: var(--muted);
+    max-width: 52ch;
+}
+
+/* The one action in the footer. It is a real link to the real Contact page, so
+   it gets the shared `.btn` treatment and inherits the global focus ring. */
+.footer-cta .btn {
+    white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .footer-cta:hover .btn-primary {
+        transform: translateY(-2px);
+    }
+}
+
+/* ---------- Availability chip ----------
+   Deliberately a <span>, not a link. It states a fact, so it has no href and no
+   hover affordance - a chip that looks clickable but goes nowhere is exactly the
+   kind of dead control this footer is meant not to have. */
+.footer-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 20px;
+    padding: 7px 14px;
+    border: 1px solid rgba(var(--live-rgb), 0.34);
+    border-radius: 999px;
+    background: rgba(var(--live-rgb), 0.08);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--live);
+}
+
+.footer-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--live);
+    box-shadow: 0 0 0 3px rgba(var(--live-rgb), 0.18);
+}
+
+/* ---------- Five social buttons ----------
+   Compact squares: 42px, 11px radius (a rounded square, not a pill - the brief
+   asked not to overuse pill shapes, and five 42px circles read as a row of
+   lozenges). Every one is a real link with a real href, and each carries an
+   `.sr-only` label so the icon is never the only thing naming the control. */
+.footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: var(--wash-1);
+    color: var(--on-surface);
+    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease),
+        background-color 0.25s var(--ease), color 0.25s var(--ease),
+        box-shadow 0.25s var(--ease);
+}
+
+.footer-social a svg {
+    width: 19px;
+    height: 19px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .footer-social a:hover {
+        transform: translateY(-3px);
+        border-color: rgba(var(--blue-rgb), 0.55);
+        background: rgba(var(--blue-rgb), 0.12);
+        color: var(--blue-light);
+        box-shadow: 0 10px 22px -12px rgba(var(--blue-rgb), 0.85);
+    }
+}
+
+.footer-social a:active {
+    transform: translateY(-1px) scale(0.96);
+}
+
 .reveal {
     opacity: 0;
     transform: translateY(22px);
@@ -3976,6 +4107,25 @@ a.contact-tile.reveal:hover {
     .footer-bottom-links {
         flex-wrap: wrap;
     }
+
+    /* Tablet: the CTA stops being a two-column row once the copy would be
+       squeezed to roughly 30ch beside a 150px button. The copy column is set
+       to `minmax(0, 1fr)` rather than left at `1fr` so a long unbroken word
+       cannot push the grid wider than the container. */
+    .footer-cta {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        padding: 34px 30px;
+        margin-bottom: 44px;
+    }
+
+    .footer-cta-title {
+        max-width: none;
+    }
+
+    .footer-cta .btn {
+        justify-self: start;
+    }
 }
 
 @media (max-width: 640px) {
@@ -4005,11 +4155,41 @@ a.contact-tile.reveal:hover {
     .sub-title {
         margin-top: 48px;
     }
+
+    /* Mobile: the five social buttons stay on one row. `flex-wrap: wrap` is kept
+       as the safety net, but the row is 5x42 + 4x10 = 250px, which fits inside a
+       320px viewport with the page gutter, so it never actually wraps. */
+    .footer-cta {
+        padding: 28px 22px;
+        margin-bottom: 38px;
+    }
+
+    .footer-social {
+        gap: 9px;
+        margin-top: 20px;
+    }
+
+    .footer-social a {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+    }
 }
 
 @media (max-width: 520px) {
     .footer-row {
         gap: 34px 20px;
+    }
+
+    /* `.btn { width: 100% }` further down already stretches the CTA button to the
+       full column, so the footer CTA stacks on its own at this width. Stated
+       here so the intent sits next to the rule that does it. */
+    .footer-cta {
+        padding: 26px 20px;
+    }
+
+    .footer-cta .btn {
+        justify-self: stretch;
     }
 
     .btn {
