@@ -2728,53 +2728,6 @@ a.contact-tile.reveal:hover {
     border: 1px solid var(--line-strong);
 }
 
-.thumb-inner {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-}
-
-.thumb-mockbar {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 12px;
-}
-
-.thumb-mockbar span {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.thumb-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: auto;
-}
-
-.thumb-icon svg {
-    width: 18px;
-    height: 18px;
-}
-
-.wip-word {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    /* The DGYMX card has no screenshot - its thumb is a hand-built dark mock
-       (see `.thumb-mockbar`, same reasoning), so this label stays on the light
-       ink in both themes rather than flipping to dark-on-dark. */
-    color: rgba(244, 241, 234, 0.62);
-}
-
 /* `margin-top: auto` (not a fixed 14px) pushes this to the bottom of the
    stretched card, so every tech row in a grid row lines up. The visual gap is
    preserved with padding, which - unlike a margin - does not compete with the

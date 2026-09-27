@@ -28,9 +28,13 @@ for (const page of ["index.html", "work.html"]) {
     check(`${page}: ${name} is a clickable card with its real URL`,
       cardHrefs.includes(url), `found: ${cardHrefs.join(", ")}`);
   }
-  const dgymxBlock = html.slice(html.indexOf("DGYMX") - 400, html.indexOf("DGYMX") + 900);
   check(`${page}: DGYMX is NOT a link`, !/<a[^>]*class="project-card[^>]*>\s*<div class="project-thumb"[^>]*>\s*<span class="tagpill">SaaS Concept/.test(html) || !cardHrefs.some(h => /dgymx/i.test(h)));
-  check(`${page}: DGYMX card has no <img>`, !/<img[^>]*DGYMX/i.test(dgymxBlock.replace(/DGYMX gym management system preview/g, "")) && !/GymSalonImg/.test(html));
+  check(`${page}: DGYMX card shows its real screenshot`, /<img[^>]*DgymxImage\.png[^>]*alt="DGYMX gym management dashboard preview"/.test(html) && /width="1359" height="732"/.test(html));
+  check(`${page}: DGYMX screenshot is the only img on that card, and lazy`, (() => {
+    const i = html.indexOf("DgymxImage.png");
+    const card = html.slice(html.lastIndexOf("project-card", i), html.indexOf("project-body", i));
+    return (card.match(/<img\b/g) || []).length === 1 && /loading="lazy"/.test(card);
+  })());
   check(`${page}: DGYMX labelled Concept · In Progress`, html.includes("Concept · In Progress"));
 }
 
@@ -189,22 +193,20 @@ check("css: every card surface takes its elevation from the shared rule",
   sharedShadow ? "missing: " + SHADOWED.filter(s => !sharedShadow[1].includes(s)).join(", ") : "rule not found");
 // A white fill can only lighten, so on a white page it composites to nothing -
 // that was the original washed-out light theme. This forbids white fills in the
-// *theme-agnostic* layer only, and only when the surrounding markup proves the
-// element sits on a themed surface. Two carve-outs are legitimate and stay:
-//   - `.thumb-mockbar span` draws the browser-chrome dots of the WIP card's
-//     hand-built dark mock, which is a fixed dark surface in both themes;
-//   - the `:root[data-theme="light"]` override block, where white IS the point.
+// *theme-agnostic* layer, leaving only the `:root[data-theme="light"]` override
+// block, where white IS the point. The DGYMX card used to be an exception (its
+// hand-built dark mock drew white chrome dots); it now uses a real screenshot
+// like every other card, so no carve-out is needed.
 const LAYER = css.replace(/:root\[data-theme="light"\][^{]*\{[\s\S]*?\n\}/g, "");
 const whiteFills = [...LAYER.matchAll(/^([^{}]+)\{([^{}]*)\}/gm)]
   .filter(([, , body]) => /background:\s*rgba\(255,\s*255,\s*255/.test(body))
-  .map(([, sel]) => sel.trim().split(",").pop().trim())
-  .filter(sel => sel !== ".thumb-mockbar span");
+  .map(([, sel]) => sel.trim().split(",").pop().trim());
 check("css: no themed surface is filled with a wash that cannot flip",
   whiteFills.length === 0,
   whiteFills.length ? "use var(--wash-1) / var(--wash-2) in: " + whiteFills.join(", ") : "");
-check("css: the WIP card's hand-built dark mock keeps its white chrome dots",
-  /\.thumb-mockbar span\s*\{[^}]*background:\s*rgba\(255,\s*255,\s*255,\s*0\.2\)/.test(css),
-  "fixed dark mock surface, deliberately theme-independent");
+check("css: the dead WIP-card mock is gone, not just unused",
+  !/thumb-inner|thumb-mockbar|thumb-icon|wip-word/.test(css) && !/thumb-inner|thumb-mockbar|thumb-icon|wip-word/.test(indexHtml + read("work.html")),
+  "stale mock styles/markup left behind after the screenshot landed");
 check("css: the two CTA bands are painted on a real surface, not just a wash",
   /\.contact-band\s*\{[\s\S]{0,400}var\(--ink-2\)/.test(css) &&
   /\.github-band\s*\{[\s\S]{0,400}var\(--ink-2\)/.test(css));
