@@ -244,3 +244,56 @@ if (document.readyState === "loading") {
 } else {
     initLucideIcons();
 }
+
+/* ---------- Mobile drawer entrance (anime.js) ----------
+   Progressive enhancement, fully decoupled from openDrawer()/closeDrawer()
+   above: it only *watches* #mobileDrawer's class attribute instead of
+   hooking into those functions, so it can never fight their own state or
+   transitions. No-ops completely if anime.js didn't load (CDN blocked, CSP,
+   offline) or the visitor prefers reduced motion - the drawer still opens
+   exactly as it always did, just without the stagger.
+
+   Same readiness pattern as initLucideIcons() below: anime.js is loaded with
+   `defer` in <head>, and this file is a plain synchronous <script> near the
+   end of <body>, so it runs *before* deferred scripts do. Checking
+   `window.anime` immediately would always see it as undefined - waiting for
+   DOMContentLoaded (which fires only after every deferred script has run) is
+   what makes the check meaningful. */
+function initDrawerAnimation() {
+    if (typeof window.anime === "undefined") return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var drawer = document.getElementById("mobileDrawer");
+    if (!drawer) return;
+
+    var wasOpen = false;
+
+    var animateDrawerContent = function () {
+        var items = drawer.querySelectorAll(".mobile-nav-list a, .theme-option, .mobile-drawer-cta");
+        if (!items.length) return;
+
+        anime.remove(items);
+        anime({
+            targets: items,
+            opacity: [0, 1],
+            translateX: [18, 0],
+            duration: 420,
+            easing: "easeOutQuad",
+            delay: anime.stagger(45, { start: 90 })
+        });
+    };
+
+    var observer = new MutationObserver(function () {
+        var isOpen = drawer.classList.contains("open");
+        if (isOpen && !wasOpen) animateDrawerContent();
+        wasOpen = isOpen;
+    });
+
+    observer.observe(drawer, { attributes: true, attributeFilter: ["class"] });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDrawerAnimation);
+} else {
+    initDrawerAnimation();
+}

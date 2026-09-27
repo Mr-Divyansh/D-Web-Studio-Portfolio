@@ -347,8 +347,9 @@ section[id] {
 }
 
 .page-hero h1 {
-    font-size: clamp(32px, 4.6vw, 50px);
-    line-height: 1.12;
+    font-size: clamp(32px, 4.8vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
     max-width: 780px;
 }
 
@@ -837,8 +838,9 @@ body.menu-open {
 }
 
 .hero h1 {
-    font-size: clamp(33px, 4.4vw, 54px);
-    line-height: 1.08;
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
 }
 
 .hero-sub {
@@ -3371,5 +3373,53 @@ body {
         flex: 1;
         padding-left: 8px;
         padding-right: 8px;
+    }
+}
+/* ==========================================================================
+   Polish pass (added) — additive only. Nothing below touches an existing
+   token, layout rule, or the tested .reveal / accordion / drawer mechanics;
+   it only adds a new decorative layer and extends .text-grad, which nothing
+   else structurally depends on.
+   ========================================================================== */
+
+/* ---------- Film-grain overlay ----------
+   A flat vector gradient is what reads as "AI-generated" the moment you look
+   closely; a faint noise layer is the cheapest way to make the same pixels
+   feel photographed/printed rather than rendered. Fixed + pointer-events:none
+   so it never intercepts a click or a tap. mix-blend-mode: overlay makes one
+   rule correct for both themes with no [data-theme="light"] override: it
+   lightens dark pixels and darkens light ones, so it self-adjusts to whatever
+   is underneath. Sits above regular content (z-index above the 0-3 range
+   everything else on the page uses) but below the nav/drawer chrome
+   (z-index 200+), so menus and buttons stay perfectly crisp. */
+.grain {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 180px 180px;
+}
+
+/* ---------- Gradient-text shimmer ----------
+   `.text-grad` was a static two-stop gradient clipped to text - correct, but
+   inert. Widening the canvas to 220% and sweeping `background-position`
+   reads as brushed foil rather than a flat CSS trick, and costs nothing
+   structurally: only background-position moves, so line-height, wrapping and
+   the surrounding heading are untouched, and it still resolves through
+   `--grad-text`, so both themes get the sweep in their own colours with no
+   extra override. Scoped to `no-preference` so reduced-motion falls back to
+   the original static gradient exactly as before. */
+@media (prefers-reduced-motion: no-preference) {
+    .text-grad {
+        background-size: 220% 100%;
+        animation: textShimmer 7s ease-in-out infinite;
+    }
+
+    @keyframes textShimmer {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
     }
 }
