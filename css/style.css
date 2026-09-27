@@ -52,6 +52,22 @@
     --wave-cursor-fill: rgba(233, 236, 242, 0.22);
     --hero-scrim: linear-gradient(90deg, rgba(12, 16, 24, .92) 0%, rgba(12, 16, 24, .55) 45%, rgba(12, 16, 24, .15) 100%);
 
+    /* ---------- Hero cube ----------
+       The chrome around the cube below is hardcoded as light-on-dark: a cyan
+       fill at 0.12 alpha and a violet ring at 0.09. Those can only ever
+       *lighten*, so on the light page they composited to a bleached haze and
+       the violet ring read as pink - the same failure the `--wash-*` pair had.
+       Every one of the seven values is a token so the light theme can darken
+       instead of lighten, and the accent ring pulls toward indigo rather than
+       the off-brand pink that violet-on-white produces. */
+    --cube-face-line: rgba(147, 197, 253, 0.34);
+    --cube-face-bg: linear-gradient(135deg, rgba(111, 178, 255, 0.14), rgba(124, 92, 246, 0.06) 55%, rgba(111, 178, 255, 0.04));
+    --cube-face-inner: rgba(76, 154, 255, 0.14);
+    --cube-orbit-line: rgba(111, 178, 255, 0.12);
+    --cube-orbit-accent: rgba(122, 182, 255, 0.62);
+    --cube-orbit-2-line: rgba(139, 124, 246, 0.10);
+    --cube-orbit-2-accent: rgba(155, 132, 255, 0.42);
+
     /* ---------- Elevation ----------
        A dark-mode surface is defined by a lighter patch; a light-mode surface
        has to be lifted off the page, because the page and the card are both
@@ -77,7 +93,22 @@
     --nav-shadow-scrolled: 0 2px 6px rgba(0, 0, 0, 0.40), 0 24px 46px -24px rgba(0, 0, 0, 0.88);
 
     --grad-brand: linear-gradient(100deg, var(--silver), var(--blue));
-    --grad-text: linear-gradient(100deg, #E9ECF2, #9CC8FF);
+    /* The dark accent used to run #E9ECF2 -> #9CC8FF: bright silver into light
+       blue. Against the near-white h1 (--paper, #F4F1EA) the silver start came
+       out at 1.05:1 - indistinguishable - so the first half of every gradient
+       span was the same colour as the words beside it and the accent only
+       arrived late in the ramp. Contrast was never the problem (16:1 and up
+       against the page surface); the accent simply had nothing to separate it
+       from, which is the same failure the light theme had and gets the same
+       fix.
+
+       Both stops are now blues that stay clear of the heading at either end
+       while still reading on every dark surface. Against #F4F1EA: 2.61:1 at
+       the start, 3.66:1 at the end - a hue shift you can actually see. On the
+       surfaces the span lands on: 6.56:1 / 5.98:1 / 5.29:1 over --ink,
+       --ink-2 and --ink-3 at the start, and 4.69:1 / 4.27:1 / 3.78:1 at the
+       end, so large heading text clears 3:1 everywhere it can appear. */
+    --grad-text: linear-gradient(100deg, #4D96FF, #2E7BE6);
 
     --font: "Plus Jakarta Sans", sans-serif;
 
@@ -143,6 +174,20 @@
        side, not darken it. */
     --hero-scrim: linear-gradient(90deg, rgba(241, 245, 251, .94) 0%, rgba(241, 245, 251, .68) 45%, rgba(241, 245, 251, .18) 100%);
 
+    /* Hero cube, light theme. The alphas go *up* rather than down and the
+       accents darken, because the surface behind the cube is now the page
+       itself: a 0.12 cyan that glowed on near-black composites to nothing on
+       near-white, and the violet ring - 0.42 alpha of #9B84FF over white -
+       came out pink. These are chosen to sit a clear step off the page while
+       staying in the blue family, so the cube reads as glass on both themes. */
+    --cube-face-line: rgba(37, 99, 235, 0.30);
+    --cube-face-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(79, 70, 229, 0.08) 55%, rgba(37, 99, 235, 0.05));
+    --cube-face-inner: rgba(37, 99, 235, 0.08);
+    --cube-orbit-line: rgba(37, 99, 235, 0.16);
+    --cube-orbit-accent: rgba(29, 78, 216, 0.60);
+    --cube-orbit-2-line: rgba(79, 70, 229, 0.14);
+    --cube-orbit-2-accent: rgba(79, 70, 229, 0.50);
+
     --card-shadow: 0 1px 2px rgba(14, 27, 49, 0.05), 0 10px 26px -18px rgba(14, 27, 49, 0.22);
     --card-shadow-hover: 0 2px 6px rgba(14, 27, 49, 0.07), 0 22px 44px -22px rgba(14, 27, 49, 0.30);
 
@@ -156,8 +201,8 @@
     --nav-shadow-scrolled: 0 2px 6px rgba(14, 27, 49, 0.08), 0 22px 42px -22px rgba(14, 27, 49, 0.28);
 
     --grad-brand: linear-gradient(100deg, #1D4ED8, #2563EB);
-    /* The dark-theme gradient runs #E9ECF2 -> #9CC8FF: bright silver into
-       bright blue, which sits clearly apart from the near-white h1. The old
+    /* On dark the accent now runs #4D96FF -> #2E7BE6 - blue at both ends, so
+       it never drifts into the near-white h1 (see the dark note above). The old
        light value ran #14213A -> #1D4ED8, and #14213A *is* the light-mode h1
        colour (--paper). Measured against it the gradient started at 1.00:1 -
        identical - so the first half of every gradient span was literally the
@@ -1082,15 +1127,15 @@ body.menu-open {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 1px solid rgba(111, 178, 255, 0.10);
-    border-top-color: rgba(122, 182, 255, 0.62);
+    border: 1px solid var(--cube-orbit-line);
+    border-top-color: var(--cube-orbit-accent);
     transform: rotateX(74deg);
     animation: orbitA 16s linear infinite;
 }
 
 .cube-orbit-wrap-b .cube-orbit {
-    border-color: rgba(139, 124, 246, 0.09);
-    border-top-color: rgba(155, 132, 255, 0.42);
+    border-color: var(--cube-orbit-2-line);
+    border-top-color: var(--cube-orbit-2-accent);
     transform: rotateX(70deg);
     animation: orbitB 23s linear infinite;
 }
@@ -1112,9 +1157,9 @@ body.menu-open {
     position: absolute;
     inset: 0;
     border-radius: 7px;
-    border: 1px solid rgba(147, 197, 253, 0.32);
-    background: linear-gradient(135deg, rgba(111, 178, 255, 0.12), rgba(124, 92, 246, 0.05) 55%, rgba(111, 178, 255, 0.03));
-    box-shadow: inset 0 0 44px rgba(76, 154, 255, 0.12);
+    border: 1px solid var(--cube-face-line);
+    background: var(--cube-face-bg);
+    box-shadow: inset 0 0 44px var(--cube-face-inner);
 }
 
 .cube-face-front {
