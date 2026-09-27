@@ -1562,10 +1562,17 @@ body.menu-open {
 
 /* Same reason as the two bands above - a raised panel needs a real surface, and
    `--ink-3` is the one inset colour that stays *darker* than the card in light
-   mode instead of vanishing into it. */
+   mode instead of vanishing into it.
+
+   The cap is the fix, not decoration. At 16:9 a 522px-wide panel stood 294px
+   tall around a 38px glyph, so the icon filled under 1% of its own area and
+   read as a stray mark rather than a deliberate one. Measured after the change
+   the band is 158px at 1440/1080/900/640/375 and 156px at 320 - one band at
+   every breakpoint this grid uses - and the glyph is sized to carry it. */
 .icon-panel {
     width: 100%;
     aspect-ratio: 16 / 9;
+    max-height: 158px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1576,10 +1583,10 @@ body.menu-open {
 }
 
 .icon-panel svg {
-    width: 38px;
-    height: 38px;
+    width: 46px;
+    height: 46px;
     color: var(--blue-light);
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .icon-chip {
