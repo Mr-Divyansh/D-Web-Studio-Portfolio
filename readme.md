@@ -1,8 +1,8 @@
-# ✦ Divy Web Studio
+# ✦ D Web Studio
 
 ### Modern Websites. Digital Experiences. Built to Perform.
 
-**Divy Web Studio** is a web development studio focused on creating modern, responsive, and professional digital experiences for businesses, creators, and brands.
+**D Web Studio** is a web development studio focused on creating modern, responsive, and professional digital experiences for businesses, creators, and brands.
 
 From high-converting **landing pages** to complete **business websites and web applications**, we build clean interfaces designed to look great, work smoothly, and perform across devices.
 
@@ -10,7 +10,7 @@ From high-converting **landing pages** to complete **business websites and web a
 
 ## 🚀 About
 
-**Divy Web Studio** is founded by **Divyansh Kumar**, a Full-Stack Developer and Founder based in **Baijnath, Himachal Pradesh, India**.
+**D Web Studio** is founded by **Divyansh Kumar**, a Full-Stack Developer and Founder based in **Baijnath, Himachal Pradesh, India**.
 
 The goal is simple:
 
@@ -46,7 +46,7 @@ Improving website performance, usability, responsiveness, and overall user exper
 
 ## 💻 Tech Stack
 
-Divy Web Studio works with modern web technologies and continuously expands its development stack.
+D Web Studio works with modern web technologies and continuously expands its development stack.
 
 ### Core Web
 
@@ -72,18 +72,18 @@ Divy Web Studio works with modern web technologies and continuously expands its 
 
 ## ✨ Featured Projects
 
-This repository represents the **Divy Web Studio portfolio**, showcasing selected web development work, experiments, and digital experiences.
+This repository represents the **D Web Studio portfolio**, showcasing selected web development work, experiments, and digital experiences.
 
 More projects and case studies will be added as the studio grows.
 
 ### Portfolio
 
-🌐 **Divy Web Studio Portfolio**
+🌐 **D Web Studio Portfolio**
 Modern portfolio website showcasing projects, services, and capabilities.
 
 ---
 
-## 🎯 Why Divy Web Studio?
+## 🎯 Why D Web Studio?
 
 ### Design + Development
 
@@ -103,7 +103,7 @@ Every project has different requirements. The technology, structure, and feature
 
 ### 🔄 Continuous Improvement
 
-Divy Web Studio is continuously experimenting with new technologies, frameworks, design approaches, and development workflows.
+D Web Studio is continuously experimenting with new technologies, frameworks, design approaches, and development workflows.
 
 ---
 
@@ -147,7 +147,7 @@ For projects using a framework or build system, install the required dependencie
 
 Interested in working together or need a website for your business?
 
-### Divy Web Studio
+### D Web Studio
 
 📧 **Email:** [dwebstudio00@gmail.com](mailto:dwebstudio00@gmail.com)
 
@@ -157,7 +157,7 @@ Interested in working together or need a website for your business?
 
 ---
 
-## 🌐 Connect With Divy Web Studio
+## 🌐 Connect With D Web Studio
 
 **Let's build something meaningful for the web.**
 
@@ -167,7 +167,7 @@ Whether you need a business website, landing page, web application, or a complet
 
 <div align="center">
 
-### Divy Web Studio
+### D Web Studio
 
 **Websites • Web Apps • Digital Experiences**
 

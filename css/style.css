@@ -634,7 +634,7 @@ section[id] {
     align-items: center;
     /* NO `gap` here, and this is load-bearing rather than an omission. A flex
        container wraps every contiguous run of child text in an anonymous flex
-       item, so "Divy Web " and <span class="studio">Studio</span> are two
+       item, so "D Web " and <span class="studio">Studio</span> are two
        siblings - and a 10px column-gap was being inserted between the "b" and
        the "S", which is precisely the seam the markup was written to close.
        The icon-to-text distance comes from a margin on the mark instead, so it

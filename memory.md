@@ -1,8 +1,8 @@
-# Divy Web Studio — Project Memory
+# D Web Studio — Project Memory
 
 ## Brand
 
-**Name:** Divy Web Studio
+**Name:** D Web Studio
 
 **Founder:** Divyansh Kumar
 
@@ -41,7 +41,7 @@ Notes on the footer specifically:
 
 ## Business
 
-Divy Web Studio creates:
+D Web Studio creates:
 
 - Websites
 - Landing Pages
@@ -69,7 +69,7 @@ Primary client categories include:
 
 ## Main Website Purpose
 
-The Divy Web Studio portfolio is designed to:
+The D Web Studio portfolio is designed to:
 
 1. Showcase work
 2. Explain services
@@ -129,7 +129,7 @@ The project is an actively developing portfolio/studio website.
 
 The design, content, technology, services, pricing, and project showcase may evolve over time.
 
-**Rebrand:** the site files previously used the name "D Web Studio" in titles, meta tags, JSON-LD, the nav brand, the footer brand, the copyright line and the self-referencing project card. Every occurrence now reads "Divy Web Studio" (the nav/footer mark is rendered as `Divy Web <span class="studio">Studio</span>`, where `.studio` colours the word blue). The old `divywebstudio@gmail.com` address and the old `instagram.com/divywebstudio` handle were replaced earlier. Do not reintroduce either old name.
+**Rebrand history:** the display name has changed twice. It began as "D Web Studio", was briefly rebranded to "Divy Web Studio", and is now back to "D Web Studio" — the current, correct name. Every occurrence in titles, meta tags, JSON-LD, the nav brand, the footer brand, the copyright line and the self-referencing project card now reads "D Web Studio" (the nav/footer mark is rendered as `D Web <span class="studio">Studio</span>`, where `.studio` colours the word blue). `tests/contract.mjs` pins both halves of that lockup and asserts the string "Divy Web Studio" no longer appears on any page. The old `divywebstudio@gmail.com` address and the old `instagram.com/divywebstudio` handle were replaced earlier. Do not reintroduce either of those.
 
 **Unchanged by the rename, deliberately:** the domain (`dwebstudio.com`), the email (`dwebstudio00@gmail.com`), the Instagram handle (`@d__web_studio`) and the GitHub handle (`Mr-Divyansh`) are real-world identifiers, not display strings. The name changed; those did not. The `dweb-theme` localStorage key in `js/theme.js` is likewise kept so returning visitors do not silently lose their saved theme choice.
 
@@ -199,7 +199,7 @@ Do not switch `html_handling` back to the default `auto-trailing-slash` unless e
 
 ## Long-Term Vision
 
-Divy Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:
+D Web Studio should grow beyond a portfolio into a broader digital studio presence that can showcase:
 
 - Client work
 - Web applications

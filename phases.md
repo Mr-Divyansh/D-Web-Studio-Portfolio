@@ -2,7 +2,7 @@
 ### `phases.md`
 
 ```md
-# Divy Web Studio — Development Phases
+# D Web Studio — Development Phases
 
 ## Phase 1 — Foundation
 
@@ -21,7 +21,7 @@ Tasks:
 
 ## Phase 2 — Core Business Content
 
-Goal: Explain what Divy Web Studio offers.
+Goal: Explain what D Web Studio offers.
 
 Tasks:
 

@@ -1,8 +1,8 @@
-# Divy Web Studio — Design System
+# D Web Studio — Design System
 
 ## 1. Design Vision
 
-The Divy Web Studio portfolio should feel like a premium digital studio website, not a generic developer portfolio or AI-generated template.
+The D Web Studio portfolio should feel like a premium digital studio website, not a generic developer portfolio or AI-generated template.
 
 The overall experience should communicate:
 
@@ -16,13 +16,13 @@ The overall experience should communicate:
 - Trustworthy
 - Conversion-focused
 
-The design should make a potential client feel that Divy Web Studio can build a serious digital product for their business.
+The design should make a potential client feel that D Web Studio can build a serious digital product for their business.
 
 ---
 
 ## 2. Brand Identity
 
-The visual identity should be directly inspired by the Divy Web Studio logo.
+The visual identity should be directly inspired by the D Web Studio logo.
 
 ### Brand Characteristics
 
@@ -125,7 +125,7 @@ The nav CTA (`.nav-cta`) and the theme switcher (`.theme-option`) are the two co
 
 The header is a floating bar, and it is two boxes rather than one. `.site-nav` is a full-width fixed strip whose padding is the gutter and which paints nothing; `.nav-inner` is the bar, carrying the glass fill, the hairline, the radius and the shadow. That split is what lets the bar be a bounded rounded rectangle instead of a full-bleed strip running off both sides of the screen, and it keeps the bar's edges on the same `--edge` / 1200px column as `.container`. `.site-nav` also sets `pointer-events: none` with `.nav-inner` opting back in — without it the transparent gutter either side of the bar swallows clicks meant for the hero, which is what the old full-bleed bar did across its whole height.
 
-The brand lockup is the one place the name is deliberately *not* spaced: the markup is `Divy Web<span class="studio">Studio</span>`, with no space before the span, so "Web" and "Studio" touch and the navy-to-blue change reads as a split inside one name. Two things make that work, and both are easy to undo by accident. `.nav-brand` must not declare a `gap` — a flex container wraps every run of child text in an anonymous flex item, so "Divy Web" and the span are siblings, and a 10px column-gap lands squarely on the `b`/`S` seam the markup exists to close; the icon-to-text distance is a `margin-right` on the mark instead. And the trailing space in the text node is what the trailing-whitespace rule removes, so the two runs end up flush. Everything else on the site (footer, titles, JSON-LD) keeps the spaced "Divy Web Studio" display name; `contract.mjs` pins both halves so a blanket find/replace cannot quietly break either one.
+The brand lockup is the one place the name is deliberately *not* spaced: the markup is `D Web<span class="studio">Studio</span>`, with no space before the span, so "Web" and "Studio" touch and the navy-to-blue change reads as a split inside one name. Two things make that work, and both are easy to undo by accident. `.nav-brand` must not declare a `gap` — a flex container wraps every run of child text in an anonymous flex item, so "D Web" and the span are siblings, and a 10px column-gap lands squarely on the `b`/`S` seam the markup exists to close; the icon-to-text distance is a `margin-right` on the mark instead. And the trailing space in the text node is what the trailing-whitespace rule removes, so the two runs end up flush. Everything else on the site (footer, titles, JSON-LD) keeps the spaced "D Web Studio" display name; `contract.mjs` pins both halves so a blanket find/replace cannot quietly break either one.
 
 The header is copy-pasted across all seven pages, which is how three bugs survived review: `aria-current` and the nav's `aria-label` existed on `index.html` only, and its switcher block was misindented. `contract.mjs` now checks all three statically, including a nav-block indentation/nesting pass (a closing tag must line up with the line that opened it, and a line nested one level deeper must be indented further). None of it is visible in a screenshot.
 

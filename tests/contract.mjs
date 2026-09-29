@@ -20,7 +20,7 @@ const LIVE_PROJECTS = [
   ["PRIME FITNESS",       "https://prime-fitness-beta.vercel.app/"],
   // The studio's own portfolio, deployed on Vercel. It was a non-clickable
   // <div> until it was given a real live URL like every other shipped project.
-  ["Divy Web Studio",     "https://divywebstudio-portfolio.vercel.app/"],
+  ["D Web Studio",          "https://divywebstudio-portfolio.vercel.app/"],
 ];
 
 for (const page of ["index.html", "work.html"]) {
@@ -285,21 +285,22 @@ for (const page of PAGES) {
   const html = read(page);
   // The header lockup is the one place the name is deliberately NOT spaced.
   // "Web" and "Studio" touch, so the navy-to-blue change reads as a split
-  // inside a single word - "Divy WebStudio" - rather than as two words that
+  // inside a single word - "D WebStudio" - rather than as two words that
   // happen to be adjacent. Everything else (the footer, titles, JSON-LD) keeps
   // the spaced display name, so both halves are pinned: a blanket find/replace
   // that dropped the space everywhere would fail the second check, and one that
   // missed the header would fail the first.
-  check(`${page}: header brand is the tight "Divy WebStudio" lockup`,
-    /class="nav-brand"><img src="img\/logo\.jpg" alt="Divy Web Studio logo">Divy Web<span class="studio">Studio<\/span>/.test(html),
-    'expected: ...>Divy Web<span class="studio">Studio</span></a> with no space before the span');
+  check(`${page}: header brand is the tight "D WebStudio" lockup`,
+    /class="nav-brand"><img src="img\/logo\.jpg" alt="D Web Studio logo">D Web<span class="studio">Studio<\/span>/.test(html),
+    'expected: ...>D Web<span class="studio">Studio</span></a> with no space before the span');
   check(`${page}: the spaced display name survives everywhere else`,
-    html.includes('Divy Web <span class="studio">Studio</span>'),
+    html.includes('D Web <span class="studio">Studio</span>'),
     "the footer lockup and the page copy must not lose the space");
-  check(`${page}: no leftover "D Web Studio" display name`, !html.includes("D Web Studio"));
-  check(`${page}: copyright line uses the new name`,
-    /<span id="year">\d{4}<\/span> Divy Web Studio\./.test(html));
-  check(`${page}: logo alt text uses the new name`, !/alt="D Web Studio/.test(html));
+  check(`${page}: no leftover "Divy Web Studio" display name`, !html.includes("Divy Web Studio"),
+    "the studio is branded D Web Studio; the Divy Web Studio name must be fully retired");
+  check(`${page}: copyright line uses the current name`,
+    /<span id="year">\d{4}<\/span> D Web Studio\./.test(html));
+  check(`${page}: logo alt text uses the current name`, !/alt="Divy Web Studio/.test(html));
 }
 const allPagesHtml = PAGES.map(read).join("\n");
 check("brand: real-world identifiers survived the display-name rename",
