@@ -588,6 +588,40 @@
       </a>
 
     </div>
+    <div class="project-detail" id="project-detail" hidden>
+      <div class="project-detail-inner">
+        <button type="button" class="project-detail-back" id="project-detail-back">
+          <span aria-hidden="true">←</span> Back to Projects
+        </button>
+        <div class="project-detail-head">
+          <span class="tagpill project-detail-pill" id="project-detail-pill">Project</span>
+          <h3 id="project-detail-title">Project</h3>
+          <p class="project-detail-about" id="project-detail-about"></p>
+          <div class="tech-row" id="project-detail-tech"></div>
+        </div>
+        <div class="project-detail-gallery">
+          <img id="project-detail-shot" src="img/ProjectImage/gallery/attendx-a.jpg" alt="" width="1440" height="900" loading="lazy" decoding="async">
+          <div class="project-detail-thumbs" id="project-detail-thumbs"></div>
+        </div>
+        <div class="project-detail-grid">
+          <div>
+            <h4>Why it was built</h4>
+            <p id="project-detail-why"></p>
+          </div>
+          <div>
+            <h4>Key features</h4>
+            <ul id="project-detail-features"></ul>
+          </div>
+          <div class="project-detail-facts">
+            <h4>Project details</h4>
+            <dl id="project-detail-facts"></dl>
+          </div>
+        </div>
+        <div class="project-detail-actions">
+          <a class="btn btn-primary" id="project-detail-live" href="https://attendx-ashy.vercel.app/" target="_blank" rel="noopener noreferrer">View Live <span class="btn-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
 
     <div class="github-band reveal" style="transition-delay:.08s;">
       <div class="fun-blocks" aria-hidden="true"></div>
@@ -986,6 +1020,7 @@
 
   </div>
 </footer>
+<script src="js/project-detail.js"></script>
 <script src="js/main.js"></script>
 <script src="js/contact-ripples.js"></script>
 <script src="js/fun-blocks.js"></script>
