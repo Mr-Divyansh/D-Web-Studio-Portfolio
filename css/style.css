@@ -4755,18 +4755,28 @@ body {
     }
 }
 
-/* ---------- Project detail (index.html only) ----------
-   The in-page detail panel below the projects grid. Card clicks open it
-   instead of navigating straight to the live site; it reuses the card's own
-   name, copy, stack and live URL plus deeper screenshots (a/b/c captures).
-   Token-driven so both themes and the 900px collapse come for free. */
+/* ---------- Project detail page (project.html) ----------
+   Cards on index.html and work.html link to project.html?slug=..., and
+   js/project-detail.js fills the sections below from its own project data.
+   This used to be an in-page overlay under the grid; as a page section it
+   keeps the same token-driven panel, so both themes and the 900px collapse
+   come for free. The `hidden` guards keep the panel out of view until a
+   slug actually resolves. */
 .project-detail-inner {
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     background: var(--ink-2);
     box-shadow: var(--card-shadow);
-    padding: 28px;
-    margin-top: 44px;
+    padding: 32px;
+}
+
+/* `hidden` is only display:none by UA default; author display rules on the
+   same element (.btn is inline-flex, .project-missing is flex) would win
+   over it, so the states that toggle `hidden` assert it here. */
+.project-detail-inner[hidden],
+.project-missing[hidden],
+#project-detail-live[hidden] {
+    display: none;
 }
 
 .project-detail-back {
@@ -4780,6 +4790,7 @@ body {
     padding: 9px 16px;
     font-size: 13.5px;
     font-weight: 700;
+    text-decoration: none;
     cursor: pointer;
     margin-bottom: 22px;
 }
@@ -4799,8 +4810,9 @@ body {
     margin-bottom: 12px;
 }
 
-.project-detail-head h3 {
-    font-size: 26px;
+.project-detail-head h2 {
+    font-size: clamp(24px, 3vw, 30px);
+    line-height: 1.2;
     margin-bottom: 10px;
 }
 
@@ -4867,7 +4879,7 @@ body {
     margin-top: 24px;
 }
 
-.project-detail-grid h4 {
+.project-detail-grid h3 {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -4926,6 +4938,35 @@ body {
     margin-top: 26px;
 }
 
+/* Unknown/missing slug state (and the no-JS notice): a dashed panel that
+   still gives the visitor a way back to the grid. */
+.project-missing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-md);
+    background: var(--wash-1);
+    padding: 36px 28px;
+    text-align: center;
+}
+
+.project-missing h2 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.project-missing p {
+    color: var(--muted);
+    max-width: 52ch;
+    margin: 0;
+}
+
+.project-missing .btn {
+    margin-top: 6px;
+}
+
 @media (max-width: 900px) {
     .project-detail-grid {
         grid-template-columns: 1fr;
@@ -4933,5 +4974,9 @@ body {
 
     .project-detail-inner {
         padding: 20px;
+    }
+
+    .project-missing {
+        padding: 26px 18px;
     }
 }

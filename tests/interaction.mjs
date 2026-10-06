@@ -54,6 +54,9 @@ const RUNS = [
   { page: "index.html", width: 1440, height: 900, tag: "index-seeded-dark", seed: "dark" },
   { page: "contact.html", width: 1440, height: 900, tag: "contact-desktop", seed: null },
   { page: "work.html", width: 1440, height: 900, tag: "work-desktop", seed: null },
+  // The shareable case-study page: js/project-detail.js renders it from
+  // location.search, so the run needs a real ?slug= to render against.
+  { page: "project.html", width: 1440, height: 900, tag: "project-desktop", seed: null, query: "slug=attendx" },
   { page: "services.html", width: 1440, height: 900, tag: "services-desktop", seed: null },
   { page: "about.html", width: 1440, height: 900, tag: "about-desktop", seed: null },
   { page: "experience.html", width: 1440, height: 900, tag: "experience-desktop", seed: null },
@@ -176,7 +179,10 @@ function harnessScript() {
       currents.map(function (a) { return a.getAttribute("href") + "." + a.className; }).join(" | "));
 
     var here = location.pathname.split("/").pop();
-    ok("nav/current-points-at-this-page", currents.every(function (a) { return a.getAttribute("href") === here; }),
+    // project.html is a Work sub-page: no nav link names it, so the current
+    // marker correctly stays on work.html while you are inside the case study.
+    var currentTarget = here === "project.html" ? "work.html" : here;
+    ok("nav/current-points-at-this-page", currents.every(function (a) { return a.getAttribute("href") === currentTarget; }),
       "current href=" + currents.map(function (a) { return a.getAttribute("href"); }).join(",") + " page=" + here);
 
     var opt = document.querySelector(".theme-option");
@@ -319,6 +325,41 @@ function harnessScript() {
     }
   }
 
+  // ---- project.html?slug= rendering -------------------------------------
+  // There is no server side to this page: js/project-detail.js reads the slug
+  // from location.search and fills the panel. The run uses slug=attendx,
+  // which has three gallery shots, four stack chips and a live URL.
+  function projectTests() {
+    if (window.__LIVE_PAGE__ !== "project.html") return;
+
+    var h1 = document.getElementById("project-h1");
+    ok("project/h1-shows-the-project-name", !!h1 && h1.textContent.indexOf("AttendX") !== -1,
+      h1 ? h1.textContent.trim() : "missing #project-h1");
+    ok("project/document-title-updated", document.title.indexOf("AttendX") !== -1, document.title);
+
+    var panel = document.getElementById("project-detail");
+    ok("project/panel-revealed", !!panel && panel.hidden === false,
+      panel ? "hidden=" + panel.hidden : "missing #project-detail");
+    var missing = document.getElementById("project-missing");
+    ok("project/missing-state-stays-hidden", !!missing && missing.hidden === true,
+      missing ? "hidden=" + missing.hidden : "missing #project-missing");
+
+    var shot = document.getElementById("project-detail-shot");
+    ok("project/gallery-shot-set", !!shot && /attendx-a\.jpg$/.test(shot.getAttribute("src") || ""),
+      shot ? shot.getAttribute("src") : "missing #project-detail-shot");
+    ok("project/thumbnails-rendered", qa("#project-detail-thumbs button").length === 3,
+      qa("#project-detail-thumbs button").length + " thumbnails");
+    ok("project/tech-chips-rendered", qa("#project-detail-tech .tech-tag").length === 4,
+      qa("#project-detail-tech .tech-tag").length + " chips");
+    ok("project/facts-rendered", qa("#project-detail-facts dd").length === 3,
+      qa("#project-detail-facts dd").length + " fact values");
+
+    var live = document.getElementById("project-detail-live");
+    ok("project/live-link-points-at-the-real-site",
+      !!live && live.hidden === false && live.getAttribute("href") === "https://attendx-ashy.vercel.app/",
+      live ? "hidden=" + live.hidden + " href=" + live.getAttribute("href") : "missing #project-detail-live");
+  }
+
   // Every handler on the page is attached from a DOMContentLoaded listener
   // (js/theme.js) or a deferred script (js/main.js), so driving the UI before
   // that point would be testing an inert page. DOMContentLoaded rather than
@@ -335,6 +376,7 @@ function harnessScript() {
     try { await mobileTests(); } catch (e) { ok("drawer/suite", false, "threw: " + e.message); }
     try { await formTests(); } catch (e) { ok("form/suite", false, "threw: " + e.message); }
     try { await faqTests(); } catch (e) { ok("accordion/suite", false, "threw: " + e.message); }
+    try { projectTests(); } catch (e) { ok("project/suite", false, "threw: " + e.message); }
     await wait(200);
     ok("runtime/no-js-errors", jsErrors.length === 0, jsErrors.join(" / ").slice(0, 200));
     var pre = document.createElement("pre");
@@ -427,7 +469,8 @@ for (const run of RUNS) {
   if (injected === source) { console.log("SKIP " + run.tag + " (no <head>/</body> match)"); continue; }
 
   armGate();
-  const dom = await runChrome(`http://127.0.0.1:${port}/${run.page}`, run.width, run.height);
+  const target = `http://127.0.0.1:${port}/${run.page}` + (run.query ? `?${run.query}` : "");
+  const dom = await runChrome(target, run.width, run.height);
   openGate();
   const match = dom.match(/<pre id="LIVE-RESULTS">([\s\S]*?)<\/pre>/);
   if (!match) { fail++; failures.push(`${run.tag}: harness produced no results (${dom.length} bytes dumped)`); continue; }

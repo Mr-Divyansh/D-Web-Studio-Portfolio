@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme-preference="system">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com;">
+  <title>Project Case Study — Screenshots, Stack &amp; Story | D Web Studio</title>
+  <meta name="description" content="Case studies for D Web Studio projects — screenshots, tech stack, features and live links for every build. Shared as a project.html?slug= link.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0c1018">
+  <meta name="color-scheme" content="dark light">
+  <script src="js/theme.js"></script>
+  <link rel="canonical" href="https://dwebstudio.com/project.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="D Web Studio">
+  <meta property="og:title" content="Project Case Study — Screenshots, Stack &amp; Story | D Web Studio">
+  <meta property="og:description" content="Screenshots, tech stack, features and live links for every D Web Studio build.">
+  <meta property="og:url" content="https://dwebstudio.com/project.html">
+  <meta property="og:image" content="https://dwebstudio.com/img/logo.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="D Web Studio — Full Stack Developer">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Project Case Study | D Web Studio">
+  <meta name="twitter:description" content="Screenshots, tech stack, features and live links for every D Web Studio build.">
+  <meta name="twitter:image" content="https://dwebstudio.com/img/logo.jpg">
+  <meta name="twitter:image:alt" content="D Web Studio — Full Stack Developer">
+  <link rel="icon" href="img/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script defer src="https://unpkg.com/lucide@0.544.0/dist/umd/lucide.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Project Case Studies — D Web Studio",
+    "url": "https://dwebstudio.com/project.html",
+    "description": "Case studies for D Web Studio builds: screenshots, tech stack, features and live links."
+  }
+  </script>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav class="site-nav" id="siteNav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="img/logo.jpg" alt="D Web Studio logo">D Web<span class="studio">Studio</span></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="experience.html" class="nav-link">Experience</a>
+      <a href="work.html" class="nav-link active" aria-current="page">Work</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </div>
+    <a href="contact.html" class="nav-cta">Let's Talk <span class="btn-arrow" aria-hidden="true">→</span></a>
+    <div class="theme-switcher" role="group" aria-label="Theme">
+      <button type="button" class="theme-option" data-theme-choice="light" aria-pressed="false">Light</button>
+      <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+</header>
+
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+<nav class="mobile-drawer" id="mobileDrawer" aria-hidden="true" aria-label="Mobile navigation">
+  <div class="mobile-drawer-head">
+    <span class="mobile-drawer-title">Menu</span>
+    <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu"></button>
+  </div>
+  <ul class="mobile-nav-list">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li><a href="about.html" class="nav-link">About</a></li>
+    <li><a href="services.html" class="nav-link">Services</a></li>
+    <li><a href="experience.html" class="nav-link">Experience</a></li>
+    <li><a href="work.html" class="nav-link active" aria-current="page">Work</a></li>
+    <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+  <div class="mobile-theme">
+    <span class="mobile-theme-label" id="mobileThemeLabel">Appearance</span>
+    <div class="theme-switcher" role="group" aria-labelledby="mobileThemeLabel">
+      <button type="button" class="theme-option" data-theme-choice="light" aria-pressed="false">Light</button>
+      <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="false">Dark</button>
+      <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
+    </div>
+  </div>
+  <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
+</nav>
+
+<main id="main-content" tabindex="-1">
+<div class="page-hero">
+  <div class="container">
+    <span class="eyebrow reveal">Project Case Study</span>
+    <h1 class="reveal" id="project-h1" style="transition-delay:.08s;">
+      Project <span class="text-grad">Details.</span>
+    </h1>
+    <p class="section-sub reveal" style="transition-delay:.16s;">
+      Screenshots, tech stack, features and the story behind the build —
+      every project on the work grid opens on its own shareable page.
+    </p>
+  </div>
+</div>
+
+<section id="project-detail-section" aria-label="Project detail">
+  <div class="container">
+    <div class="project-detail-inner" id="project-detail" hidden>
+      <a class="project-detail-back" id="project-detail-back" href="work.html">
+        <span aria-hidden="true">←</span> Back to Work
+      </a>
+      <div class="project-detail-head">
+        <span class="tagpill project-detail-pill" id="project-detail-pill">Project</span>
+        <h2 id="project-detail-title">Project</h2>
+        <p class="project-detail-about" id="project-detail-about"></p>
+        <div class="tech-row" id="project-detail-tech"></div>
+      </div>
+      <div class="project-detail-gallery">
+        <img id="project-detail-shot" src="img/ProjectImage/gallery/attendx-a.jpg" alt="Project screenshot" width="1440" height="900" loading="lazy" decoding="async">
+        <div class="project-detail-thumbs" id="project-detail-thumbs"></div>
+      </div>
+      <div class="project-detail-grid">
+        <div>
+          <h3>Why it was built</h3>
+          <p id="project-detail-why"></p>
+        </div>
+        <div>
+          <h3>Key features</h3>
+          <ul id="project-detail-features"></ul>
+        </div>
+        <div class="project-detail-facts">
+          <h3>Project details</h3>
+          <dl id="project-detail-facts"></dl>
+        </div>
+      </div>
+      <div class="project-detail-actions">
+        <a class="btn btn-primary" id="project-detail-live" hidden target="_blank" rel="noopener noreferrer">View Live <span class="btn-arrow" aria-hidden="true">→</span></a>
+        <a href="contact.html" class="btn btn-secondary">Start a project like this <span class="btn-arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <div class="project-missing" id="project-missing" hidden>
+      <span class="tagpill">Not found</span>
+      <h2>That project doesn't exist (yet).</h2>
+      <p>
+        The link may be mistyped or the project may have moved.
+        The full grid on the Work page has every build.
+      </p>
+      <a href="work.html" class="btn btn-primary">Back to Work <span class="btn-arrow" aria-hidden="true">→</span></a>
+    </div>
+
+    <noscript>
+      <div class="project-missing">
+        <h2>JavaScript required</h2>
+        <p>
+          This case study is rendered in your browser. Enable JavaScript,
+          or browse the full project grid on the Work page.
+        </p>
+        <a href="work.html" class="btn btn-primary">Back to Work <span class="btn-arrow" aria-hidden="true">→</span></a>
+      </div>
+    </noscript>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-band reveal">
+      <span class="eyebrow" style="justify-content:center;">Your Project Here</span>
+      <h2>Want your project <span class="text-grad">right here next?</span></h2>
+      <p>Tell me what you want to build — you'll get a plan, timeline and quote, usually within a few hours.</p>
+      <div class="contact-btns">
+        <a href="contact.html" class="btn btn-primary">Start a Project <span class="btn-arrow" aria-hidden="true">→</span></a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">View GitHub</a>
+      </div>
+      <div class="contact-links">
+        <a href="https://www.instagram.com/d__web_studio/" target="_blank" rel="noopener noreferrer">Instagram · @d__web_studio</a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer">GitHub · Mr-Divyansh</a>
+        <span>Himachal Pradesh, India</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+</main>
+<footer>
+  <div class="container">
+    <!-- Top CTA panel -->
+    <div class="footer-cta">
+      <div class="footer-cta-copy">
+        <span class="eyebrow footer-cta-eyebrow">Have a Project in Mind?</span>
+        <h2 class="footer-cta-title">Let's build something <span class="text-grad">great together.</span></h2>
+        <p class="footer-cta-text">Whether it's a website, web app, or a creative project — I'm here to help.</p>
+      </div>
+      <a href="contact.html" class="btn btn-primary">
+        Let's Talk
+        <span class="btn-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="footer-row">
+      <div class="footer-brand-wrap">
+        <a href="index.html" class="footer-brand">
+          <img src="img/logo.jpg" alt="D Web Studio logo">
+          D Web <span class="studio">Studio</span>
+        </a>
+        <p>
+          Full Stack Developer building modern websites,
+          web applications and digital experiences.
+        </p>
+
+        <span class="footer-status">
+          <span class="footer-status-dot" aria-hidden="true"></span>
+          Available for new projects
+        </span>
+
+        <div class="footer-social">
+          <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer" title="GitHub">
+            <i data-lucide="github" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span>
+          </a>
+          <a href="https://www.instagram.com/d__web_studio/" target="_blank" rel="noopener noreferrer" title="Instagram">
+            <i data-lucide="instagram" aria-hidden="true"></i>
+            <span class="sr-only">Instagram</span>
+          </a>
+          <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+            <i data-lucide="message-circle" aria-hidden="true"></i>
+            <span class="sr-only">WhatsApp</span>
+          </a>
+          <a href="mailto:dwebstudio00@gmail.com" title="Email">
+            <i data-lucide="mail" aria-hidden="true"></i>
+            <span class="sr-only">Email</span>
+          </a>
+          <a href="https://www.youtube.com/@divyanshwebstudio" target="_blank" rel="noopener noreferrer" title="YouTube">
+            <i data-lucide="youtube" aria-hidden="true"></i>
+            <span class="sr-only">YouTube</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h3>Explore</h3>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="experience.html">Experience</a>
+        <a href="work.html">Work</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Services</h3>
+        <a href="services.html#services">Business Websites</a>
+        <a href="services.html#services">Landing Pages</a>
+        <a href="services.html#services">Web Applications</a>
+        <a href="services.html#services">Custom Projects</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <a href="https://wa.me/918091273525" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://www.instagram.com/d__web_studio/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://github.com/Mr-Divyansh" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.youtube.com/@divyanshwebstudio" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="mailto:dwebstudio00@gmail.com">Email</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> D Web Studio. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <span>Himachal Pradesh, India</span>
+        <span>•</span>
+        <span>Built with passion &amp; code.</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+<script src="js/project-detail.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

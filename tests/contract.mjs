@@ -1,7 +1,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
-const PAGES = ["index.html", "work.html", "services.html", "contact.html", "about.html", "experience.html", "404.html"];
+const PAGES = ["index.html", "work.html", "project.html", "services.html", "contact.html", "about.html", "experience.html", "404.html"];
 const read = (f) => readFileSync(f, "utf8");
 
 let pass = 0;
@@ -11,27 +11,50 @@ const check = (id, ok, detail = "") => {
   else fails.push(`${id}${detail ? ` — ${detail}` : ""}`);
 };
 
+// name -> live URL -> the slug that project.html?slug= serves it under. The
+// cards no longer link out to these URLs directly: they link to the shareable
+// detail page, and js/project-detail.js is what exposes the live URL.
 const LIVE_PROJECTS = [
-  ["AttendX",             "https://attendx-ashy.vercel.app/"],
-  ["Shadow-Weaver",       "https://shadow-weaver.vercel.app/"],
-  ["Gloom Hair &amp; Beauty", "https://gloom-hair-beauty.netlify.app/"],
-  ["Divyansh Restaurant", "https://divyansh-restaurant-studio.netlify.app/"],
-  ["VELOUR — New Collection", "https://divyanshladingpage.netlify.app/"],
-  ["PRIME FITNESS",       "https://prime-fitness-beta.vercel.app/"],
+  ["AttendX",             "https://attendx-ashy.vercel.app/",                "attendx"],
+  ["Shadow-Weaver",       "https://shadow-weaver.vercel.app/",              "shadow-weaver"],
+  ["Gloom Hair &amp; Beauty", "https://gloom-hair-beauty.netlify.app/",      "gloom"],
+  ["Divyansh Restaurant", "https://divyansh-restaurant-studio.netlify.app/", "restaurant"],
+  ["VELOUR — New Collection", "https://divyanshladingpage.netlify.app/",     "velour"],
+  ["PRIME FITNESS",       "https://prime-fitness-beta.vercel.app/",         "prime-fitness"],
   // The studio's own portfolio, deployed on Vercel. It was a non-clickable
   // <div> until it was given a real live URL like every other shipped project.
-  ["D Web Studio",          "https://divywebstudio-portfolio.vercel.app/"],
+  ["D Web Studio",        "https://divywebstudio-portfolio.vercel.app/",     "d-web-studio"],
 ];
+const detailJs = read("js/project-detail.js");
+for (const [name, url] of LIVE_PROJECTS) {
+  check(`project-detail.js: ${name} live URL lives in the detail data`,
+    detailJs.includes(url), url);
+}
 
 for (const page of ["index.html", "work.html"]) {
   const html = read(page);
-  const cardHrefs = [...html.matchAll(/<a\b[^>]*class="project-card[^"]*"[^>]*>/g)]
-    .map(tag => tag[0].match(/href="([^"]+)"/)?.[1]).filter(Boolean);
-  for (const [name, url] of LIVE_PROJECTS) {
-    check(`${page}: ${name} is a clickable card with its real URL`,
-      cardHrefs.includes(url), `found: ${cardHrefs.join(", ")}`);
+  const cardTags = [...html.matchAll(/<a\b[^>]*class="project-card[^"]*"[^>]*>/g)].map(m => m[0]);
+  const cardHrefs = cardTags.map(tag => tag.match(/href="([^"]+)"/)?.[1]).filter(Boolean);
+  const cardCount = (html.match(/class="project-card/g) ?? []).length;
+
+  // The overlay is gone: every card is a real link, and it points at the
+  // shareable detail page - never straight at the live site.
+  check(`${page}: every project card is a link`,
+    cardHrefs.length === cardCount, `${cardHrefs.length} links for ${cardCount} cards`);
+  check(`${page}: every card href is a shareable project.html?slug= URL`,
+    cardHrefs.length === cardCount && cardHrefs.every(h => /^project\.html\?slug=[a-z0-9-]+$/.test(h)),
+    cardHrefs.join(", "));
+
+  for (const [name, , slug] of LIVE_PROJECTS) {
+    check(`${page}: ${name} card links to project.html?slug=${slug}`,
+      cardHrefs.includes(`project.html?slug=${slug}`), `found: ${cardHrefs.join(", ")}`);
   }
-  check(`${page}: DGYMX is NOT a link`, !/<a[^>]*class="project-card[^>]*>\s*<div class="project-thumb"[^>]*>\s*<span class="tagpill">SaaS Concept/.test(html) || !cardHrefs.some(h => /dgymx/i.test(h)));
+  // The two projects without a public URL got detail pages too.
+  for (const slug of ["chika", "dgymx"]) {
+    check(`${page}: ${slug} card links to project.html?slug=${slug}`,
+      cardHrefs.includes(`project.html?slug=${slug}`), `found: ${cardHrefs.join(", ")}`);
+    check(`project-detail.js: ${slug} has detail data`, detailJs.includes(`"${slug}":`));
+  }
   check(`${page}: DGYMX card shows its real screenshot`, /<img[^>]*DgymxImage\.png[^>]*alt="DGYMX gym management dashboard preview"/.test(html) && /width="1359" height="732"/.test(html));
   check(`${page}: DGYMX screenshot is the only img on that card, and lazy`, (() => {
     const i = html.indexOf("DgymxImage.png");
@@ -438,7 +461,7 @@ check("contact: step numbers are decorative, the list carries the order",
   (asideEl.match(/class="step-num" aria-hidden="true"/g) || []).length === 3);
 check("contact: the aside adds no new form fields", !/<(input|select|textarea)\b/.test(asideEl));
 
-for (const page of ["index.html", "work.html", "services.html", "contact.html"]) {
+for (const page of ["index.html", "work.html", "project.html", "services.html", "contact.html"]) {
   const html = read(page);
   check(`${page}: canonical uses dwebstudio.com`, /rel="canonical" href="https:\/\/dwebstudio\.com\//.test(html));
   check(`${page}: no YOUR-DOMAIN placeholder`, !html.includes("YOUR-DOMAIN"));
@@ -451,9 +474,13 @@ const workHtml = read("work.html");
 try {
   const jsonld = JSON.parse(workHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   const itemUrls = (jsonld.mainEntity?.itemListElement ?? []).map(i => i.url).filter(Boolean);
-  const cardUrls = [...workHtml.matchAll(/<a[^>]*class="project-card[^"]*"[^>]*href="([^"]+)"/g)].map(m => m[1]);
-  check("work: JSON-LD parses and lists every card URL",
-    cardUrls.every(u => itemUrls.includes(u)), `items: ${itemUrls.length}, cards: ${cardUrls.length}`);
+  // Cards carry href before OR after the class attribute depending on the
+  // page, so extract the href out of the whole matched tag.
+  const cardUrls = [...workHtml.matchAll(/<a\b[^>]*class="project-card[^"]*"[^>]*>/g)]
+    .map(tag => tag[0].match(/href="([^"]+)"/)?.[1]).filter(Boolean);
+  check("work: JSON-LD parses and lists a shareable detail URL for every card",
+    cardUrls.length > 0 && cardUrls.every(h => itemUrls.includes("https://dwebstudio.com/" + h)),
+    `items: ${itemUrls.length}, cards: ${cardUrls.length}`);
 } catch {
   check("work: JSON-LD parses", false);
 }
@@ -461,9 +488,9 @@ try {
 check("js/from.js removed", !existsSync("js/from.js"));
 check("css/index.css removed", !existsSync("css/index.css"));
 for (const page of PAGES) check(`${page}: no from.js / css/index.css reference`, !/from\.js|css\/index\.css/.test(read(page)));
-check("no console.log in shipped JS", !/console\.log/.test(read("js/form.js") + read("js/main.js") + themeScript));
+check("no console.log in shipped JS", !/console\.log/.test(read("js/form.js") + read("js/main.js") + read("js/project-detail.js") + themeScript));
 
-for (const f of ["js/form.js", "js/main.js", "js/theme.js"]) {
+for (const f of ["js/form.js", "js/main.js", "js/theme.js", "js/project-detail.js"]) {
   try { execFileSync(process.execPath, ["--check", f], { stdio: "pipe" }); check(`${f}: parses`, true); }
   catch (e) { check(`${f}: parses`, false, String(e.stderr).slice(0, 120)); }
 }
@@ -496,7 +523,7 @@ check("img/logo.png excluded from deploys via .assetsignore",
   !PAGES.some(p => read(p).includes("logo.png")));
 
 // ---- Header: landmarks, current-page state, markup shape ----------------
-// The header is copy-pasted across all seven pages, which is exactly how the
+// The header is copy-pasted across all eight pages, which is exactly how the
 // three bugs below survived review: aria-current and the nav's accessible name
 // existed on index.html only, and the switcher block was misindented. None of it
 // is visible in a screenshot.
