@@ -2748,67 +2748,67 @@ a.contact-tile.reveal:hover {
     text-wrap: balance;
 }
 
+/* The expand control: one arrow chip, replacing the plus drawn from two
+   bars. The arrow reads "the content continues this way", rotates to point
+   down at the panel when open, and stays upright on hover - the old base rule
+   rotated the whole glyph 90 degrees on hover, a rotation that carried no
+   state. This element exists only on index.html's capability cards. */
 .feature-toggle-icon {
     position: relative;
     flex-shrink: 0;
+    display: inline-grid;
+    place-items: center;
     width: 30px;
     height: 30px;
     border: 1px solid var(--line-strong);
     border-radius: 9px;
     color: var(--muted);
     transition: background-color 0.3s ease, border-color 0.3s ease,
-                color 0.3s ease, transform 0.3s var(--ease);
+                color 0.3s ease;
 }
 
-.feature-toggle-icon::before,
-.feature-toggle-icon::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 11px;
-    height: 1.5px;
-    border-radius: 1px;
-    background: currentColor;
-    transform: translate(-50%, -50%);
-}
-
-.feature-toggle-icon::after {
-    transform: translate(-50%, -50%) rotate(90deg);
+.feature-toggle-icon::before {
+    content: "→";
+    font-size: 16px;
+    line-height: 1;
     transition: transform 0.3s var(--ease);
+}
+
+.feature-toggle-icon::after {
+    content: none;
 }
 
 .feature-toggle:hover .feature-toggle-icon,
 .feature-toggle:focus-visible .feature-toggle-icon {
-    border-color: var(--blue);
+    border-color: rgba(var(--blue-rgb), 0.5);
+    background: rgba(var(--blue-rgb), 0.1);
     color: var(--blue-light);
-    transform: rotate(90deg);
 }
 
+/* Open: filled, and the arrow turns to point down at the panel it opened.
+   Declared after the hover rule - both sit at (0,3,0) and only source order
+   separates them, so a card that is open and hovered keeps the open look. */
 .feature-toggle[aria-expanded="true"] .feature-toggle-icon {
     border-color: var(--blue);
     background: var(--blue);
     color: #ffffff;
-    transform: none;
 }
 
-.feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
-    transform: translate(-50%, -50%) rotate(0deg);
+.feature-toggle[aria-expanded="true"] .feature-toggle-icon::before {
+    transform: rotate(90deg);
 }
 
 .feature-toggle[aria-expanded="true"] .feature-title {
     color: var(--blue-light);
 }
 
-/* Height-animated by js/main.js. The inline height only exists while the
-   transition is running, so the CSS has to describe both ends: 0 / invisible
-   when closed, auto / visible once .open is set.
-
-   The 16px gap, the divider and the 30px of padding all live inside the
-   panel's <p>, never on the panel itself. `overflow: hidden` + `height: 0`
-   then clips every bit of it away. A padding or border on .feature-panel
-   would instead be floored at its own size by box-sizing and survive as a
-   stray line on the closed cards. */
+/* Height-animated by js/main.js. The panel is a sibling grid row - moved
+   directly below the row of the card that opened it - never a child of the
+   card, so the open state lives on the panel itself rather than under
+   `.feature-item.open`. The CSS has to describe both ends of the animation:
+   0 / invisible when closed, auto / visible once `.open` is set. The inline
+   height only exists while the transition is running, and `overflow: hidden`
+   clips the height animation to the panel's rounded box. */
 .feature-panel {
     height: 0;
     opacity: 0;
@@ -2816,30 +2816,11 @@ a.contact-tile.reveal:hover {
     transition: height 0.42s var(--ease), opacity 0.3s ease;
 }
 
-.feature-item.open .feature-panel {
+.feature-panel.open {
     height: auto;
     opacity: 1;
 }
 
-.feature-panel p {
-    position: relative;
-    margin: 0;
-    padding-top: 30px;
-}
-
-/* Divider sits 16px below the toggle, with 14px of air on either side. Drawn as
-   a pseudo-element rather than a border-top so it scrolls away with the text. */
-.feature-panel p::before {
-    content: "";
-    position: absolute;
-    top: 16px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--line);
-}
-
-.feature-panel p,
 .feature-item > p {
     font-size: 13.8px;
     line-height: 1.72;
@@ -2983,20 +2964,24 @@ a.contact-tile.reveal:hover {
 .features-strip--modules .feature-item {
     height: 100%;
     padding: 28px 26px 30px;
+    /* The entire card is the hit target: js/main.js forwards clicks that did
+       not start on the button (padding, heading, icon chip) to it. */
+    cursor: pointer;
 }
 
-/* Icon, title and number stack down the card, with the action control opposite
-   the icon on the first row. `grid-template-areas` rather than source order,
-   so the markup stays in reading order (icon, number, title, action) for
-   anyone reading it as text. */
+/* Two rows: icon, title and the arrow control across the top, the index
+   beneath them. `grid-template-areas` rather than source order, so the markup
+   stays in reading order (icon, number, title, action) for anyone reading it
+   as text. The arrow sits at the far right of the first row - clear of the
+   icon, which the old plus chip was wedged against - and is the single expand
+   control for the whole card. */
 .features-strip--modules .feature-toggle {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas:
-        "ico  plus"
-        "ttl  ttl"
-        "num  num";
-    row-gap: 18px;
+        "ico  ttl  arr"
+        "num  num  num";
+    row-gap: 16px;
     column-gap: 14px;
     align-items: center;
     width: 100%;
@@ -3077,55 +3062,42 @@ a.contact-tile.reveal:hover {
     text-wrap: balance;
 }
 
-/* The action control: a compact rounded square with a hairline border and a
-   plus drawn from two 11px bars, which stays optically centred at this size. */
+/* The arrow chip: the base rule carries the whole design (glyph, states,
+   rotation); this block only places and sizes it in the card grid, opposite
+   the icon on the first row. */
 .features-strip--modules .feature-toggle-icon {
-    grid-area: plus;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: transparent;
-    border-color: var(--line-strong);
+    grid-area: arr;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
 }
 
-/* Hover takes colour only. The base rule rotated this control 90 degrees on
-   `.feature-toggle:hover`, so the plus was a minus the moment the pointer
-   crossed the card and snapped back on the way out - a rotation that meant
-   nothing, because it did not track any state. It now tracks the accordion
-   instead: the rotation belongs to open/close, and hover only says "this is
-   clickable". */
-.features-strip--modules .feature-toggle:hover .feature-toggle-icon,
-.features-strip--modules .feature-toggle:focus-visible .feature-toggle-icon {
-    transform: none;
-    border-color: rgba(var(--blue-rgb), 0.5);
-    background: rgba(var(--blue-rgb), 0.1);
-    color: var(--blue-light);
-}
-
-/* Open: filled, and turned 45 degrees so the plus reads as a close. Declared
-   after the hover rule because the two are both (0,4,0) and only source order
-   separates them - a card that is both open and hovered has to keep the open
-   treatment, or it reads as half-open. */
-.features-strip--modules .feature-toggle[aria-expanded="true"] .feature-toggle-icon {
-    transform: rotate(45deg);
-    border-color: var(--blue);
-    background: var(--blue);
-    color: #ffffff;
-}
-
-/* The base open rule turns the vertical bar to 0deg to draw a minus, which a
-   45deg rotation would then carry round to a backslash. Putting it back at
-   90deg leaves the glyph a plus, and the rotation alone carries the meaning. */
-.features-strip--modules .feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
-    transform: translate(-50%, -50%) rotate(90deg);
-}
-
-/* Pin the description to the card's foot. As an `auto` margin on a flex child
-   it absorbs the card's free space, so a closed card's panel sits flush with
-   the bottom padding (height 0, nothing showing) and an open one opens upward
-   from the card's baseline rather than hanging off the end of a ragged edge. */
+/* The detail panel: a full-width grid row inserted directly below the row of
+   the card that opened it (js/main.js moves it). It reuses the card family's
+   surface and radius so it reads as part of the section, with a blue border
+   and a gradient notch on the top edge that JS lines up under the parent card
+   via --feature-anchor - the panel looks like the card continuing downward
+   rather than a detached block. Elevation comes from the shared
+   `.feature-panel` rule further down the file, like every other card. */
 .features-strip--modules .feature-panel {
-    margin-top: auto;
+    grid-column: 1 / -1;
+    position: relative;
+    margin-top: -8px;
+    border: 1px solid rgba(var(--blue-rgb), 0.34);
+    border-radius: var(--radius-md);
+    background: var(--ink-2);
+}
+
+.features-strip--modules .feature-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--feature-anchor, 50%);
+    transform: translateX(-50%);
+    width: 74px;
+    height: 3px;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
 }
 
 /* 3px, inside the 2-4px range the brief asks for. The base used -5px, which
@@ -3292,6 +3264,135 @@ a.contact-tile.reveal:hover {
         align-items: stretch;
         gap: 10px;
         width: 100%;
+    }
+}
+
+/* ---------- Capability detail panel content (index.html only) ----------
+
+   Two columns while there is room for both to stay readable: the description
+   and "what I can build" on the left, capabilities, stack and the CTA on the
+   right. Below 900px the panel itself is already near full width, so the
+   columns stack instead of squeezing. */
+
+.features-strip--modules .feature-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 26px 44px;
+    padding: clamp(24px, 3vw, 34px) clamp(22px, 3vw, 36px) clamp(26px, 3vw, 36px);
+}
+
+.features-strip--modules .feature-detail-desc {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: var(--paper);
+    text-wrap: pretty;
+}
+
+.features-strip--modules .feature-detail-main .feature-detail-group {
+    margin-top: 24px;
+}
+
+/* Group labels echo the card index: tracked-out mono, muted, never louder
+   than the content they introduce. */
+.features-strip--modules .feature-detail h4 {
+    margin: 0 0 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.features-strip--modules .feature-detail-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+}
+
+.features-strip--modules .feature-detail-list li {
+    position: relative;
+    padding-left: 27px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.features-strip--modules .feature-detail-list li::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--blue-light);
+    font-weight: 700;
+}
+
+.features-strip--modules .feature-detail-list--build li::before {
+    content: "→";
+}
+
+.features-strip--modules .feature-detail-list--check li::before {
+    content: "✓";
+}
+
+.features-strip--modules .feature-detail-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.features-strip--modules .feature-detail-side {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Bottom-aligned with the left column's foot when the side column is the
+   shorter of the two, so the CTA never floats mid-panel. */
+.features-strip--modules .feature-detail-cta {
+    align-self: flex-start;
+    margin-top: auto;
+    min-height: 46px;
+    padding: 0 24px;
+}
+
+@media (max-width: 900px) {
+    .features-strip--modules .feature-detail {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+        padding: 24px 22px 26px;
+    }
+
+    .features-strip--modules .feature-detail-main .feature-detail-group {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .features-strip--modules .feature-panel {
+        margin-top: -6px;
+    }
+
+    .features-strip--modules .feature-detail {
+        padding: 20px 18px 22px;
+        gap: 20px;
+    }
+
+    .features-strip--modules .feature-detail-desc {
+        font-size: 15px;
+    }
+
+    .features-strip--modules .feature-detail-list li {
+        font-size: 14px;
+    }
+
+    /* Full width so the CTA stays a comfortable tap target on a phone. */
+    .features-strip--modules .feature-detail-cta {
+        width: 100%;
+        margin-top: 0;
+        justify-content: center;
     }
 }
 
@@ -4432,7 +4533,8 @@ body {
 .journey-body,
 .value-card,
 .focus-panel,
-.feature-support {
+.feature-support,
+.feature-panel {
     box-shadow: var(--card-shadow);
 }
 

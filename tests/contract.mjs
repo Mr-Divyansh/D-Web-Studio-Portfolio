@@ -276,7 +276,7 @@ for (const [theme, ink] of [["light", lightTokens?.["--ink"]], ["dark", darkToke
 // One shared elevation rule, so the two themes cannot drift apart again.
 const SHADOWED = [".service-card", ".project-card", ".step-card", ".why-card", ".price-card",
   ".contact-tile", ".feature-item", ".story-aside", ".faq-list details", ".beyond-card",
-  ".journey-body", ".value-card", ".focus-panel"];
+  ".journey-body", ".value-card", ".focus-panel", ".feature-panel"];
 const sharedShadow = css.match(/(\.service-card,[\s\S]*?)\{\s*box-shadow:\s*var\(--card-shadow\);/);
 check("css: every card surface takes its elevation from the shared rule",
   Boolean(sharedShadow) && SHADOWED.every(s => sharedShadow[1].includes(s)),

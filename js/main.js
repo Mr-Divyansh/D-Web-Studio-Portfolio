@@ -95,6 +95,44 @@
             ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
             : false;
 
+        /* Placing the panel (index.html's capability cards only).
+
+           The panel is a sibling of the cards, never a child: placeFeaturePanel
+           moves it into .features-row as a full-width row directly below the
+           row of the card that opened it, and grid auto-placement drops the
+           remaining cards underneath. Column count is read from the resolved
+           tracks so the placement is right at every breakpoint (4-up, 2-up,
+           stacked). The anchor marks where the parent card sits above the
+           panel, for the gradient notch on the panel's top edge. */
+        var featureColumnCount = function (row) {
+            var tracks = window.getComputedStyle(row).gridTemplateColumns;
+            if (!tracks || tracks === "none") return 1;
+            var count = tracks.split(" ").filter(Boolean).length;
+            return count > 0 ? count : 1;
+        };
+
+        var placeFeaturePanel = function (item, panel) {
+            var row = item.parentNode;
+            var cards = Array.prototype.filter.call(row.children, function (el) {
+                return el.classList && el.classList.contains("feature-item");
+            });
+            var index = cards.indexOf(item);
+            if (index < 0) return;
+
+            var cols = featureColumnCount(row);
+            var lastInRow = Math.min(cards.length - 1, Math.floor(index / cols) * cols + cols - 1);
+            var after = cards[lastInRow];
+            if (panel.previousElementSibling !== after) {
+                row.insertBefore(panel, after.nextSibling);
+            }
+
+            var cardBox = item.getBoundingClientRect();
+            var panelBox = panel.getBoundingClientRect();
+            var anchor = cardBox.left + cardBox.width / 2 - panelBox.left;
+            anchor = Math.max(40, Math.min(panelBox.width - 40, anchor));
+            panel.style.setProperty("--feature-anchor", Math.round(anchor) + "px");
+        };
+
         /* Height animation for the capability panels.
 
            `panel.hidden` is what keeps a closed panel out of the tab order, but
@@ -105,14 +143,15 @@
              close  measure -> pin to that px -> flush reflow -> 0px -> hidden
              open   0px -> flush reflow -> measured px, then release to auto
 
-           The two `void panel.offsetHeight` reads are not dead code. Reading a
+           The `void panel.offsetHeight` reads are not dead code. Reading a
            layout property is what forces the browser to register the starting
            height before the ending one is assigned; without it both assignments
            collapse into a single style recalc and there is nothing to animate
-           between. On open the inline height is released at the end so the
-           panel falls back to `height: auto` - the titles wrap to two lines at
-           some viewport widths, and a hard-coded pixel height would clip the
-           text the moment the window narrowed. */
+           between. The open target is measured with the panel at `height: auto`
+           so the border is part of it and releasing the inline height at the
+           end cannot pop; on release the panel falls back to `height: auto` -
+           the copy re-wraps at some viewport widths, and a hard-coded pixel
+           height would clip it the moment the window narrowed. */
         var setFeatureExpanded = function (item, expanded) {
             var toggle = item.querySelector(".feature-toggle");
             var panel = toggle ? document.getElementById(toggle.getAttribute("aria-controls")) : null;
@@ -121,9 +160,19 @@
 
             toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
 
+            // Move the panel into the grid before measuring it: its width, and
+            // therefore its text wrap, only exist once it sits unhidden in the
+            // row (a [hidden] panel reports a zero rect, which would park the
+            // anchor notch at the panel's left edge).
+            if (expanded) {
+                panel.hidden = false;
+                placeFeaturePanel(item, panel);
+            }
+
             if (reduceMotion) {
                 panel.hidden = !expanded;
                 panel.style.height = "";
+                panel.classList.toggle("open", expanded);
                 item.classList.toggle("open", expanded);
                 return;
             }
@@ -158,13 +207,17 @@
 
             if (expanded) {
                 panel.hidden = false;
+                panel.style.height = "auto";
+                var target = panel.offsetHeight;
                 panel.style.height = "0px";
                 void panel.offsetHeight;
                 item.classList.add("open");
-                panel.style.height = panel.scrollHeight + "px";
+                panel.classList.add("open");
+                panel.style.height = target + "px";
             } else {
                 item.classList.remove("open");
-                panel.style.height = panel.scrollHeight + "px";
+                panel.classList.remove("open");
+                panel.style.height = panel.offsetHeight + "px";
                 void panel.offsetHeight;
                 panel.style.height = "0px";
             }
@@ -176,6 +229,15 @@
         featureItems.forEach(function (item) {
             var toggle = item.querySelector(".feature-toggle");
             if (!toggle) return;
+
+            // The whole card is the click target: a click that did not start
+            // on the button (card padding, heading, icon chip) is forwarded to
+            // it. The guard keeps the event from looping back through this
+            // listener, so the button's own click never fires twice.
+            item.addEventListener("click", function (event) {
+                if (event.target.closest && event.target.closest(".feature-toggle")) return;
+                toggle.click();
+            });
 
             toggle.addEventListener("click", function () {
                 var shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
@@ -199,6 +261,9 @@
                     nextIndex = 0;
                 } else if (event.key === "End") {
                     nextIndex = featureToggles.length - 1;
+                } else if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+                    setFeatureExpanded(item, false);
+                    return;
                 }
 
                 if (nextIndex !== null) {
@@ -206,6 +271,24 @@
                     featureToggles[nextIndex].focus();
                 }
             });
+        });
+
+        // The row an open panel sits in changes with the column count, so a
+        // resize has to re-place it and re-aim the notch under its card.
+        var repositionFeaturePanel = function () {
+            for (var i = 0; i < featureItems.length; i++) {
+                var openToggle = featureItems[i].querySelector(".feature-toggle");
+                if (openToggle && openToggle.getAttribute("aria-expanded") === "true") {
+                    var openPanel = document.getElementById(openToggle.getAttribute("aria-controls"));
+                    if (openPanel) placeFeaturePanel(featureItems[i], openPanel);
+                    break;
+                }
+            }
+        };
+        var repositionTimer = null;
+        window.addEventListener("resize", function () {
+            clearTimeout(repositionTimer);
+            repositionTimer = setTimeout(repositionFeaturePanel, 150);
         });
     }
 

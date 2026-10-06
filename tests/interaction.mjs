@@ -325,6 +325,79 @@ function harnessScript() {
     }
   }
 
+  // ---- Core Capabilities expand-in-place accordion ----------------------
+  // The detail panel is a sibling of the cards, not a child: js/main.js moves
+  // it into the grid directly below the row of the card that opened it, one
+  // panel at a time, and the whole card (not just its button) is the target.
+  async function featureTests() {
+    var toggles = qa(".feature-toggle");
+    if (!toggles.length) return;
+
+    // Scroll the section into view first: the cards carry .reveal, and their
+    // entrance transform would offset any geometry measured against them.
+    var row = document.querySelector(".features-strip--modules .features-row");
+    if (row) {
+      row.scrollIntoView({ block: "center", behavior: "instant" });
+      await wait(450);
+    }
+
+    var panels = toggles.map(function (t) {
+      return document.getElementById(t.getAttribute("aria-controls"));
+    });
+    ok("features/all-panels-present", panels.every(function (p) { return !!p; }),
+      panels.filter(Boolean).length + "/" + toggles.length + " panels");
+    ok("features/start-collapsed",
+      toggles.every(function (t) { return t.getAttribute("aria-expanded") === "false"; }) &&
+      panels.every(function (p) { return p.hidden; }),
+      "all closed on load");
+
+    // Open card 1: the panel lands below it as a full row.
+    toggles[0].click();
+    await wait(750);
+    var t1 = toggles[0].getBoundingClientRect();
+    var p1 = panels[0].getBoundingClientRect();
+    ok("features/click-opens", toggles[0].getAttribute("aria-expanded") === "true" && !panels[0].hidden,
+      "expanded=" + toggles[0].getAttribute("aria-expanded") + " hidden=" + panels[0].hidden);
+    ok("features/panel-expands-below-card", p1.top >= t1.bottom - 10,
+      "panel.top=" + Math.round(p1.top) + " card.bottom=" + Math.round(t1.bottom));
+    ok("features/panel-lives-in-the-row", panels[0].parentElement === row && p1.width > 300,
+      "inRow=" + (panels[0].parentElement === row) + " w=" + Math.round(p1.width));
+
+    // Switching cards closes the previous panel - never two open at once.
+    toggles[2].click();
+    await wait(750);
+    ok("features/switch-closes-previous", toggles[0].getAttribute("aria-expanded") === "false" && panels[0].hidden,
+      "first hidden=" + panels[0].hidden);
+    ok("features/switch-opens-new", toggles[2].getAttribute("aria-expanded") === "true" && !panels[2].hidden,
+      "third hidden=" + panels[2].hidden);
+    ok("features/never-multiple-open", qa('.feature-toggle[aria-expanded="true"]').length === 1,
+      qa('.feature-toggle[aria-expanded="true"]').length + " expanded");
+    var t3 = toggles[2].getBoundingClientRect();
+    var p3 = panels[2].getBoundingClientRect();
+    ok("features/switched-panel-below-its-card", p3.top >= t3.bottom - 10,
+      "panel.top=" + Math.round(p3.top) + " card.bottom=" + Math.round(t3.bottom));
+
+    // Clicking the open card again collapses it - via the card body rather
+    // than the button, which also proves the whole card is the hit target.
+    toggles[2].closest(".feature-item").click();
+    await wait(750);
+    ok("features/same-card-click-collapses",
+      toggles[2].getAttribute("aria-expanded") === "false" && panels[2].hidden,
+      "expanded=" + toggles[2].getAttribute("aria-expanded") + " hidden=" + panels[2].hidden);
+
+    // A click on a closed card's body opens it too.
+    toggles[1].closest(".feature-item").click();
+    await wait(750);
+    ok("features/card-body-click-opens", toggles[1].getAttribute("aria-expanded") === "true" && !panels[1].hidden,
+      "expanded=" + toggles[1].getAttribute("aria-expanded"));
+    toggles[1].click();
+    await wait(750);
+
+    ok("features/no-horizontal-overflow",
+      document.documentElement.scrollWidth <= window.innerWidth + 1,
+      "scrollWidth=" + document.documentElement.scrollWidth + " inner=" + window.innerWidth);
+  }
+
   // ---- project.html?slug= rendering -------------------------------------
   // There is no server side to this page: js/project-detail.js reads the slug
   // from location.search and fills the panel. The run uses slug=attendx,
@@ -376,6 +449,7 @@ function harnessScript() {
     try { await mobileTests(); } catch (e) { ok("drawer/suite", false, "threw: " + e.message); }
     try { await formTests(); } catch (e) { ok("form/suite", false, "threw: " + e.message); }
     try { await faqTests(); } catch (e) { ok("accordion/suite", false, "threw: " + e.message); }
+    try { await featureTests(); } catch (e) { ok("features/suite", false, "threw: " + e.message); }
     try { projectTests(); } catch (e) { ok("project/suite", false, "threw: " + e.message); }
     await wait(200);
     ok("runtime/no-js-errors", jsErrors.length === 0, jsErrors.join(" / ").slice(0, 200));

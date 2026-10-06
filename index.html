@@ -271,12 +271,6 @@
             <span class="feature-toggle-icon" aria-hidden="true"></span>
           </button>
         </h3>
-        <div class="feature-panel" id="feature-panel-1" role="region" aria-labelledby="feature-toggle-1" hidden>
-          <p>
-            Custom websites and web applications built around your
-            brand, goals and real business requirements.
-          </p>
-        </div>
       </div>
 
       <div class="feature-item reveal" style="transition-delay:.10s;">
@@ -288,12 +282,6 @@
             <span class="feature-toggle-icon" aria-hidden="true"></span>
           </button>
         </h3>
-        <div class="feature-panel" id="feature-panel-2" role="region" aria-labelledby="feature-toggle-2" hidden>
-          <p>
-            Clean, modern interfaces that look great and work smoothly
-            across phones, tablets and desktop devices.
-          </p>
-        </div>
       </div>
 
       <div class="feature-item reveal" style="transition-delay:.16s;">
@@ -305,12 +293,6 @@
             <span class="feature-toggle-icon" aria-hidden="true"></span>
           </button>
         </h3>
-        <div class="feature-panel" id="feature-panel-3" role="region" aria-labelledby="feature-toggle-3" hidden>
-          <p>
-            Frontend, backend, APIs, authentication and databases
-            connected together into one complete product.
-          </p>
-        </div>
       </div>
 
       <div class="feature-item reveal" style="transition-delay:.22s;">
@@ -322,14 +304,183 @@
             <span class="feature-toggle-icon" aria-hidden="true"></span>
           </button>
         </h3>
-        <div class="feature-panel" id="feature-panel-4" role="region" aria-labelledby="feature-toggle-4" hidden>
-          <p>
-            Lightweight code, responsive experiences and optimized
-            applications built with performance in mind.
-          </p>
+      </div>
+
+      <!-- Detail panels: siblings of the cards, not children of them. Each one
+           is a full-width grid row, and js/main.js moves it directly below the
+           row of the card that opened it - so the content always expands
+           underneath its own card, one panel at a time. -->
+      <div class="feature-panel" id="feature-panel-1" role="region" aria-labelledby="feature-toggle-1" hidden>
+        <div class="feature-detail">
+          <div class="feature-detail-main">
+            <p class="feature-detail-desc">
+              Custom websites and web applications built around your
+              brand, goals and real business requirements.
+            </p>
+            <div class="feature-detail-group">
+              <h4>What I can build</h4>
+              <ul class="feature-detail-list feature-detail-list--build">
+                <li>Business websites that present your services and build trust</li>
+                <li>Landing pages built to turn visitors into enquiries</li>
+                <li>Restaurant websites with menus, photos, timings and location</li>
+                <li>Gym &amp; salon websites with plans, price lists and booking enquiries</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-detail-side">
+            <div class="feature-detail-group">
+              <h4>Key capabilities</h4>
+              <ul class="feature-detail-list feature-detail-list--check">
+                <li>Mobile responsive, fast loading builds</li>
+                <li>WhatsApp, call &amp; location integration</li>
+                <li>Basic SEO for Google visibility</li>
+                <li>Custom features built around your workflow</li>
+              </ul>
+            </div>
+            <div class="feature-detail-group">
+              <h4>Technologies</h4>
+              <div class="feature-detail-tech">
+                <span class="tech-tag">HTML</span>
+                <span class="tech-tag">CSS</span>
+                <span class="tech-tag">JavaScript</span>
+              </div>
+            </div>
+            <a href="services.html" class="btn btn-secondary feature-detail-cta">
+              Explore Service
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
       </div>
 
+      <div class="feature-panel" id="feature-panel-2" role="region" aria-labelledby="feature-toggle-2" hidden>
+        <div class="feature-detail">
+          <div class="feature-detail-main">
+            <p class="feature-detail-desc">
+              Clean, modern interfaces that look great and work smoothly
+              across phones, tablets and desktop devices.
+            </p>
+            <div class="feature-detail-group">
+              <h4>What I can build</h4>
+              <ul class="feature-detail-list feature-detail-list--build">
+                <li>Mobile-first layouts for phones, tablets and desktops</li>
+                <li>Landing pages with collection grids, testimonials and a clear call to action</li>
+                <li>Booking and enquiry forms customers can use in a single tap</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-detail-side">
+            <div class="feature-detail-group">
+              <h4>Key capabilities</h4>
+              <ul class="feature-detail-list feature-detail-list--check">
+                <li>Looks and works perfectly on phones &mdash; where most of your customers are</li>
+                <li>Clean, modern design that builds instant trust</li>
+                <li>Fast loading pages on every device</li>
+              </ul>
+            </div>
+            <div class="feature-detail-group">
+              <h4>Technologies</h4>
+              <div class="feature-detail-tech">
+                <span class="tech-tag">HTML</span>
+                <span class="tech-tag">CSS</span>
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">Responsive</span>
+              </div>
+            </div>
+            <a href="services.html" class="btn btn-secondary feature-detail-cta">
+              Explore Service
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-panel" id="feature-panel-3" role="region" aria-labelledby="feature-toggle-3" hidden>
+        <div class="feature-detail">
+          <div class="feature-detail-main">
+            <p class="feature-detail-desc">
+              Frontend, backend, APIs, authentication and databases
+              connected together into one complete product.
+            </p>
+            <div class="feature-detail-group">
+              <h4>What I can build</h4>
+              <ul class="feature-detail-list feature-detail-list--build">
+                <li>Dashboards, booking, logins, databases and more</li>
+                <li>Role-based platforms like AttendX for students and teachers</li>
+                <li>Operations tools like DGYMX for members, payments and records</li>
+                <li>Salon and restaurant websites with booking forms</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-detail-side">
+            <div class="feature-detail-group">
+              <h4>Key capabilities</h4>
+              <ul class="feature-detail-list feature-detail-list--check">
+                <li>Authentication &amp; user roles</li>
+                <li>Database + API integration</li>
+                <li>Scalable, clean architecture</li>
+                <li>Custom features built around your workflow</li>
+              </ul>
+            </div>
+            <div class="feature-detail-group">
+              <h4>Technologies</h4>
+              <div class="feature-detail-tech">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Prisma</span>
+                <span class="tech-tag">Postgres</span>
+                <span class="tech-tag">FastAPI</span>
+              </div>
+            </div>
+            <a href="services.html" class="btn btn-secondary feature-detail-cta">
+              Explore Service
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-panel" id="feature-panel-4" role="region" aria-labelledby="feature-toggle-4" hidden>
+        <div class="feature-detail">
+          <div class="feature-detail-main">
+            <p class="feature-detail-desc">
+              Lightweight code, responsive experiences and optimized
+              applications built with performance in mind.
+            </p>
+            <div class="feature-detail-group">
+              <h4>What I can build</h4>
+              <ul class="feature-detail-list feature-detail-list--build">
+                <li>Fast-loading business websites with basic SEO</li>
+                <li>Lightweight landing pages optimized for mobile</li>
+                <li>Clean, readable code that is easy to maintain</li>
+              </ul>
+            </div>
+          </div>
+          <div class="feature-detail-side">
+            <div class="feature-detail-group">
+              <h4>Key capabilities</h4>
+              <ul class="feature-detail-list feature-detail-list--check">
+                <li>Mobile responsive, fast loading builds</li>
+                <li>Lazy-loaded images so pages open quickly</li>
+                <li>Basic SEO for Google visibility</li>
+              </ul>
+            </div>
+            <div class="feature-detail-group">
+              <h4>Technologies</h4>
+              <div class="feature-detail-tech">
+                <span class="tech-tag">HTML</span>
+                <span class="tech-tag">CSS</span>
+                <span class="tech-tag">JavaScript</span>
+              </div>
+            </div>
+            <a href="services.html" class="btn btn-secondary feature-detail-cta">
+              Explore Service
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="feature-support reveal" style="transition-delay:.30s;">
