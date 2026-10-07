@@ -24,6 +24,7 @@ const LIVE_PROJECTS = [
   // The studio's own portfolio, deployed on Vercel. It was a non-clickable
   // <div> until it was given a real live URL like every other shipped project.
   ["D Web Studio",        "https://divywebstudio-portfolio.vercel.app/",     "d-web-studio"],
+  ["Himachal Pradesh Tourism", "https://traveling-website-iota.vercel.app/", "himachal-tourism"],
 ];
 const detailJs = read("js/project-detail.js");
 for (const [name, url] of LIVE_PROJECTS) {
