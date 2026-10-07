@@ -1,0 +1,17 @@
+# Cline Rules — D Web Studio Portfolio
+
+## Project sources of truth (read before changing UI or copy)
+- `rules.md` — development, design, UX, and content rules. Follow it always.
+- `memory.md` — brand facts, contact details, footer/social invariants (exactly 5 socials: GitHub, Instagram, WhatsApp via `message-circle` icon, Gmail, YouTube; Lucide pinned at 0.544.0).
+- `design.md` — design system tokens (dual dark/light values in `css/style.css`); never use raw literals where a token exists.
+- `prd.md` / `architecture.md` — product scope and structure (static HTML/CSS/JS site, Cloudflare Workers static hosting).
+
+## Impeccable design skill (pbakaus/impeccable, v4.5.0)
+- Skill lives at `.agents/skills/impeccable/SKILL.md` (installed via `npx impeccable install`). Source: https://github.com/pbakaus/impeccable
+- For ANY frontend task (design, redesign, critique, audit, polish, typeset, layout, animate, clarify, adapt, optimize, harden), load the skill first:
+  1. Run `.agents/skills/impeccable/scripts/impeccable.cmd context` once per session (Windows; `scripts/impeccable context` on sh). Follow its directives; do not rerun it.
+  2. Load the matching playbook from `.agents/skills/impeccable/reference/<command>.md`.
+  3. Read `.agents/skills/impeccable/reference/craft-floor.md` immediately before any UI edit.
+- Detector config: `.impeccable/config.json`. Scan with `npx impeccable detect <target>`; exit 2 = findings to fix, exit 0 = clean.
+- Do not hand-edit `.impeccable/config.json` hook/detector sections outside the `impeccable hooks ...` commands; `detector.extensions` is the only field editable directly if ever needed.
+- `PRODUCT.md` (written by `/impeccable init`) is the durable product context; if missing and the task is new-surface work, offer to run the init interview before designing.

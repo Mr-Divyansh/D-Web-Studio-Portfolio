@@ -229,6 +229,7 @@
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
@@ -241,6 +242,7 @@ body {
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    overflow-x: clip;
     transition: background-color 0.35s ease, color 0.35s ease;
 }
 
@@ -447,6 +449,14 @@ section[id] {
     max-width: 560px;
 }
 
+/* The generic `section` rule adds 64-110px of top padding, which stacked on
+   the hero's own bottom padding left a ~130px dead band between the intro and
+   the first content block on contact, work and services. Tighten only that
+   hand-off; sections further down the page keep their normal rhythm. */
+.page-hero + section {
+    padding-top: clamp(24px, 4vw, 48px);
+}
+
 .sub-title {
     font-size: clamp(19px, 2.2vw, 24px);
     margin: 64px 0 26px;
@@ -477,17 +487,17 @@ section[id] {
 .btn-primary {
     background: var(--blue-deep);
     color: #fff;
-    box-shadow: 0 10px 26px -12px rgba(var(--blue-rgb), 0.8);
+    box-shadow: var(--card-shadow);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px -12px rgba(var(--blue-rgb), 0.9);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .btn-primary:active {
     transform: translateY(0) scale(0.97);
-    box-shadow: 0 6px 16px -10px rgba(var(--blue-rgb), 0.8);
+    box-shadow: var(--card-shadow);
 }
 
 .btn-secondary {
@@ -1297,17 +1307,14 @@ body.menu-open {
 
 .ui-dot-blue {
     background: #4C9AFF;
-    box-shadow: 0 0 8px rgba(76, 154, 255, 0.8);
 }
 
 .ui-dot-violet {
     background: #9B84FF;
-    box-shadow: 0 0 8px rgba(139, 124, 246, 0.8);
 }
 
 .ui-dot-green {
     background: var(--live);
-    box-shadow: 0 0 8px rgba(var(--live-rgb), 0.8);
 }
 
 .ui-card-code {
@@ -1375,11 +1382,11 @@ body.menu-open {
 
 #top .btn-primary {
     background: linear-gradient(120deg, #1E63DB, #1854C9 60%, #144AAE);
-    box-shadow: 0 12px 30px -12px rgba(34, 104, 230, 0.75), inset 0 0 0 1px rgba(111, 178, 255, 0.25);
+    box-shadow: var(--card-shadow);
 }
 
 #top .btn-primary:hover {
-    box-shadow: 0 18px 42px -14px rgba(34, 104, 230, 0.9), 0 0 26px -6px rgba(76, 154, 255, 0.55);
+    box-shadow: var(--card-shadow-hover);
 }
 
 #top .btn-primary .btn-arrow {
@@ -2042,7 +2049,6 @@ body.menu-open {
     flex: 0 0 auto;
     border-radius: 18%;
     background: rgba(var(--blue-rgb), 0.3);
-    box-shadow: 0 0 12px rgba(var(--blue-rgb), 0.2);
     will-change: transform;
 }
 
@@ -2056,7 +2062,6 @@ body.menu-open {
     left: 0;
     border-radius: 18%;
     background: var(--wave-cursor-fill);
-    box-shadow: 0 0 26px rgba(var(--blue-rgb), 0.75), 0 0 70px rgba(var(--blue-rgb), 0.35);
     will-change: transform;
 }
 
@@ -2318,7 +2323,6 @@ footer {
     height: 7px;
     border-radius: 50%;
     background: var(--live);
-    box-shadow: 0 0 0 3px rgba(var(--live-rgb), 0.18);
 }
 
 /* ---------- Five social buttons ----------
@@ -2359,7 +2363,7 @@ footer {
         border-color: rgba(var(--blue-rgb), 0.55);
         background: rgba(var(--blue-rgb), 0.12);
         color: var(--blue-light);
-        box-shadow: 0 10px 22px -12px rgba(var(--blue-rgb), 0.85);
+        box-shadow: var(--card-shadow-hover);
     }
 }
 
@@ -2408,7 +2412,7 @@ footer {
    state needed rescuing here; the lift is deliberately not added to it. */
 .btn-primary.reveal:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px -12px rgba(var(--blue-rgb), 0.9);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .btn-primary.reveal:active {
@@ -2625,7 +2629,7 @@ a.contact-tile.reveal:hover {
 .feature-item.open {
     transform: translateY(-4px);
     border-color: rgba(var(--blue-rgb), 0.5);
-    box-shadow: 0 20px 40px -26px rgba(var(--blue-rgb), 0.6);
+    box-shadow: var(--card-shadow-hover);
 }
 
 /* Hover lift is gated on a real pointer. Ungated, :hover fires on tap and only
@@ -2635,7 +2639,7 @@ a.contact-tile.reveal:hover {
     .feature-item:hover {
         transform: translateY(-4px);
         border-color: rgba(var(--blue-rgb), 0.5);
-        box-shadow: 0 20px 40px -24px rgba(var(--blue-rgb), 0.75);
+        box-shadow: var(--card-shadow-hover);
     }
 }
 

@@ -130,6 +130,11 @@ dist
 # TernJS port file
 .tern-port
 
+# Impeccable — per-developer local overrides (machine-specific, never commit)
+.impeccable/config.local.json
+.impeccable/live/
+.impeccable/surfaces/
+
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 

@@ -1,0 +1,1 @@
+{"detector":{"ignoreFiles":["tests/**","scripts/**","fix-features.tmp.cjs"],"ignoreRules":[],"ignoreValues":[]},"hook":{"enabled":true,"limits":{"maxChars":8000,"maxFindings":5}}}

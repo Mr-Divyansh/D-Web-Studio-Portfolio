@@ -18,3 +18,9 @@ Thumbs.db
 tests/
 scripts/
 img/logo.png
+# Agent/skill tooling — never publish to the public site
+.agents/
+.impeccable/
+.cline/
+.clinerules
+.codex/
