@@ -1048,6 +1048,40 @@ body.menu-open {
     margin-top: 30px;
 }
 
+.hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+    max-width: 520px;
+}
+
+.metric-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 76px;
+    padding: 14px 14px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--line-strong);
+    background: var(--wash-1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.metric-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.metric-card strong {
+    font-size: 1.05rem;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+}
+
 .hero-visual {
     position: relative;
 }
@@ -2494,7 +2528,17 @@ a.contact-tile.reveal:hover {
     font-weight: 600;
 }
 
+@media (max-width: 900px) {
+    .hero-metrics {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 640px) {
+    .hero-metrics {
+        grid-template-columns: 1fr;
+        margin-top: 18px;
+    }
     .cube-scene {
         --s: 148px;
         max-width: 330px;
