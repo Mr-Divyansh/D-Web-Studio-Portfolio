@@ -19,9 +19,11 @@
 .quick-aside {
     position: sticky;
     top: 104px;
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     border-radius: var(--radius-lg);
-    background: var(--ink-2);
+    background:
+        linear-gradient(145deg, rgba(var(--blue-rgb), 0.08), transparent 58%),
+        var(--ink-2);
     padding: 28px 30px;
     box-shadow: var(--card-shadow);
 }
@@ -35,13 +37,24 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0;
 }
 
 .quick-steps li {
     display: flex;
-    gap: 14px;
+    gap: 16px;
     align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.quick-steps li:first-child {
+    padding-top: 0;
+}
+
+.quick-steps li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
 }
 
 .quick-steps strong {
@@ -59,9 +72,9 @@
 
 .step-num {
     flex: 0 0 auto;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
     display: grid;
     place-items: center;
     font-size: 12.5px;

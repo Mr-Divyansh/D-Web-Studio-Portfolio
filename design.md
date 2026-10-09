@@ -55,12 +55,12 @@ The values below are what `css/style.css` actually uses as CSS custom properties
 | Token | Dark | Light | Used for |
 |---|---|---|---|
 | `--ink` | `#0B0E13` | `#F1F5FB` | Page background |
-| `--ink-2` | `#141922` | `#FFFFFF` | Raised surfaces (cards, bands, drawer, fields) |
-| `--ink-3` | `#1D242F` | `#E9EFF8` | Inset surfaces (chips, icon tiles) |
+| `--ink-2` | `#151B27` | `#FFFFFF` | Raised surfaces (cards, bands, drawer, fields) |
+| `--ink-3` | `#1D293B` | `#E8EFF9` | Inset surfaces (chips, icon tiles) |
 | `--paper` | `#F4F1EA` | `#0E1B31` | Primary text (warm off-white ↔ deep navy) |
 | `--silver` | `#C3CAD6` | `#51617B` | Metallic accents, brand gradient |
-| `--muted` | `#AEB9CA` | `#475873` | Secondary text |
-| `--muted-2` | `#8894A8` | `#5A6A85` | Tertiary / label text |
+| `--muted` | `#AFBED2` | `#455875` | Secondary text |
+| `--muted-2` | `#8798B0` | `#576A86` | Tertiary / label text |
 | `--blue` | `#2268E6` | `#2563EB` | Primary brand accent |
 | `--blue-rgb` | `34, 104, 230` | `37, 99, 235` | Blue at low alpha — washes, glows, tints |
 | `--blue-light` | `#6FB2FF` | `#1D4ED8` | Links, highlights, active states |
@@ -86,8 +86,10 @@ The brand gradient (`--grad-brand`) runs silver to blue. Text emphasis uses the 
 
 Both themes get their structure from the same three-step scale plus one shared rule, not from per-component patches:
 
-- **Dark** — a surface is a *lighter* patch: page `#0B0E13` → card `#141922` → inset `#1D242F` (1.10:1 and 1.13:1 between steps).
-- **Light** — a surface has to be lifted *off* the page: page `#F1F5FB` → card `#FFFFFF` → inset `#E9EFF8` (1.09:1 and 1.16:1). The card step is only 1.09:1, which is why `--card-shadow` is mandatory in light mode and near-optional in dark: on white, a border and a shadow are the only pair of values that can separate a card from the page.
+- **Dark** — a surface is a *lighter, blue-tinted* patch: page `#0B0E13` → card `#151B27` → inset `#1D293B` (1.12:1 and 1.18:1 between steps).
+- **Light** — a surface has to be lifted *off* the page: page `#F1F5FB` → card `#FFFFFF` → inset `#E8EFF9` (1.09:1 and 1.16:1). The card step is only 1.09:1, which is why `--card-shadow` is mandatory in light mode and near-optional in dark: on white, a border and a shadow are the only pair of values that can separate a card from the page.
+
+The refreshed palette keeps the charcoal, silver, and cobalt identity intact while tinting dark raised surfaces toward midnight blue and the light inset surface toward cool blue-white. The stronger surface ladder adds depth without turning the page background into a decorative gradient or competing with project imagery.
 
 Every raised surface on the site — `.service-card`, `.project-card`, `.step-card`, `.why-card`, `.price-card`, `.contact-tile`, `.feature-item`, `.story-aside`, `.faq-list details`, `.beyond-card`, `.journey-body`, `.value-card`, `.focus-panel`, `.feature-support` — takes its `box-shadow` from one shared rule in `css/style.css`. Adding a new card means adding its selector to that list, not writing a new shadow.
 

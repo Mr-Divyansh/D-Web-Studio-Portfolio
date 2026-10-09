@@ -153,4 +153,4 @@ Then check manually:
 
 Resolved since this list was first written: canonical / Open Graph URLs now
 use the real `https://dwebstudio.com/` domain from `memory.md`, and the
-services page quotes real starting prices (₹4,999 landing / ₹9,999 business).
+services page quotes real starting prices (₹12,000 landing / ₹80,000 business).

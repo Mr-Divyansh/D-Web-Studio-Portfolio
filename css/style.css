@@ -1,11 +1,12 @@
 :root {
     --ink: #0B0E13;
-    --ink-2: #141922;
-    --ink-3: #1D242F;
+    --ink-2: #151B27;
+    --ink-3: #1D293B;
     --paper: #F4F1EA;
     --silver: #C3CAD6;
-    --muted: #AEB9CA;
-    --muted-2: #8894A8;
+    --muted: #AFBED2;
+    --muted-2: #8798B0;
+    --nav-link-hover: #A6B5C9;
 
     --blue: #2268E6;
     --blue-rgb: 34, 104, 230;
@@ -105,11 +106,12 @@
 :root[data-theme="light"] {
     --ink: #F1F5FB;
     --ink-2: #FFFFFF;
-    --ink-3: #E9EFF8;
+    --ink-3: #E8EFF9;
     --paper: #0E1B31;
     --silver: #51617B;
-    --muted: #475873;
-    --muted-2: #5A6A85;
+    --muted: #455875;
+    --muted-2: #576A86;
+    --nav-link-hover: #394A64;
 
     --blue: #2563EB;
     /* Redeclared, not inherited: the light --blue is a slightly different blue
@@ -662,7 +664,7 @@ section[id] {
    tap until you touch somewhere else and the link reads as stuck. */
 @media (hover: hover) and (pointer: fine) {
     .nav-link:hover {
-        color: var(--paper);
+        color: var(--nav-link-hover);
     }
 
     /* Hover is a hint, not a state: the rule shows at 45% and sits slightly
@@ -4246,8 +4248,8 @@ body {
       page is #F1F5FB and a card is #FFFFFF - 1.09:1. A 0.13-alpha border is
       the only thing that was separating them, and a hairline is not enough to
       make a grid of cards read as cards. The dark theme has the mirror-image
-      problem in the other direction: page #0B0E13 against card #141922 is
-      1.10:1, and near-black-on-near-black has no gradient left to help.
+      problem in the other direction: page #0B0E13 against card #151B27 is
+      1.12:1, and near-black-on-near-black has no gradient left to help.
 
    2. Declaring it once means the two themes cannot drift apart. Every one of
       these selectors was previously carrying its own `box-shadow`, or none.
@@ -4972,4 +4974,407 @@ a.contact-tile:hover .tile-icon svg {
         padding: 28px 0;
         margin-bottom: 38px;
     }
+}
+
+/* Editorial refinements for the project, service and contact surfaces. */
+.project-card {
+    border-color: var(--line);
+    border-radius: 14px;
+    box-shadow: var(--card-shadow);
+}
+
+.project-thumb {
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+}
+
+.project-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover .project-thumb img {
+        transform: scale(1.025);
+    }
+}
+
+.why-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.why-card {
+    padding: 26px 22px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.why-card + .why-card {
+    border-left: 1px solid var(--line);
+}
+
+.steps-grid {
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.step-card {
+    padding: 25px 22px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.step-card + .step-card {
+    border-left: 1px solid var(--line);
+}
+
+.pricing-grid {
+    align-items: stretch;
+}
+
+.price-card {
+    border-color: var(--line);
+    border-radius: 14px;
+    transition: transform 0.3s var(--ease), border-color 0.3s ease,
+                box-shadow 0.3s var(--ease), background-color 0.3s ease;
+}
+
+.price-card.featured {
+    border-color: rgba(var(--blue-rgb), 0.4);
+    background:
+        linear-gradient(145deg, rgba(var(--blue-rgb), 0.09), transparent 58%),
+        var(--ink-2);
+    box-shadow: var(--card-shadow);
+}
+
+.price-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(var(--blue-rgb), 0.42);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.price-card.featured:hover {
+    border-color: rgba(var(--blue-rgb), 0.58);
+}
+
+.github-band {
+    border-color: var(--line);
+    border-radius: 16px;
+    background:
+        linear-gradient(120deg, rgba(var(--blue-rgb), 0.07), transparent 56%),
+        var(--ink-2);
+}
+
+.contact-band {
+    background:
+        linear-gradient(135deg, rgba(var(--blue-rgb), 0.09), transparent 62%),
+        var(--ink-2);
+}
+
+.contact-links {
+    column-gap: 22px;
+    row-gap: 8px;
+}
+
+.contact-links a {
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
+    color: var(--blue-light);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.contact-links a:hover {
+    border-bottom-color: currentColor;
+    color: var(--paper);
+}
+
+.about--profile .about-facts {
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+}
+
+.about--profile .about-fact-ico,
+.about--profile .about-service-ico {
+    border-radius: 9px;
+}
+
+.project-detail-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+        "back back"
+        "head gallery"
+        "details details"
+        "actions actions";
+    gap: 0 40px;
+    padding: clamp(24px, 4vw, 42px);
+    border-color: var(--line-strong);
+    border-radius: var(--radius-lg);
+    background:
+        linear-gradient(135deg, rgba(var(--blue-rgb), 0.07), transparent 48%),
+        var(--ink-2);
+}
+
+.project-detail-back {
+    grid-area: back;
+    width: fit-content;
+    margin-bottom: 30px;
+}
+
+.project-detail-head {
+    grid-area: head;
+    align-self: center;
+    padding-top: 0;
+}
+
+.project-detail-head h2 {
+    font-size: clamp(30px, 4vw, 46px);
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+}
+
+.project-detail-about {
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+.project-detail-gallery {
+    grid-area: gallery;
+    min-width: 0;
+    margin-top: 0;
+}
+
+.project-detail-gallery > img {
+    border-radius: 14px;
+    box-shadow: 0 16px 38px -28px rgba(0, 0, 0, 0.7);
+}
+
+.project-detail-thumbs {
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.project-detail-thumbs button {
+    border-radius: 9px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.project-detail-thumbs button:hover {
+    transform: translateY(-2px);
+}
+
+.project-detail-grid {
+    grid-area: details;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: 24px;
+    margin-top: 34px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+}
+
+.project-detail-grid h3 {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+}
+
+.project-detail-grid p,
+.project-detail-grid li,
+.project-detail-grid dd {
+    line-height: 1.7;
+}
+
+.project-detail-actions {
+    grid-area: actions;
+    margin-top: 26px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+}
+
+.mobile-drawer {
+    width: min(86vw, 370px);
+    background: color-mix(in srgb, var(--ink-2) 90%, transparent);
+    -webkit-backdrop-filter: blur(22px) saturate(135%);
+    backdrop-filter: blur(22px) saturate(135%);
+    box-shadow: -24px 0 64px rgba(0, 0, 0, 0.28);
+}
+
+.mobile-drawer:not(.open) {
+    pointer-events: none;
+}
+
+.mobile-drawer-close {
+    border-radius: 12px;
+    background: var(--wash-1);
+}
+
+.mobile-drawer-close:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 3px;
+}
+
+body.menu-open .hamburger.active {
+    visibility: hidden;
+}
+
+@media (max-width: 900px) {
+    .why-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .why-card:nth-child(3) {
+        border-left: 0;
+    }
+
+    .why-card:nth-child(n + 3) {
+        border-top: 1px solid var(--line);
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .step-card:nth-child(3) {
+        border-left: 0;
+    }
+
+    .step-card:nth-child(n + 3) {
+        border-top: 1px solid var(--line);
+    }
+
+    .project-detail-inner {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "back"
+            "head"
+            "gallery"
+            "details"
+            "actions";
+        gap: 24px;
+        padding: 26px;
+    }
+
+    .project-detail-head {
+        align-self: start;
+    }
+
+    .project-detail-back {
+        margin-bottom: 0;
+    }
+
+    .project-detail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0;
+        padding-top: 24px;
+    }
+
+    .project-detail-facts {
+        grid-column: 1 / -1;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+    }
+
+    .project-detail-actions {
+        margin-top: 0;
+    }
+
+    .mobile-drawer {
+        transition: transform 0.5s var(--ease), visibility 0s 0.5s;
+    }
+
+    .mobile-drawer.open {
+        transition: transform 0.5s var(--ease), visibility 0s 0s;
+    }
+
+    .mobile-drawer:not(.open) {
+        display: flex;
+    }
+}
+
+@media (max-width: 640px) {
+    .why-grid,
+    .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .why-card + .why-card,
+    .step-card + .step-card {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .why-card,
+    .step-card {
+        padding: 22px 8px;
+    }
+
+    .project-detail-inner {
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .project-detail-head h2 {
+        font-size: clamp(28px, 8vw, 38px);
+    }
+
+    .project-detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+    }
+
+    .project-detail-facts {
+        grid-column: 1;
+    }
+
+    .project-detail-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .project-detail-thumbs {
+        gap: 8px;
+    }
+
+    .mobile-drawer {
+        width: min(88vw, 370px);
+        padding: 24px 22px;
+    }
+
+    .mobile-drawer-title {
+        font-size: 15px;
+        letter-spacing: 0.06em;
+    }
+
+    .mobile-drawer-head {
+        margin-bottom: 22px;
+    }
+
+    .mobile-nav-list .nav-link {
+        font-size: 17px;
+        padding: 12px 0;
+    }
+
+    .contact-links {
+        gap: 4px 14px;
+    }
+}
+
+.nav-link::after {
+    display: none;
+}
+
+.nav-link:active {
+    color: var(--blue-light);
 }

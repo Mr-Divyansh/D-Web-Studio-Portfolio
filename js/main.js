@@ -21,6 +21,7 @@
 
     if (hamburger && drawer && backdrop && closeBtn) {
         var pageContent = null;
+        drawer.inert = true;
 
         var inertPage = function (inert) {
             if (!pageContent) {
@@ -44,6 +45,7 @@
         var openDrawer = function () {
             drawer.classList.add("open");
             backdrop.classList.add("open");
+            drawer.inert = false;
             hamburger.classList.add("active");
             hamburger.setAttribute("aria-expanded", "true");
             // The accessible name has to follow the state, not just aria-expanded:
@@ -61,6 +63,7 @@
             if (!drawer.classList.contains("open")) return;
             drawer.classList.remove("open");
             backdrop.classList.remove("open");
+            drawer.inert = true;
             hamburger.classList.remove("active");
             hamburger.setAttribute("aria-expanded", "false");
             hamburger.setAttribute("aria-label", "Open menu");
