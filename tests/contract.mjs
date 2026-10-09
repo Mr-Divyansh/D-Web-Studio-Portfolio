@@ -1,7 +1,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
-const PAGES = ["index.html", "work.html", "project.html", "services.html", "contact.html", "about.html", "experience.html", "404.html"];
+const PAGES = ["index.html", "work.html", "project.html", "services.html", "contact.html", "about.html", "experience.html", "404.html", "policies.html"];
 const read = (f) => readFileSync(f, "utf8");
 
 let pass = 0;
@@ -502,6 +502,7 @@ const PAGE_CSS = {
   "contact.html": "css/contact.css",
   "experience.html": "css/experience.css",
   "services.html": "css/services.css",
+  "policies.html": "css/policies.css",
 };
 for (const page of PAGES) {
   const html = read(page);

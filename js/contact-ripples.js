@@ -92,7 +92,7 @@
                 }
             }
 
-            if (squares.length || visible) {
+            if (squares.length && visible && !document.hidden) {
                 rafId = window.requestAnimationFrame(frame);
             } else {
                 running = false;
@@ -136,6 +136,10 @@
             }, { threshold: 0.05 });
             io.observe(band);
         }
+
+        document.addEventListener("visibilitychange", function () {
+            if (!document.hidden && visible && squares.length) kick();
+        });
 
         window.addEventListener("resize", resize);
         resize();

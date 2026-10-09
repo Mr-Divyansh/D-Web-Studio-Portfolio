@@ -145,6 +145,11 @@ Then check manually:
   every `<link rel="icon">` at it and replace this flag.
 - WhatsApp contact uses `+91 80912 73525` (also in `memory.md` and every
   `wa.me/918091273525` link); confirm with the owner that it is still current.
+- The site now has a Privacy, Terms, Cookies and Refunds notice at
+  `policies.html`. Its wording is limited to behavior visible in the site;
+  confirm the phone number, service-provider settings, retention practices and
+  project payment terms with the owner, and get appropriate legal review before
+  treating it as a final compliance document.
 
 Resolved since this list was first written: canonical / Open Graph URLs now
 use the real `https://dwebstudio.com/` domain from `memory.md`, and the

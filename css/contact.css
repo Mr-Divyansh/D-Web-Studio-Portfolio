@@ -120,6 +120,45 @@
     transition: border-color .25s;
 }
 
+.form-consent {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    align-items: start;
+    gap: 4px 12px;
+}
+
+.quick-form .form-consent input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    padding: 0;
+    accent-color: var(--blue);
+}
+
+.quick-form .form-consent label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.form-consent label a {
+    color: var(--blue-light);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.form-consent .field-error {
+    grid-column: 2;
+}
+
+.quick-form .form-consent input[aria-invalid="true"] {
+    outline: 2px solid var(--danger);
+    outline-offset: 2px;
+}
+
 .quick-form input::placeholder,
 .quick-form textarea::placeholder {
     color: var(--muted);

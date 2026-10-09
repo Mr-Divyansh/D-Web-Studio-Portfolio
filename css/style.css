@@ -50,23 +50,15 @@
     --pill-line: rgba(244, 241, 234, 0.22);
     --hero-heading: #F2F6FD;
     --wave-cursor-fill: rgba(233, 236, 242, 0.22);
-    --hero-scrim: linear-gradient(90deg, rgba(12, 16, 24, .92) 0%, rgba(12, 16, 24, .55) 45%, rgba(12, 16, 24, .15) 100%);
 
-    /* ---------- Hero cube ----------
-       The chrome around the cube below is hardcoded as light-on-dark: a cyan
-       fill at 0.12 alpha and a violet ring at 0.09. Those can only ever
-       *lighten*, so on the light page they composited to a bleached haze and
-       the violet ring read as pink - the same failure the `--wash-*` pair had.
-       Every one of the seven values is a token so the light theme can darken
-       instead of lighten, and the accent ring pulls toward indigo rather than
-       the off-brand pink that violet-on-white produces. */
+    /* ---------- Hero cube ---------- */
     --cube-face-line: rgba(147, 197, 253, 0.34);
-    --cube-face-bg: linear-gradient(135deg, rgba(111, 178, 255, 0.14), rgba(124, 92, 246, 0.06) 55%, rgba(111, 178, 255, 0.04));
+    --cube-face-bg: linear-gradient(135deg, rgba(111, 178, 255, 0.14), rgba(34, 104, 230, 0.06) 55%, rgba(111, 178, 255, 0.04));
     --cube-face-inner: rgba(76, 154, 255, 0.14);
     --cube-orbit-line: rgba(111, 178, 255, 0.12);
     --cube-orbit-accent: rgba(122, 182, 255, 0.62);
-    --cube-orbit-2-line: rgba(139, 124, 246, 0.10);
-    --cube-orbit-2-accent: rgba(155, 132, 255, 0.42);
+    --cube-orbit-2-line: rgba(111, 178, 255, 0.09);
+    --cube-orbit-2-accent: rgba(76, 154, 255, 0.42);
 
     /* ---------- Elevation ----------
        A dark-mode surface is defined by a lighter patch; a light-mode surface
@@ -77,20 +69,6 @@
        smudge on white. */
     --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.32), 0 10px 26px -18px rgba(0, 0, 0, 0.66);
     --card-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.38), 0 22px 44px -22px rgba(0, 0, 0, 0.78);
-
-    /* ---------- Floating header ----------
-       The nav is a bar sitting ON the page, not a full-bleed strip painted in
-       the page colour, so it needs its own elevation and its own radius. Both
-       are per theme for the same reason `--card-shadow` is: the shadow that
-       lifts a bar off near-black turns to a smudge on white.
-
-       The radius is a decision, not a default. 18px on a ~60px-tall, 1200px-wide
-       bar reads as a rounded rectangle. The 999px the track and CTA used to
-       carry read as a lozenge stretched across the viewport - "giant pill" is
-       exactly what the bar is not supposed to look like. */
-    --nav-radius: 18px;
-    --nav-shadow: 0 1px 2px rgba(0, 0, 0, 0.34), 0 14px 32px -20px rgba(0, 0, 0, 0.74);
-    --nav-shadow-scrolled: 0 2px 6px rgba(0, 0, 0, 0.40), 0 24px 46px -24px rgba(0, 0, 0, 0.88);
 
     --grad-brand: linear-gradient(100deg, var(--silver), var(--blue));
     /* The dark accent used to run #E9ECF2 -> #9CC8FF: bright silver into light
@@ -108,7 +86,6 @@
        surfaces the span lands on: 6.56:1 / 5.98:1 / 5.29:1 over --ink,
        --ink-2 and --ink-3 at the start, and 4.69:1 / 4.27:1 / 3.78:1 at the
        end, so large heading text clears 3:1 everywhere it can appear. */
-    --grad-text: linear-gradient(100deg, #4D96FF, #2E7BE6);
 
     --font: "Plus Jakarta Sans", sans-serif;
 
@@ -172,7 +149,6 @@
        legible over the cube. Light mode needs the same job done the other way
        round - the copy sits on the left, so the wash has to *lighten* that
        side, not darken it. */
-    --hero-scrim: linear-gradient(90deg, rgba(241, 245, 251, .94) 0%, rgba(241, 245, 251, .68) 45%, rgba(241, 245, 251, .18) 100%);
 
     /* Hero cube, light theme. The alphas go *up* rather than down and the
        accents darken, because the surface behind the cube is now the page
@@ -181,24 +157,15 @@
        came out pink. These are chosen to sit a clear step off the page while
        staying in the blue family, so the cube reads as glass on both themes. */
     --cube-face-line: rgba(37, 99, 235, 0.30);
-    --cube-face-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(79, 70, 229, 0.08) 55%, rgba(37, 99, 235, 0.05));
+    --cube-face-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(29, 78, 216, 0.08) 55%, rgba(37, 99, 235, 0.05));
     --cube-face-inner: rgba(37, 99, 235, 0.08);
     --cube-orbit-line: rgba(37, 99, 235, 0.16);
     --cube-orbit-accent: rgba(29, 78, 216, 0.60);
-    --cube-orbit-2-line: rgba(79, 70, 229, 0.14);
-    --cube-orbit-2-accent: rgba(79, 70, 229, 0.50);
+    --cube-orbit-2-line: rgba(37, 99, 235, 0.12);
+    --cube-orbit-2-accent: rgba(29, 78, 216, 0.50);
 
     --card-shadow: 0 1px 2px rgba(14, 27, 49, 0.05), 0 10px 26px -18px rgba(14, 27, 49, 0.22);
     --card-shadow-hover: 0 2px 6px rgba(14, 27, 49, 0.07), 0 22px 44px -22px rgba(14, 27, 49, 0.30);
-
-    /* Same pair, light theme. The scrim composited over a white page is
-       1.00:1 - indistinguishable - so on this theme the hairline and the
-       shadow are the ONLY things separating the bar from the page behind it.
-       That is why the border steps up to --line-strong once you scroll: at
-       rest the bar is a whisper, scrolled it has content moving underneath it
-       and needs an edge. */
-    --nav-shadow: 0 1px 2px rgba(14, 27, 49, 0.06), 0 12px 28px -18px rgba(14, 27, 49, 0.20);
-    --nav-shadow-scrolled: 0 2px 6px rgba(14, 27, 49, 0.08), 0 22px 42px -22px rgba(14, 27, 49, 0.28);
 
     --grad-brand: linear-gradient(100deg, #1D4ED8, #2563EB);
     /* On dark the accent now runs #4D96FF -> #2E7BE6 - blue at both ends, so
@@ -215,7 +182,6 @@
        while staying well clear of the 4.5:1 normal-text threshold on the
        least favourable light surface (--ink-3, #E9EFF8): 5.85:1 at the start,
        4.51:1 at the end, against an h1 body colour 2.39:1 away. */
-    --grad-text: linear-gradient(100deg, #1D4ED8, #2563EB);
 
     color-scheme: light;
 }
@@ -463,11 +429,7 @@ section[id] {
 }
 
 .text-grad {
-    background: var(--grad-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: #9CC8FF;
-    -webkit-text-fill-color: transparent;
+    color: var(--blue-light);
 }
 
 .btn {
@@ -476,7 +438,7 @@ section[id] {
     justify-content: center;
     gap: 9px;
     padding: 14px 26px;
-    border-radius: 999px;
+    border-radius: 12px;
     font-weight: 700;
     font-size: 15px;
     border: 1px solid transparent;
@@ -576,45 +538,28 @@ section[id] {
     transform: translateY(-2px);
 }
 
-/* ---------- The floating bar ----------
-   Two boxes, on purpose.
-
-   `.site-nav` is a full-width fixed strip whose padding is the gutter between
-   the bar and the edges of the viewport. It paints nothing.
-
-   `.nav-inner` is the bar: the glass surface, the hairline, the radius and the
-   shadow. Keeping them apart is what lets the bar be a bounded rounded
-   rectangle instead of a full-bleed strip that runs off both sides of the
-   screen. `.nav-inner` keeps `max-width: 1200px` and the same `var(--edge)`
-   gutter as `.container`, so the bar's left and right edges line up exactly
-   with the page's content column.
-
-   `pointer-events: none` on the strip is load-bearing, not a tidy-up. The strip
-   is still a full-width fixed box, so without it the transparent gutter either
-   side of the bar would keep swallowing clicks meant for the hero underneath -
-   which is exactly what the old full-bleed bar did across its whole height.
-   `.nav-inner` opts back in, so every control keeps its own hit area.
-
-   The old `border-bottom: 1px solid transparent` is gone rather than recoloured:
-   on a floating bar it would draw a stray hairline straight across the viewport
-   at the old nav height, which is no longer where any edge is. */
+/* ---------- Full-width navigation ----------
+   The header owns the surface and bottom rule; the content stays aligned to
+   the same centered column as the rest of the page. */
 .site-nav {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100vw;
+    right: auto;
     z-index: 200;
-    padding: 14px var(--edge);
-    pointer-events: none;
-    transition: padding 0.4s var(--ease);
+    border-bottom: 1px solid var(--line);
+    background: var(--nav-scrim);
+    backdrop-filter: blur(16px) saturate(150%);
+    transition: border-color 0.4s var(--ease), background-color 0.4s var(--ease);
 }
 
 .site-nav.scrolled {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    border-bottom-color: var(--line-strong);
 }
 
 .nav-inner {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 8px 14px;
@@ -622,21 +567,6 @@ section[id] {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    pointer-events: auto;
-    border-radius: var(--nav-radius);
-    border: 1px solid var(--line);
-    /* The one place `--nav-scrim` is correct: it has to be the page colour at
-       partial alpha so `backdrop-filter` has something to blur, which is what
-       produces the frosted read as content passes underneath. */
-    background: var(--nav-scrim);
-    backdrop-filter: blur(16px) saturate(150%);
-    box-shadow: var(--nav-shadow);
-    transition: background-color 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
-}
-
-.site-nav.scrolled .nav-inner {
-    border-color: var(--line-strong);
-    box-shadow: var(--nav-shadow-scrolled);
 }
 
 .nav-brand {
@@ -976,7 +906,7 @@ section[id] {
     margin-top: auto;
     text-align: center;
     padding: 15px;
-    border-radius: 999px;
+    border-radius: 12px;
     background: var(--blue);
     color: #fff;
     font-weight: 800;
@@ -1003,30 +933,6 @@ body.menu-open {
     z-index: 2;
 }
 
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 14px 7px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--line-strong);
-    font-size: 12.5px;
-    font-weight: 600;
-    /* No margin-bottom here on purpose. The badge sits inside .hero-badges, a
-       centred flex row, so a bottom margin would centre its margin-box and
-       float the pill above the tagline beside it. The 22px it used to carry was
-       already cancelled by `#top .hero-badge { margin-bottom: 0 }` further
-       down, so it was dead weight that contradicted the layout. */
-}
-
-.hero-badge .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--live);
-    animation: pulse 2s infinite;
-}
-
 .hero h1 {
     font-size: clamp(34px, 5vw, 64px);
     line-height: 1.05;
@@ -1048,40 +954,6 @@ body.menu-open {
     margin-top: 30px;
 }
 
-.hero-metrics {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-    max-width: 520px;
-}
-
-.metric-card {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-height: 76px;
-    padding: 14px 14px 12px;
-    border-radius: 16px;
-    border: 1px solid var(--line-strong);
-    background: var(--wash-1);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.metric-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.metric-card strong {
-    font-size: 1.05rem;
-    letter-spacing: -0.03em;
-    color: var(--paper);
-}
-
 .hero-visual {
     position: relative;
 }
@@ -1090,24 +962,13 @@ body.menu-open {
     position: relative;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--hero-scrim);
-    z-index: 1;
-    pointer-events: none;
-}
-
 .hero .container {
     position: relative;
     z-index: 2;
 }
 
 #top.hero {
-    background:
-        radial-gradient(46% 40% at 74% 42%, rgba(47, 126, 242, 0.10), transparent 70%),
-        linear-gradient(180deg, #0A111D 0%, #0B0E13 78%);
+    background: var(--ink);
 }
 
 .cube-scene {
@@ -1127,7 +988,7 @@ body.menu-open {
     inset: -14%;
     background:
         radial-gradient(42% 40% at 52% 44%, rgba(47, 126, 242, 0.16), transparent 70%),
-        radial-gradient(30% 30% at 64% 34%, rgba(124, 92, 246, 0.10), transparent 72%);
+        radial-gradient(30% 30% at 64% 34%, rgba(59, 130, 246, 0.10), transparent 72%);
     animation: ambientBreathe 10s ease-in-out infinite;
 }
 
@@ -1138,7 +999,7 @@ body.menu-open {
     width: 62%;
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(76, 154, 255, 0.32), rgba(124, 92, 246, 0.13) 48%, transparent 72%);
+    background: radial-gradient(circle, rgba(76, 154, 255, 0.32), rgba(59, 130, 246, 0.13) 48%, transparent 72%);
     animation: glowPulse 5.5s ease-in-out infinite;
 }
 
@@ -1248,7 +1109,7 @@ body.menu-open {
     inset: 0;
     border-radius: 12%;
     border: 1px solid rgba(173, 206, 255, 0.5);
-    background: linear-gradient(140deg, rgba(93, 158, 255, 0.92), rgba(64, 92, 240, 0.85) 52%, rgba(124, 92, 246, 0.9));
+    background: linear-gradient(140deg, rgba(93, 158, 255, 0.92), rgba(37, 99, 235, 0.88) 52%, rgba(29, 78, 216, 0.9));
     box-shadow: 0 0 22px rgba(76, 154, 255, 0.5);
 }
 
@@ -1343,10 +1204,6 @@ body.menu-open {
     background: #4C9AFF;
 }
 
-.ui-dot-violet {
-    background: #9B84FF;
-}
-
 .ui-dot-green {
     background: var(--live);
 }
@@ -1368,7 +1225,7 @@ body.menu-open {
 }
 
 .tk {
-    color: #9B84FF;
+    color: var(--blue-light);
 }
 
 .fn {
@@ -1379,18 +1236,6 @@ body.menu-open {
     padding-left: 14px;
 }
 
-#top .hero-badge {
-    padding: 8px 16px 8px 11px;
-    border-color: var(--glass-border);
-    background: var(--wash-1);
-    color: var(--on-surface);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    letter-spacing: 0.02em;
-    margin-bottom: 0px;
-    gap: 13px;
-}
-
 #top h1 {
     font-size: clamp(34px, 4.8vw, 58px);
     line-height: 1.06;
@@ -1398,7 +1243,11 @@ body.menu-open {
     text-wrap: balance;
     color: var(--hero-heading);
     max-width: 640px;
-    margin-top: 20px;
+    margin-top: 0;
+}
+
+#top .hero-accent {
+    color: var(--blue-light);
 }
 
 #top .hero-sub {
@@ -1436,39 +1285,6 @@ body.menu-open {
 
 #top .btn-secondary:hover {
     border-color: var(--line-strong);
-}
-
-#top .hero-tags {
-    gap: 22px;
-    margin-top: 34px;
-    font-size: 13.5px;
-}
-
-#top .hero-tags span {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#top .hero-tags .lucide {
-    width: 15px;
-    height: 15px;
-    color: var(--blue-light);
-}
-
-/* Pure white, stated explicitly rather than left to a token.
-
-   This row used to be #C7D1E0 - a pale blue-grey that was tinted to sit inside
-   the cool dark palette, so the labels read as slightly dimmer than the h1
-   directly above them (#F2F6FD). The intent here is the opposite: this is the
-   closing detail of the hero, and it should be the brightest text on the page
-   rather than a dimmed echo of the headline.
-
-   #FFFFFF on the #0C0F13 hero measures 19.4:1, so there is no legibility
-   argument for the softer value - it was purely a palette choice, and it is
-   being replaced deliberately. */
-#top .hero-tags b {
-    color: var(--paper);
 }
 
 @keyframes heroFloat {
@@ -1628,6 +1444,21 @@ body.menu-open {
     height: 46px;
     color: var(--blue-light);
     opacity: 0.95;
+}
+
+.service-image-panel {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: var(--ink-3);
+}
+
+.service-image-panel img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 54%;
 }
 
 .icon-chip {
@@ -1991,25 +1822,15 @@ body.menu-open {
     color: var(--muted);
 }
 
-/* `--ink-2`, not `--ink`. On the dark theme the two are close enough that it
-   made no difference; on the light theme `--ink` *is* the page colour, so a band
-   painted with it was the page - a shape with an outline and no body. */
+/* `--ink-2` gives the callout a quiet, consistent surface in both themes. */
 .github-band {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line-strong);
-    background: linear-gradient(120deg, rgba(var(--blue-rgb), 0.10), transparent 65%), var(--ink-2);
+    background: var(--ink-2);
     box-shadow: var(--card-shadow);
     margin-top: 40px;
     padding: clamp(32px, 4.5vw, 48px);
     text-align: center;
-}
-
-.github-band > *:not(.fun-blocks) {
-    position: relative;
-    z-index: 1;
 }
 
 .github-band h3 {
@@ -2022,20 +1843,14 @@ body.menu-open {
     margin: 0 auto 22px;
 }
 
-/* The base layer was missing entirely - the rule was a blue wash and nothing
-   underneath it, so the band had no body in either theme and on the light page
-   it read as a pale blue smear rather than a panel. `--ink-2` gives it the same
-   raised surface every other card uses, which is also what the two decorative
-   layers (the ripple canvas and the square wave) are composited against. */
+/* The ripple and square-wave details stay inside a solid, quiet surface. */
 .contact-band {
     position: relative;
     overflow: hidden;
     isolation: isolate;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line-strong);
-    background:
-        linear-gradient(120deg, rgba(var(--blue-rgb), 0.16), transparent 70%),
-        var(--ink-2);
+    background: var(--ink-2);
     box-shadow: var(--card-shadow);
     padding: clamp(38px, 6vw, 64px);
     text-align: center;
@@ -2064,7 +1879,6 @@ body.menu-open {
     overflow: hidden;
     pointer-events: none;
     opacity: 0.6;
-    animation: waveTint 26s ease-in-out infinite alternate;
 }
 
 .wave-grid {
@@ -2099,15 +1913,6 @@ body.menu-open {
     will-change: transform;
 }
 
-@keyframes waveTint {
-    0% {
-        filter: hue-rotate(-24deg);
-    }
-    100% {
-        filter: hue-rotate(34deg);
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     .contact-ripples,
     .square-wave {
@@ -2136,7 +1941,7 @@ body.menu-open {
 
 .contact-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 20px;
     margin-top: 40px;
 }
@@ -2275,6 +2080,16 @@ footer {
     gap: 10px;
 }
 
+.footer-bottom-links a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.footer-bottom-links a:hover {
+    color: var(--paper);
+}
+
 /* ---------- Footer: CTA panel, brand status, social row ----------
    Added after the base footer rules above rather than replacing them, so the
    three existing `.footer-*` classes keep doing the job they were written for
@@ -2407,8 +2222,8 @@ footer {
 
 .reveal {
     opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    transform: translateY(14px);
+    transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
 }
 
 .hero .reveal {
@@ -2491,54 +2306,7 @@ a.contact-tile.reveal:hover {
    is the line to add:
      .footer-column a.reveal:hover { transform: translateX(3px); } */
 
-.hero-badges {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 32px;
-    flex-wrap: wrap;
-}
-
-.hero-tagline {
-    font-size: 13px;
-    color: var(--muted);
-}
-
-.hero-glow-a {
-    position: absolute;
-    width: 620px;
-    height: 620px;
-    left: -180px;
-    top: -140px;
-    background: radial-gradient(circle, rgba(var(--blue-rgb), 0.2), transparent 70%);
-    pointer-events: none;
-}
-
-.hero-tags {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-    font-size: 13px;
-    color: var(--on-surface);
-}
-
-.hero-tags b {
-    color: var(--paper);
-    font-weight: 600;
-}
-
-@media (max-width: 900px) {
-    .hero-metrics {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
 @media (max-width: 640px) {
-    .hero-metrics {
-        grid-template-columns: 1fr;
-        margin-top: 18px;
-    }
     .cube-scene {
         --s: 148px;
         max-width: 330px;
@@ -2580,7 +2348,6 @@ a.contact-tile.reveal:hover {
     padding: 76px 0;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
-    background: radial-gradient(120% 100% at 50% 0%, rgba(var(--blue-rgb), 0.07), transparent 62%);
 }
 
 .features-head {
@@ -2808,42 +2575,33 @@ a.contact-tile.reveal:hover {
     place-items: center;
     width: 30px;
     height: 30px;
-    border: 1px solid var(--line-strong);
-    border-radius: 9px;
+    border: 0;
+    border-radius: 0;
     color: var(--muted);
-    transition: background-color 0.3s ease, border-color 0.3s ease,
-                color 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .feature-toggle-icon::before {
-    content: "→";
-    font-size: 16px;
-    line-height: 1;
-    transition: transform 0.3s var(--ease);
+    content: none;
 }
 
 .feature-toggle-icon::after {
-    content: none;
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-bottom: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.25s var(--ease);
 }
 
 .feature-toggle:hover .feature-toggle-icon,
 .feature-toggle:focus-visible .feature-toggle-icon {
-    border-color: rgba(var(--blue-rgb), 0.5);
-    background: rgba(var(--blue-rgb), 0.1);
     color: var(--blue-light);
 }
 
-/* Open: filled, and the arrow turns to point down at the panel it opened.
-   Declared after the hover rule - both sit at (0,3,0) and only source order
-   separates them, so a card that is open and hovered keeps the open look. */
-.feature-toggle[aria-expanded="true"] .feature-toggle-icon {
-    border-color: var(--blue);
-    background: var(--blue);
-    color: #ffffff;
-}
-
-.feature-toggle[aria-expanded="true"] .feature-toggle-icon::before {
-    transform: rotate(90deg);
+.feature-toggle[aria-expanded="true"] .feature-toggle-icon::after {
+    transform: rotate(45deg);
 }
 
 .feature-toggle[aria-expanded="true"] .feature-title {
@@ -2923,40 +2681,6 @@ a.contact-tile.reveal:hover {
     color: var(--muted);
 }
 
-.fun-blocks {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: grid;
-    grid-template-columns: repeat(20, 1fr);
-    grid-template-rows: repeat(8, 1fr);
-    grid-auto-rows: 1fr;
-    font-size: 0;
-    line-height: 0;
-    opacity: 0.13;
-    pointer-events: none;
-    overflow: hidden;
-    transition: filter 0.6s var(--ease), opacity 0.6s var(--ease);
-}
-
-.fun-block {
-    width: 100%;
-    height: 100%;
-}
-
-@media (max-width: 640px) {
-    .fun-blocks {
-        grid-template-columns: repeat(12, 1fr);
-        opacity: 0.11;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .fun-blocks {
-        display: none;
-    }
-}
-
 .feature-support-a {
     display: flex;
     align-items: center;
@@ -3017,20 +2741,18 @@ a.contact-tile.reveal:hover {
     cursor: pointer;
 }
 
-/* Two rows: icon, title and the arrow control across the top, the index
-   beneath them. `grid-template-areas` rather than source order, so the markup
-   stays in reading order (icon, number, title, action) for anyone reading it
-   as text. The arrow sits at the far right of the first row - clear of the
-   icon, which the old plus chip was wedged against - and is the single expand
-   control for the whole card. */
+/* Give the title its own full-width row so longer service names don't get
+   squeezed between the icon and expand control. Grid areas keep the markup in
+   reading order (icon, number, title, action). */
 .features-strip--modules .feature-toggle {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-        "ico  ttl  arr"
-        "num  num  num";
+        "ico arr"
+        "ttl ttl"
+        "num num";
     row-gap: 16px;
-    column-gap: 14px;
+    column-gap: 12px;
     align-items: center;
     width: 100%;
     min-height: 0;
@@ -3282,7 +3004,7 @@ a.contact-tile.reveal:hover {
     }
 
     .features-strip--modules .feature-toggle {
-        row-gap: 16px;
+        row-gap: 12px;
     }
 
     .features-strip--modules .feature-ico {
@@ -3297,7 +3019,9 @@ a.contact-tile.reveal:hover {
     }
 
     .features-strip--modules .feature-title {
-        font-size: 16.5px;
+        font-size: 18px;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
     }
 
     .features-strip--modules .feature-support {
@@ -3624,38 +3348,6 @@ a.contact-tile.reveal:hover {
    services are deliberately left as a ruled list rather than cards, so the
    column still reads as a document. */
 
-/* The one decorative element: a fine technical grid, top-right, faded out by
-   a radial mask so it has no hard edge. `--line` rather than a fixed blue, so
-   it re-tints itself for the light theme, and `pointer-events: none` so the
-   row hover states underneath stay reachable. */
-.about--profile {
-    position: relative;
-    isolation: isolate;
-}
-
-.about--profile::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 44%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-        linear-gradient(var(--line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 34px 34px;
-    opacity: 0.6;
-    -webkit-mask-image: radial-gradient(115% 85% at 100% 0%, #000 0%, transparent 70%);
-    mask-image: radial-gradient(115% 85% at 100% 0%, #000 0%, transparent 70%);
-}
-
-.about--profile > .container {
-    position: relative;
-    z-index: 1;
-}
-
 /* Was 1.15fr / 0.85fr. The story column is the one with the long measure and
    the heading set at 45px, so it still gets the larger share - but only just.
    At 0.85 the capability column was 380px and "Tailwind CSS" wrapped to its
@@ -3958,9 +3650,6 @@ a.contact-tile.reveal:hover {
         max-width: 62ch;
     }
 
-    .about--profile::before {
-        width: 60%;
-    }
 }
 
 @media (max-width: 640px) {
@@ -4031,10 +3720,6 @@ a.contact-tile.reveal:hover {
         height: 17px;
     }
 
-    .about--profile::before {
-        width: 100%;
-        opacity: 0.45;
-    }
 }
 
 /* ---------- Contact section: the two project-type rows (index.html only) ----------
@@ -4280,14 +3965,6 @@ a.contact-tile.reveal:hover {
 }
 
 @media (max-width: 900px) {
-    .nav-links {
-        display: none;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
     .service-grid {
         grid-template-columns: 1fr;
     }
@@ -4336,6 +4013,20 @@ a.contact-tile.reveal:hover {
 
     .footer-cta .btn {
         justify-self: start;
+    }
+}
+
+@media (max-width: 1000px) {
+    .nav-inner {
+        justify-content: space-between;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
     }
 }
 
@@ -4423,10 +4114,6 @@ a.contact-tile.reveal:hover {
         transition: none;
         opacity: 1;
         transform: none;
-    }
-
-    .hero-badge .dot {
-        animation: none;
     }
 
     .cube-stage,
@@ -4623,39 +4310,11 @@ body {
      - the ID-scoped hero rules that need `:root[data-theme="light"] #top` to
        outrank their dark twins (ID count is compared first, so a (0,3,1) rule
        can never beat a (1,1,1) one),
-     - the badge/button fills, which want a *raised* white over the page rather
+     - the primary button fill, which wants a *raised* white over the page rather
        than the `--wash-1` tint the rest of the surface system uses. */
-
-:root[data-theme="light"] #top.hero {
-    background:
-        radial-gradient(46% 40% at 74% 42%, rgba(37, 99, 235, 0.12), transparent 70%),
-        linear-gradient(180deg, #F8FAFF 0%, #F1F5FB 100%);
-}
-
-/* `.text-grad` carries `color: #9CC8FF` as the fallback for engines without
-   `background-clip: text` - without it the span would paint in its own colour
-   *on top of* the clipped gradient background. That fallback is a pale blue
-   picked for the dark hero; on the light one it lands around 1.7:1 against
-   #F8FAFF and effectively disappears. Reset it to the gradient's own start
-   colour so the degraded path still matches the real thing. */
-:root[data-theme="light"] .text-grad {
-    color: var(--blue);
-}
-
-:root[data-theme="light"] #top .hero-badge {
-    background: rgba(255, 255, 255, 0.78);
-    color: var(--muted);
-}
 
 :root[data-theme="light"] #top .btn-secondary {
     background: rgba(255, 255, 255, 0.78);
-}
-
-/* The decorative blocks are painted with saturated hues by js/fun-blocks.js, so
-   on a white band they read as confetti rather than a texture. Dropping the
-   opacity takes them from "visible dirt" back to "barely there". */
-:root[data-theme="light"] .fun-blocks {
-    opacity: 0.05;
 }
 
 /* Near-black glass (rgba(13,18,28,0.68)) with a hard dark drop shadow. In light
@@ -4695,28 +4354,14 @@ body {
     backdrop-filter: none;
 }
 
-/* Turning the card white is only half the job - everything painted *inside* it
-   was still a dark-glass value, so in light mode both floating cards rendered
-   as blank white rectangles. Measured against the card's effective background
-   (rgba(255,255,255,.82) over the light hero = #FEFEFF):
-
-     .ui-stack-list li   #C9D4E4  12.62:1 dark -> 1.49:1 light
-     .ui-card-code code  #C9D4E4  12.62:1 dark -> 1.49:1 light
-     .tk                 #9B84FF   6.42:1 dark -> 2.92:1 light
-     .fn                 #6FB2FF   8.54:1 dark -> 2.20:1 light
-
-   Each replacement keeps the same prominence its dark-mode twin had, so the
-   keyword/function/body hierarchy survives the theme switch:
-     body  #C9D4E4 (12.62) -> --muted-2 (6.63)
-     .tk   #9B84FF ( 6.42) -> #6D3FD4 (6.29)
-     .fn   #6FB2FF ( 8.54) -> --blue-light (6.65)   [same token the icon uses] */
+/* Preserve the floating code cards' text hierarchy in the light theme. */
 :root[data-theme="light"] .ui-stack-list li,
 :root[data-theme="light"] .ui-card-code code {
     color: var(--muted-2);
 }
 
 :root[data-theme="light"] .tk {
-    color: #6D3FD4;
+    color: var(--blue-light);
 }
 
 :root[data-theme="light"] .fn {
@@ -4732,39 +4377,15 @@ body {
     box-shadow: none;
 }
 
-:root[data-theme="light"] .ui-dot-violet {
-    background: #6D3FD4;
-    box-shadow: none;
-}
-
 :root[data-theme="light"] .ui-dot-green {
     background: #0A7A4B;
     box-shadow: none;
 }
 
-/* ---------- Light mode: the 3D cube ----------
-   The cube is built from low-alpha layers over the hero, and every one of
-   those alphas was tuned against a near-black background. Over the light hero
-   they all collapse to the background colour:
-
-     cube-face fill      rgba(...,0.12)  1.21:1 dark -> 1.09:1 light
-     cube-face fill mid  rgba(...,0.05)  1.04:1 dark -> 1.06:1 light
-     cube-face border    rgba(...,0.32)  2.08:1 dark -> 1.18:1 light
-     orbit ring A        rgba(...,0.10)  1.16:1 dark -> 1.07:1 light
-     orbit ring B        rgba(...,0.09)  1.10:1 dark -> 1.09:1 light
-
-   Meanwhile the inner core is near-opaque (0.92 alpha) and stayed perfectly
-   visible. The net effect in light mode was a solid coloured cube floating
-   with no shell around it and no orbit rings - the layers that give the whole
-   thing its shape simply were not there.
-
-   Alphas are raised rather than colours changed, so the same blue/violet hues
-   are kept and the dark theme is untouched. The one thing that is *removed* is
-   the core's glow: a 22px blue halo reads as a glow on black but only as a
-   dirty smudge on white. */
+/* Keep the translucent cube, orbit rings and core legible on a light surface. */
 :root[data-theme="light"] .cube-face {
     border-color: rgba(111, 168, 240, 0.55);
-    background: linear-gradient(135deg, rgba(93, 158, 255, 0.16), rgba(124, 92, 246, 0.08) 55%, rgba(93, 158, 255, 0.05));
+    background: linear-gradient(135deg, rgba(93, 158, 255, 0.16), rgba(37, 99, 235, 0.08) 55%, rgba(93, 158, 255, 0.05));
     box-shadow: inset 0 0 44px rgba(76, 154, 255, 0.10);
 }
 
@@ -4774,8 +4395,8 @@ body {
 }
 
 :root[data-theme="light"] .cube-orbit-wrap-b .cube-orbit {
-    border-color: rgba(139, 124, 246, 0.30);
-    border-top-color: rgba(124, 92, 240, 0.70);
+    border-color: rgba(59, 130, 246, 0.30);
+    border-top-color: rgba(29, 78, 216, 0.70);
 }
 
 :root[data-theme="light"] .core-face {
@@ -4787,11 +4408,11 @@ body {
 :root[data-theme="light"] .cube-ambient {
     background:
         radial-gradient(42% 40% at 52% 44%, rgba(37, 99, 235, 0.14), transparent 70%),
-        radial-gradient(30% 30% at 64% 34%, rgba(124, 92, 246, 0.10), transparent 72%);
+        radial-gradient(30% 30% at 64% 34%, rgba(59, 130, 246, 0.10), transparent 72%);
 }
 
 :root[data-theme="light"] .cube-glow {
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.18), rgba(124, 92, 246, 0.07) 48%, transparent 72%);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18), rgba(37, 99, 235, 0.07) 48%, transparent 72%);
 }
 
 :root[data-theme="light"] .cube-floor {
@@ -4830,9 +4451,9 @@ body {
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .nav-inner > .theme-switcher {
-        margin-left: auto;
+        margin-left: 0;
     }
 }
 
@@ -4862,48 +4483,6 @@ body {
    it only adds a new decorative layer and extends .text-grad, which nothing
    else structurally depends on.
    ========================================================================== */
-
-/* ---------- Film-grain overlay ----------
-   A flat vector gradient is what reads as "AI-generated" the moment you look
-   closely; a faint noise layer is the cheapest way to make the same pixels
-   feel photographed/printed rather than rendered. Fixed + pointer-events:none
-   so it never intercepts a click or a tap. mix-blend-mode: overlay makes one
-   rule correct for both themes with no [data-theme="light"] override: it
-   lightens dark pixels and darkens light ones, so it self-adjusts to whatever
-   is underneath. Sits above regular content (z-index above the 0-3 range
-   everything else on the page uses) but below the nav/drawer chrome
-   (z-index 200+), so menus and buttons stay perfectly crisp. */
-.grain {
-    position: fixed;
-    inset: 0;
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0.035;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    background-size: 180px 180px;
-}
-
-/* ---------- Gradient-text shimmer ----------
-   `.text-grad` was a static two-stop gradient clipped to text - correct, but
-   inert. Widening the canvas to 220% and sweeping `background-position`
-   reads as brushed foil rather than a flat CSS trick, and costs nothing
-   structurally: only background-position moves, so line-height, wrapping and
-   the surrounding heading are untouched, and it still resolves through
-   `--grad-text`, so both themes get the sweep in their own colours with no
-   extra override. Scoped to `no-preference` so reduced-motion falls back to
-   the original static gradient exactly as before. */
-@media (prefers-reduced-motion: no-preference) {
-    .text-grad {
-        background-size: 220% 100%;
-        animation: textShimmer 7s ease-in-out infinite;
-    }
-
-    @keyframes textShimmer {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-}
 
 /* ---------- Project detail page (project.html) ----------
    Cards on index.html and work.html link to project.html?slug=..., and
@@ -5128,5 +4707,269 @@ body {
 
     .project-missing {
         padding: 26px 18px;
+    }
+}
+
+/* Service photography gives each offer its own context without turning the
+   entire card into a poster. */
+.service-grid .service-image-panel {
+    max-height: 220px;
+    aspect-ratio: 16 / 9;
+}
+
+/* A plain chevron keeps the feature accordion control light and legible. */
+.features-strip--modules .feature-toggle-icon {
+    width: 28px;
+    height: 28px;
+}
+
+/* The project steps read as one sequence, not four nested cards. */
+.process-section {
+    margin-top: 72px;
+}
+
+.process-section .features-row--services {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.process-section .features-row--services .feature-item {
+    min-width: 0;
+    padding: 24px 22px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.process-section .features-row--services .feature-item + .feature-item {
+    border-left: 1px solid var(--line);
+}
+
+.process-section .features-row--services .feature-top {
+    margin-bottom: 16px;
+}
+
+.process-section .features-row--services .feature-ico {
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--blue-light);
+}
+
+.process-section .features-row--services .feature-ico svg {
+    width: 20px;
+    height: 20px;
+}
+
+.process-section .features-row--services .feature-item:focus-visible {
+    outline-offset: -3px;
+}
+
+@media (max-width: 1080px) {
+    .process-section .features-row--services {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process-section .features-row--services .feature-item + .feature-item {
+        border-left: 0;
+    }
+
+    .process-section .features-row--services .feature-item:nth-child(even) {
+        border-left: 1px solid var(--line);
+    }
+
+    .process-section .features-row--services .feature-item:nth-child(n + 3) {
+        border-top: 1px solid var(--line);
+    }
+}
+
+@media (max-width: 640px) {
+    .process-section {
+        margin-top: 56px;
+    }
+
+    .process-section .features-row--services {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .process-section .features-row--services .feature-item:nth-child(even) {
+        border-left: 0;
+    }
+
+    .process-section .features-row--services .feature-item + .feature-item {
+        border-top: 1px solid var(--line);
+    }
+}
+
+/* Contact methods use a compact directory layout instead of five separate
+   boxes, with the icon and contact detail kept on the same scan line. */
+.contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 48px;
+}
+
+.contact-tile {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 3px;
+    padding: 20px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+}
+
+.tile-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border: 0;
+    background: transparent;
+}
+
+.tile-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.contact-tile strong {
+    grid-column: 2;
+    font-size: 14px;
+}
+
+.contact-tile > span:last-child {
+    grid-column: 2;
+    font-size: 13px;
+}
+
+a.contact-tile:hover,
+a.contact-tile.reveal:hover {
+    transform: none;
+    border-color: var(--line-strong);
+    box-shadow: none;
+}
+
+a.contact-tile:hover .tile-icon svg {
+    color: var(--blue-light);
+}
+
+/* On the contact page, the direct-message CTA is a wide editorial row rather
+   than another decorated card. */
+#contact-band-cta .contact-band {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0 48px;
+    padding: 40px 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+}
+
+#contact-band-cta .contact-band .eyebrow,
+#contact-band-cta .contact-band h2,
+#contact-band-cta .contact-band p {
+    grid-column: 1;
+}
+
+#contact-band-cta .contact-band h2 {
+    margin: 10px 0;
+}
+
+#contact-band-cta .contact-band p {
+    max-width: 54ch;
+    margin: 0;
+    text-align: left;
+}
+
+#contact-band-cta .contact-band .contact-btns {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    justify-content: flex-end;
+}
+
+#contact-band-cta .contact-band .contact-links {
+    grid-column: 1 / -1;
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+
+#contact-band-cta .contact-ripples,
+#contact-band-cta .square-wave {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    #contact-band-cta .contact-band {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        padding: 30px 0;
+    }
+
+    #contact-band-cta .contact-band .contact-btns {
+        grid-column: 1;
+        grid-row: auto;
+        justify-content: flex-start;
+        margin-top: 22px;
+    }
+
+    #contact-band-cta .contact-band .contact-links {
+        grid-column: 1;
+        margin-top: 24px;
+    }
+}
+
+@media (max-width: 640px) {
+    .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Keep the shared footer's project invitation confident but unboxed. */
+.footer-cta {
+    padding: 34px 0;
+    margin-bottom: 48px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transition: none;
+}
+
+.footer-cta:hover {
+    transform: none;
+    border-color: var(--line);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .footer-cta:hover .btn-primary {
+        transform: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-cta {
+        gap: 20px;
+        padding: 28px 0;
+        margin-bottom: 38px;
     }
 }

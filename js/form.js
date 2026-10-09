@@ -15,7 +15,18 @@ if (form && statusBox) {
     statusBox.textContent = "";
   };
 
+  const clearValidationStatus = () => {
+    if (
+      statusBox.textContent === "Please fix the highlighted fields and try again." &&
+      !form.querySelector('[aria-invalid="true"]')
+    ) {
+      clearStatus();
+    }
+  };
+
   const REQUIRED_FIELDS = ["name", "email", "message"];
+  const consentField = form.elements["privacy_consent"];
+  const consentError = document.getElementById("privacy-consent-error");
 
   const getErrorEl = (field) => {
     let el = document.getElementById(field.id + "-error");
@@ -78,6 +89,19 @@ if (form && statusBox) {
       if (field && !validateField(field) && !firstInvalid) firstInvalid = field;
     });
 
+    if (!consentField.checked) {
+      consentField.setAttribute("aria-invalid", "true");
+      consentField.setAttribute("aria-describedby", consentError.id);
+      consentError.textContent = "Please acknowledge the Privacy Notice before sending your enquiry.";
+      consentError.classList.add("show");
+      if (!firstInvalid) firstInvalid = consentField;
+    } else {
+      consentField.removeAttribute("aria-invalid");
+      consentField.removeAttribute("aria-describedby");
+      consentError.textContent = "";
+      consentError.classList.remove("show");
+    }
+
     if (firstInvalid) firstInvalid.focus();
     return !firstInvalid;
   };
@@ -88,8 +112,19 @@ if (form && statusBox) {
       field.addEventListener("blur", () => validateField(field));
       field.addEventListener("input", () => {
         if (field.getAttribute("aria-invalid") === "true") validateField(field);
+        clearValidationStatus();
       });
     }
+  });
+
+  consentField.addEventListener("change", () => {
+    if (consentField.checked) {
+      consentField.removeAttribute("aria-invalid");
+      consentField.removeAttribute("aria-describedby");
+      consentError.textContent = "";
+      consentError.classList.remove("show");
+    }
+    clearValidationStatus();
   });
 
   form.addEventListener("submit", async (e) => {
@@ -122,6 +157,10 @@ if (form && statusBox) {
         setStatus("success", "✓ Message sent! Divyansh will get back to you within a few hours.");
         form.reset();
         REQUIRED_FIELDS.forEach((name) => clearFieldError(form.elements[name]));
+        consentField.removeAttribute("aria-invalid");
+        consentField.removeAttribute("aria-describedby");
+        consentError.textContent = "";
+        consentError.classList.remove("show");
       } else {
         setStatus("error", data.message || "Something went wrong. Please try again.");
       }

@@ -154,7 +154,7 @@
 .beyond-card .visual {
     height: 100%;
     min-height: 220px;
-    background: linear-gradient(155deg, #241708, #0c0d10);
+    background: var(--ink-3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -167,13 +167,6 @@
     height: 74px;
     color: var(--gold);
     opacity: 0.85;
-}
-
-.beyond-card .visual::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0 10px, transparent 10px 20px);
 }
 
 .beyond-card h3 {
@@ -196,18 +189,10 @@
 
 /* ---------- Tools of the trade (#stack) ----------
 
-   The three groups were stacked as label-plus-chip-rows, and each one ran to
-   roughly 455px of label+chips inside a 1200px container. At every desktop
-   width the right half of the section was simply empty, so it read as an
-   unfinished block rather than as a deliberate list - the heading promised a
-   section and the body only filled a third of it.
-
-   They are now a three-up card row, built from the same surface the site
-   already uses for a set of equal items (`.feature-item` / `.value-card`:
-   `--line` border, `--radius-md`, `--ink-2` fill, `--card-shadow` elevation).
-   That puts it in the same visual language as the "How I Work" strip directly
-   below it, and `minmax(0, 1fr)` keeps a long chip like "Tailwind CSS" from
-   forcing the column wider than its share.
+   The three groups use one ruled layout instead of separate panels, reducing
+   visual weight while giving the tools the width they need. At tablet widths
+   the groups become labeled rows; on phones they stack their labels above the
+   chips.
 
    Scope note: `.stack-cat` lives in this page-only stylesheet, so it is safe
    to restyle outright. `.stack-grid` and `.stack-chip` are NOT - they are the
@@ -217,18 +202,19 @@
 .stack-cats {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
 }
 
 .stack-cat {
-    display: flex;
-    flex-direction: column;
-    /* No margin-bottom: as grid items that would add to the row's height and
-       push the three cards out of alignment. The grid gap separates them. */
+    min-width: 0;
     padding: 24px 22px 26px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    background: var(--ink-2);
+    background: transparent;
+    box-shadow: none;
+}
+
+.stack-cat + .stack-cat {
+    border-left: 1px solid var(--line);
 }
 
 .stack-cat h3 {
@@ -274,11 +260,27 @@
     }
 
     .stack-cat {
-        padding: 20px 18px 22px;
+        display: grid;
+        grid-template-columns: minmax(150px, 0.55fr) minmax(0, 1fr);
+        align-items: start;
+        gap: 16px 24px;
+        padding: 20px 0;
+    }
+
+    .stack-cat + .stack-cat {
+        border-top: 1px solid var(--line);
+        border-left: 0;
     }
 
     .stack-cat h3 {
-        margin-bottom: 12px;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .stack-cat {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 }
 

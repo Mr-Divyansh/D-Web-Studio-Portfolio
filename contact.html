@@ -50,7 +50,6 @@
 </script>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
 <header>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <nav class="site-nav" id="siteNav" aria-label="Main navigation">
@@ -125,6 +124,11 @@
         <strong>WhatsApp</strong>
         <span>Fastest reply — usually within hours</span>
       </a>
+      <a href="tel:+918091273525" class="contact-tile reveal" style="transition-delay:.07s;">
+        <span class="tile-icon"><i data-lucide="phone" aria-hidden="true"></i></span>
+        <strong>Call</strong>
+        <span>+91 80912 73525</span>
+      </a>
       <a href="mailto:dwebstudio00@gmail.com" class="contact-tile reveal" style="transition-delay:.10s;">
         <span class="tile-icon"><i data-lucide="mail" aria-hidden="true"></i></span>
         <strong>Email</strong>
@@ -179,8 +183,9 @@
         </div>
         <div class="form-row">
           <label>
-            Project Type
+            Project Type <small>(optional)</small>
             <select name="project_type">
+              <option value="" selected>Choose if you know</option>
               <option>Business Website</option>
               <option>Website</option>
               <option>Landing Page</option>
@@ -193,13 +198,14 @@
             </select>
           </label>
           <label>
-            Budget Range
+            Budget Range <small>(optional)</small>
             <select name="budget">
+              <option value="" selected>Choose if you know</option>
               <option>Under ₹5,000</option>
               <option>₹5,000 – ₹10,000</option>
               <option>₹10,000 – ₹25,000</option>
               <option>₹25,000+</option>
-              <option selected>Not sure yet</option>
+              <option>Not sure yet</option>
             </select>
           </label>
         </div>
@@ -207,6 +213,14 @@
           Your Message
           <textarea id="message" name="message" placeholder="Briefly tell me what you want to build — pages, features, anything on your mind." required></textarea>
         </label>
+        <div class="form-consent">
+          <input type="checkbox" id="privacy-consent" name="privacy_consent" required aria-describedby="privacy-consent-error">
+          <label for="privacy-consent">
+            I agree that my details may be used to respond to my enquiry, as explained in the
+            <a href="policies.html#privacy">Privacy Notice</a>.
+          </label>
+          <p id="privacy-consent-error" class="field-error" aria-live="polite"></p>
+        </div>
         <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" aria-hidden="true">
         <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow" aria-hidden="true">→</span></button>
         <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
@@ -219,7 +233,7 @@
             <span class="step-num" aria-hidden="true">1</span>
             <div>
               <strong>It lands in my inbox</strong>
-              <p>Straight to the same Gmail this site is built on — no CRM, no autoresponder.</p>
+              <p>The form is sent through Web3Forms and routed to my inbox. No account is needed to enquire.</p>
             </div>
           </li>
           <li>
@@ -280,7 +294,7 @@
 <section id="contact-band-cta">
   <div class="container">
     <div class="contact-band reveal">
-      <span class="eyebrow" style="justify-content:center;">Prefer WhatsApp?</span>
+      <span class="eyebrow">Prefer WhatsApp?</span>
       <h2>Skip the form, <span class="text-grad">just message.</span></h2>
       <p>Message me directly on WhatsApp or send an email — either way, you'll usually hear back within a few hours.</p>
       <div class="contact-btns">
@@ -301,7 +315,7 @@
 
 <footer>
   <div class="container">
-    <!-- Top CTA panel -->
+    <!-- Project invitation -->
     <div class="footer-cta">
       <div class="footer-cta-copy">
         <span class="eyebrow footer-cta-eyebrow">Have a Project in Mind?</span>
@@ -386,8 +400,15 @@
       <p>© <span id="year">2026</span> D Web Studio. All rights reserved.</p>
       <div class="footer-bottom-links">
         <span>Himachal Pradesh, India</span>
-        <span>•</span>
+        <span aria-hidden="true">•</span>
         <span>Built with passion &amp; code.</span>
+        <a href="policies.html#privacy">Privacy</a>
+        <span aria-hidden="true">·</span>
+        <a href="policies.html#terms">Terms</a>
+        <span aria-hidden="true">·</span>
+        <a href="policies.html#cookies">Cookies</a>
+        <span aria-hidden="true">·</span>
+        <a href="policies.html#refunds">Refunds</a>
       </div>
     </div>
 

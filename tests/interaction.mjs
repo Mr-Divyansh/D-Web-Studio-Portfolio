@@ -151,7 +151,12 @@ function harnessScript() {
     ok("theme/dark-paper-var", token("--paper").toUpperCase() === "#F4F1EA", token("--paper"));
     ok("theme/dark-blue-rgb-var", token("--blue-rgb") === "34, 104, 230", token("--blue-rgb"));
     var card = document.querySelector(".service-card, .project-card, .contact-tile, .feature-item, .focus-panel, .value-card, .beyond-card, .step-card, .why-card, .price-card, .journey-body, .story-aside, .faq-list details");
-    if (card) ok("theme/shared-elevation", getComputedStyle(card).boxShadow !== "none", card.className.split(" ")[0] + " box-shadow present");
+    if (card && card.classList.contains("contact-tile")) {
+      var tileStyle = getComputedStyle(card);
+      ok("theme/contact-directory-surface", tileStyle.boxShadow === "none" && tileStyle.borderBottomStyle === "solid", "unboxed row with divider");
+    } else if (card) {
+      ok("theme/shared-elevation", getComputedStyle(card).boxShadow !== "none", card.className.split(" ")[0] + " box-shadow present");
+    }
 
     btn("system").forEach(function (b) { b.click(); });
     ok("theme/system-persists", localStorage.getItem("dweb-theme") === "system", String(localStorage.getItem("dweb-theme")));
@@ -307,6 +312,17 @@ function harnessScript() {
     await wait(100);
     ok("form/clears-on-valid-input", ["name", "email", "message"].every(function (n) { return form.elements[n].getAttribute("aria-invalid") === null; }), "aria-invalid removed once valid");
     ok("form/submit-re-enabled", form.querySelector('button[type="submit"]').disabled === false, "submit enabled after validation failure");
+
+    form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+    await wait(100);
+    var consent = form.elements["privacy_consent"];
+    var consentError = document.getElementById("privacy-consent-error");
+    ok("form/consent-required", consent.getAttribute("aria-invalid") === "true" && consentError.classList.contains("show"), consentError.textContent);
+    ok("form/consent-focuses-invalid", document.activeElement === consent, "active=" + (document.activeElement ? document.activeElement.name || document.activeElement.tagName : "none"));
+    consent.checked = true;
+    consent.dispatchEvent(new Event("change", { bubbles: true }));
+    ok("form/consent-error-clears", consent.getAttribute("aria-invalid") === null && !consentError.classList.contains("show"), consentError.textContent);
+    ok("form/validation-status-clears-after-corrections", !status.classList.contains("show"), status.className);
   }
 
   // ---- FAQ / accordion toggles -----------------------------------------
@@ -562,4 +578,3 @@ server.close();
 console.log("");
 console.log(`interaction: ${pass} passed, ${fail} failed`);
 if (failures.length) { console.log(""); failures.forEach((f) => console.log("  FAIL  " + f)); process.exitCode = 1; }
-
