@@ -245,6 +245,25 @@ function harnessScript() {
     var closeBtn = document.getElementById("drawerClose");
     ok("drawer/elements-exist", !!(burger && drawer && backdrop && closeBtn), "hamburger/drawer/backdrop/close present");
 
+    var serviceRow = document.querySelector(".features-row--service-categories");
+    if (serviceRow) {
+      var serviceCards = Array.prototype.slice.call(serviceRow.querySelectorAll(":scope > .feature-item"));
+      ok("service-categories/all-open-services",
+        serviceCards.length === 4 && serviceCards.every(function (card) { return card.getAttribute("href") === "services.html"; }),
+        serviceCards.length + " category links");
+      ok("service-categories/clear-link-cue",
+        serviceCards.every(function (card) { return card.querySelector(".feature-go")?.textContent.indexOf("Explore services") !== -1; }),
+        "each card names its destination");
+      if (narrow) {
+        ok("service-categories/single-column-on-mobile",
+          getComputedStyle(serviceRow).gridTemplateColumns.split(" ").filter(Boolean).length === 1,
+          getComputedStyle(serviceRow).gridTemplateColumns);
+        ok("service-categories/no-horizontal-overflow",
+          document.documentElement.scrollWidth <= document.documentElement.clientWidth,
+          "scroll=" + document.documentElement.scrollWidth + " client=" + document.documentElement.clientWidth);
+      }
+    }
+
     var desktopSwitch = document.querySelector(".nav-inner > .theme-switcher");
     if (narrow) {
       ok("switcher/desktop-hidden-on-mobile", !desktopSwitch || getComputedStyle(desktopSwitch).display === "none", "nav switcher display=" + (desktopSwitch ? getComputedStyle(desktopSwitch).display : "n/a"));
@@ -263,6 +282,15 @@ function harnessScript() {
     burger.click();
     await wait(150);
     ok("drawer/opens", drawer.classList.contains("open") && backdrop.classList.contains("open"), "drawer+backdrop .open");
+    var burgerRect = burger.getBoundingClientRect();
+    var closeRect = closeBtn.getBoundingClientRect();
+    ok("drawer/toggle-controls-share-position",
+      Math.abs(burgerRect.left - closeRect.left) <= 1 &&
+      Math.abs(burgerRect.top - closeRect.top) <= 1 &&
+      Math.abs(burgerRect.width - closeRect.width) <= 1 &&
+      Math.abs(burgerRect.height - closeRect.height) <= 1,
+      "open " + Math.round(burgerRect.left) + "," + Math.round(burgerRect.top) +
+      " close " + Math.round(closeRect.left) + "," + Math.round(closeRect.top));
     ok("drawer/aria-expanded", burger.getAttribute("aria-expanded") === "true", "aria-expanded=" + burger.getAttribute("aria-expanded"));
     // aria-expanded alone leaves the button announcing "Open menu" while it is
     // closing one, so the accessible name has to follow the state too.
@@ -549,7 +577,15 @@ let pass = 0, fail = 0;
 const failures = [];
 
 for (const run of RUNS) {
-  const source = await readFile(run.page, "utf8");
+  // Optional remote fonts and visual enhancers can delay local scripts when a
+  // CDN is unavailable. Keep the runtime suite deterministic without them;
+  // navigation, forms, theme state and disclosures still run normally.
+  const source = (await readFile(run.page, "utf8"))
+    .replace(/<link\b(?=[^>]*href="https:\/\/fonts\.(?:googleapis|gstatic)\.com\/)[^>]*>/gi, "")
+    .replace(
+      /<script\b(?=[^>]*\bsrc="https:\/\/(?:unpkg\.com\/lucide@|cdnjs\.cloudflare\.com\/ajax\/libs\/anime\.js\/)[^"]+")[^>]*><\/script>/gi,
+      ""
+    );
   // Injected at the top of <head>, before js/theme.js: localStorage must already
   // hold the seed for it to win, and the harness needs to know which page it is
   // looking at (404 is the one page where no nav link is current).

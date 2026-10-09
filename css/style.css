@@ -547,8 +547,8 @@ section[id] {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    right: auto;
+    width: 100%;
+    right: 0;
     z-index: 200;
     border-bottom: 1px solid var(--line);
     background: var(--nav-scrim);
@@ -3759,6 +3759,10 @@ a.contact-tile.reveal:hover {
     color: inherit;
 }
 
+.features-row--service-categories .feature-item {
+    background-image: linear-gradient(145deg, rgba(var(--blue-rgb), 0.08), transparent 62%);
+}
+
 /* The top line. A flex row rather than a grid because both children are
    content-sized and the only job here is pushing the index to the far corner. */
 .features-row--services .feature-top {
@@ -3815,34 +3819,33 @@ a.contact-tile.reveal:hover {
     letter-spacing: 0.16em;
 }
 
-/* The card's primary element: 16px -> 17px, and full --paper ink rather than
+/* The card's primary element: 18px, and full --paper ink rather than
    the muted grey the panel copy uses. The base also carries a
    `.feature-num + h3 { margin-top }` rule written for the about.html markup;
    that adjacency no longer exists here and the gap is the top line's margin
    instead, so it is cancelled explicitly. */
 .features-row--services .feature-item h3 {
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1.3;
     font-weight: 800;
-    letter-spacing: -0.014em;
+    letter-spacing: -0.02em;
     color: var(--paper);
     text-wrap: balance;
     margin-top: 0;
 }
 
 /* `margin-bottom: 0` matters more than usual here. The card is a column flex
-   and the paragraph is followed by the arrow, so the base's bottom margin
+   and the paragraph is followed by the footer cue, so the base's bottom margin
    would push the arrow below the baseline the other three cards put it on. */
 .features-row--services .feature-item > p {
-    font-size: 13.8px;
-    line-height: 1.72;
+    font-size: 14.5px;
+    line-height: 1.65;
     color: var(--muted);
     margin-bottom: 0;
 }
 
-/* The "there is a page behind this" cue, pinned to the card's foot with an auto
-   margin so all four arrows sit on one baseline instead of four different
-   ones. Only the first row is a link, so only the first row has one. */
+/* The category link cue sits at the card foot with an auto margin so all four
+   footers share one baseline. The process row remains static and omits it. */
 .features-row--services .feature-go {
     margin-top: auto;
     padding-top: 18px;
@@ -3850,6 +3853,37 @@ a.contact-tile.reveal:hover {
     line-height: 1;
     color: var(--muted-2);
     transition: color 0.3s ease, transform 0.3s var(--ease);
+}
+
+.features-row--service-categories .feature-go {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    color: var(--blue-light);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.features-row--service-categories .feature-go-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(var(--blue-rgb), 0.22);
+    border-radius: 50%;
+    background: rgba(var(--blue-rgb), 0.09);
+    transition: transform 0.3s var(--ease), background-color 0.3s ease;
+}
+
+.features-row--service-categories .feature-go-arrow svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2;
 }
 
 /* Keyboard focus needs a ring now that the card is a link. Offset 3px rather
@@ -3874,6 +3908,15 @@ a.contact-tile.reveal:hover {
     .features-row--services .feature-item:hover .feature-go {
         color: var(--blue-light);
         transform: translateX(4px);
+    }
+
+    .features-row--service-categories .feature-item:hover .feature-go {
+        transform: none;
+    }
+
+    .features-row--service-categories .feature-item:hover .feature-go-arrow {
+        transform: translateX(3px);
+        background: rgba(var(--blue-rgb), 0.16);
     }
 }
 
@@ -5218,6 +5261,10 @@ a.contact-tile:hover .tile-icon svg {
 .mobile-drawer-close {
     border-radius: 12px;
     background: var(--wash-1);
+    position: fixed;
+    top: 8px;
+    right: 14px;
+    z-index: 1;
 }
 
 .mobile-drawer-close:focus-visible {
