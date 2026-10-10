@@ -5012,6 +5012,10 @@ a.contact-tile:hover .tile-icon svg {
 }
 
 @media (max-width: 640px) {
+    footer {
+        padding-top: 34px;
+    }
+
     .footer-cta {
         gap: 20px;
         padding: 28px 0;
@@ -5261,10 +5265,18 @@ a.contact-tile:hover .tile-icon svg {
 .mobile-drawer-close {
     border-radius: 12px;
     background: var(--wash-1);
-    position: fixed;
-    top: 8px;
-    right: 14px;
-    z-index: 1;
+}
+
+@media (max-width: 1000px) {
+    .mobile-drawer-head {
+        position: relative;
+    }
+
+    .mobile-drawer-close {
+        position: absolute;
+        top: -18px;
+        right: -12px;
+    }
 }
 
 .mobile-drawer-close:focus-visible {
@@ -5397,6 +5409,11 @@ body.menu-open .hamburger.active {
     .mobile-drawer {
         width: min(88vw, 370px);
         padding: 24px 22px;
+    }
+
+    .mobile-drawer-close {
+        top: -16px;
+        right: -8px;
     }
 
     .mobile-drawer-title {

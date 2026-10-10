@@ -53,6 +53,7 @@ const RUNS = [
   { page: "index.html", width: 1440, height: 900, tag: "index-seeded-light", seed: "light" },
   { page: "index.html", width: 1440, height: 900, tag: "index-seeded-dark", seed: "dark" },
   { page: "contact.html", width: 1440, height: 900, tag: "contact-desktop", seed: null },
+  { page: "contact.html", width: 390, height: 844, tag: "contact-mobile", seed: null },
   { page: "work.html", width: 1440, height: 900, tag: "work-desktop", seed: null },
   // The shareable case-study page: js/project-detail.js renders it from
   // location.search, so the run needs a real ?slug= to render against.
@@ -272,6 +273,16 @@ function harnessScript() {
       var dOpt = drawer.querySelector(".theme-option");
       ok("switcher/drawer-touch-target", !!dOpt && parseFloat(getComputedStyle(dOpt).minHeight) >= 44,
         dOpt ? "min-height=" + getComputedStyle(dOpt).minHeight : "no drawer .theme-option");
+
+      if (window.__LIVE_PAGE__ === "contact.html") {
+        var contactBand = document.querySelector("#contact-band-cta .contact-band");
+        var footerCta = document.querySelector("footer .footer-cta");
+        var sectionToFooterGap = contactBand && footerCta
+          ? footerCta.getBoundingClientRect().top - contactBand.getBoundingClientRect().bottom
+          : Infinity;
+        ok("contact/footer-gap-is-mobile-sized", sectionToFooterGap <= 100,
+          "contact-to-footer CTA gap=" + Math.round(sectionToFooterGap) + "px");
+      }
     }
 
     if (!narrow || !burger) return;
@@ -282,6 +293,12 @@ function harnessScript() {
     burger.click();
     await wait(150);
     ok("drawer/opens", drawer.classList.contains("open") && backdrop.classList.contains("open"), "drawer+backdrop .open");
+    var drawerContent = qa("#mobileDrawer .mobile-nav-list a, #mobileDrawer .mobile-theme .theme-option, #mobileDrawer .mobile-drawer-cta");
+    ok("drawer/content-readable-during-entry",
+      drawerContent.length > 0 && drawerContent.every(function (el) {
+        return getComputedStyle(el).visibility === "visible" && parseFloat(getComputedStyle(el).opacity) >= 0.99;
+      }),
+      drawerContent.filter(function (el) { return parseFloat(getComputedStyle(el).opacity) < 0.99; }).length + " controls faded");
     var burgerRect = burger.getBoundingClientRect();
     var closeRect = closeBtn.getBoundingClientRect();
     ok("drawer/toggle-controls-share-position",
