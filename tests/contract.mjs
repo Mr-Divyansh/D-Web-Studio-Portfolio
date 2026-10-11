@@ -15,6 +15,8 @@ const check = (id, ok, detail = "") => {
 // cards no longer link out to these URLs directly: they link to the shareable
 // detail page, and js/project-detail.js is what exposes the live URL.
 const LIVE_PROJECTS = [
+  ["Olive Atelier",        "https://olive-atelier-coffee-website.vercel.app/", "olive-atelier"],
+  ["Nutrition Store",      "https://democlinte.vercel.app/",                   "nutrition-store"],
   ["AttendX",             "https://attendx-ashy.vercel.app/",                "attendx"],
   ["Shadow-Weaver",       "https://shadow-weaver.vercel.app/",              "shadow-weaver"],
   ["Gloom Hair &amp; Beauty", "https://gloom-hair-beauty.netlify.app/",      "gloom"],
