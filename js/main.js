@@ -318,6 +318,36 @@
         }
     }
 
+    // Theme toggle checkbox — syncs with existing theme.js system
+    var themeCheckbox = document.getElementById("theme");
+    if (themeCheckbox) {
+        function syncCheckbox() {
+            var currentTheme = document.documentElement.getAttribute("data-theme");
+            themeCheckbox.checked = currentTheme === "dark";
+        }
+
+        syncCheckbox();
+
+        themeCheckbox.addEventListener("change", function () {
+            var html = document.documentElement;
+            if (themeCheckbox.checked) {
+                html.setAttribute("data-theme", "dark");
+                html.setAttribute("data-theme-preference", "dark");
+                try { window.localStorage.setItem("dweb-theme", "dark"); } catch (e) {}
+            } else {
+                html.setAttribute("data-theme", "light");
+                html.setAttribute("data-theme-preference", "light");
+                try { window.localStorage.setItem("dweb-theme", "light"); } catch (e) {}
+            }
+            // Re-render Lucide icons so colors update
+            if (window.lucide) window.lucide.createIcons();
+        });
+
+        // Listen for theme changes from other controls (theme buttons, system switch)
+        window.addEventListener("storage", syncCheckbox);
+        document.addEventListener("themechanged", syncCheckbox);
+    }
+
 })();
 
 function initLucideIcons() {

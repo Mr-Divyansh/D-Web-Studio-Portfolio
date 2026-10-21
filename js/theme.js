@@ -58,6 +58,11 @@
         updateThemeMeta(resolvedTheme);
         updateThemeButtons(theme);
 
+        // Notify checkbox toggle of theme change
+        try {
+            document.dispatchEvent(new CustomEvent("themechanged"));
+        } catch (e) {}
+
         if (persist) saveTheme(theme);
     }
 
