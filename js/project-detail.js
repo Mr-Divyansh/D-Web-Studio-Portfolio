@@ -13,7 +13,7 @@
         "nutrition-store": { name: "Nutrition Store", pill: "E-commerce", about: "A sports nutrition store with categories, product cards, cart flow and cash-on-delivery ordering.", tech: ["HTML", "CSS", "JavaScript", "Responsive"], live: "https://democlinte.vercel.app/", shots: ["img/ProjectImage/gallery/nutrition-store-a.jpg", "img/ProjectImage/gallery/nutrition-store-b.jpg", "img/ProjectImage/gallery/nutrition-store-c.jpg"], captions: ["Nutrition store home view", "Nutrition store categories and products view", "Nutrition store visit and contact view"], why: "Built as an online nutrition store, so customers can browse protein, creatine and gainers, build a cart and order with cash on delivery.", features: ["Category and product browsing", "Add-to-cart shopping flow", "Cash on delivery ordering", "Responsive store layout"], facts: [["Type", "E-commerce"], ["Status", "Live"], ["Stack", "HTML, CSS, JavaScript, Responsive"]] },
         "attendx": { name: "AttendX", pill: "Web Application", about: "A modern attendance management platform designed around students, teachers and role-based workflows.", tech: ["Next.js", "Tailwind", "Prisma", "Postgres"], live: "https://attendx-ashy.vercel.app/", shots: ["img/ProjectImage/gallery/attendx-a.jpg", "img/ProjectImage/gallery/attendx-b.jpg", "img/ProjectImage/gallery/attendx-c.jpg"], captions: ["AttendX home view", "AttendX mid-page view", "AttendX lower-page view"], why: "Built to take attendance out of registers and spreadsheets, so students, teachers and role-based workflows live in one modern platform.", features: ["Role-based workflows for students and teachers", "Modern attendance management flow", "Full-stack data layer with Prisma and Postgres", "Responsive Tailwind interface"], facts: [["Type", "Web Application"], ["Status", "Live"], ["Stack", "Next.js, Tailwind, Prisma, Postgres"]] },
         "shadow-weaver": { name: "Shadow-Weaver", pill: "Cybersecurity", about: "Real-time AI cyber-defense SOC dashboard with multiple agents, threat monitoring and a Gemini-powered analyst.", tech: ["React", "TypeScript", "Python", "FastAPI"], live: "https://shadow-weaver.vercel.app/", shots: ["img/ProjectImage/gallery/shadow-weaver-a.jpg", "img/ProjectImage/gallery/shadow-weaver-b.jpg", "img/ProjectImage/gallery/shadow-weaver-c.jpg"], captions: ["Shadow-Weaver dashboard view", "Shadow-Weaver mid-page view", "Shadow-Weaver lower-page view"], why: "Built as a real-time AI cyber-defense SOC dashboard, so multiple agents, threat monitoring and a Gemini-powered analyst sit in one view.", features: ["Real-time SOC dashboard layout", "Multiple monitoring agents", "Threat monitoring views", "Gemini-powered analyst"], facts: [["Type", "Cybersecurity"], ["Status", "Live"], ["Stack", "React, TypeScript, Python, FastAPI"]] },
-        "chika": { name: "CHIKA", pill: "Desktop AI", about: "A personal AI desktop companion built around conversational interaction and Gemini Live.", tech: ["Electron", "React", "Vite", "Gemini"], live: "", shots: ["img/ProjectImage/ChikaImage.jpg"], captions: ["CHIKA personal AI desktop companion preview"], why: "Built as a personal AI desktop companion around conversational interaction and Gemini Live, rather than another browser tab.", features: ["Conversational interaction", "Gemini Live integration", "Desktop companion experience", "Electron app shell"], facts: [["Type", "Desktop AI"], ["Status", "Desktop App"], ["Stack", "Electron, React, Vite, Gemini"]] },
+        "chika": { name: "CHIKA", pill: "Desktop AI", about: "A personal AI desktop companion built around conversational interaction and Gemini Live.", tech: ["Electron", "React", "Vite", "Gemini"], live: "", shots: ["img/ProjectImage/ChikaImage1.png", "img/ProjectImage/ChikaImage2.png", "img/ProjectImage/ChikaImage3.png"], captions: ["CHIKA personal AI desktop companion preview", "CHIKA desktop companion — second view", "CHIKA desktop companion — third view"], why: "Built as a personal AI desktop companion around conversational interaction and Gemini Live, rather than another browser tab.", features: ["Conversational interaction", "Gemini Live integration", "Desktop companion experience", "Electron app shell"], facts: [["Type", "Desktop AI"], ["Status", "Desktop App"], ["Stack", "Electron, React, Vite, Gemini"]] },
         "dgymx": { name: "DGYMX", pill: "SaaS Concept", about: "A modern gym management system concept focused on members, payments, records and day-to-day gym operations.", tech: ["React", "Web", "Dashboard", "SaaS"], live: "", shots: ["img/ProjectImage/DgymxImage.png"], captions: ["DGYMX gym management dashboard preview"], why: "A concept for a modern gym management system, focused on members, payments, records and day-to-day gym operations.", features: ["Member management concept", "Payments and records concept", "Day-to-day operations dashboard", "SaaS dashboard layout"], facts: [["Type", "SaaS Concept"], ["Status", "Concept, In Progress"], ["Stack", "React, Web, Dashboard, SaaS"]] },
         "gloom": { name: "Gloom Hair & Beauty", pill: "Salon", about: "A luxury salon website with services, booking form, testimonials and a full pricing page.", tech: ["HTML", "CSS", "JavaScript", "Booking Form"], live: "https://gloom-hair-beauty.netlify.app/", shots: ["img/ProjectImage/gallery/gloom-hair-beauty-a.jpg", "img/ProjectImage/gallery/gloom-hair-beauty-b.jpg", "img/ProjectImage/gallery/gloom-hair-beauty-c.jpg"], captions: ["Gloom salon home view", "Gloom salon mid-page view", "Gloom salon lower-page view"], why: "Built to give a luxury salon a complete online presence: services, booking form, testimonials and a full pricing page in one site.", features: ["Services showcase", "Booking form", "Testimonials section", "Full pricing page"], facts: [["Type", "Salon"], ["Status", "Live"], ["Stack", "HTML, CSS, JavaScript, Booking Form"]] },
         "restaurant": { name: "Divyansh Restaurant", pill: "Restaurant", about: "A complete restaurant site with full menu, about page, team section and contact form.", tech: ["HTML", "CSS", "JavaScript", "Menu"], live: "https://divyansh-restaurant-studio.netlify.app/", shots: ["img/ProjectImage/gallery/divyansh-restaurant-a.jpg", "img/ProjectImage/gallery/divyansh-restaurant-b.jpg", "img/ProjectImage/gallery/divyansh-restaurant-c.jpg"], captions: ["Restaurant home view", "Restaurant mid-page view", "Restaurant lower-page view"], why: "Built as a complete restaurant site, so the full menu, about page, team section and contact form live together.", features: ["Full menu pages", "About page", "Team section", "Contact form"], facts: [["Type", "Restaurant"], ["Status", "Live"], ["Stack", "HTML, CSS, JavaScript, Menu"]] },
@@ -105,14 +105,23 @@
         }
     }
 
-    // Gallery: one large shot plus a thumbnail strip that swaps it.
-    function setShot(src, alt) {
+    // Gallery: one large shot plus a thumbnail strip that swaps it. A swap
+    // cross-fades the main shot (the class replays a short keyframe) so moving
+    // between views reads as one continuous surface instead of a hard cut. The
+    // first paint sets the image directly, with no animation, so nothing flashes
+    // on load.
+    function setShot(src, alt, animate) {
         if (!shotEl) return;
         shotEl.src = src;
         shotEl.alt = alt;
+        if (animate) {
+            shotEl.classList.remove("shot-swap");
+            void shotEl.offsetWidth; // restart the keyframe on repeat clicks
+            shotEl.classList.add("shot-swap");
+        }
     }
 
-    setShot(info.shots[0], info.captions[0] || info.name + " preview");
+    setShot(info.shots[0], info.captions[0] || info.name + " preview", false);
 
     if (thumbsEl) {
         thumbsEl.innerHTML = "";
@@ -131,7 +140,7 @@
                 im.height = 900;
                 b.appendChild(im);
                 b.addEventListener("click", function () {
-                    setShot(src, cap);
+                    setShot(src, cap, true);
                     var all = thumbsEl.querySelectorAll("button");
                     for (var k = 0; k < all.length; k++) all[k].setAttribute("aria-current", "false");
                     b.setAttribute("aria-current", "true");

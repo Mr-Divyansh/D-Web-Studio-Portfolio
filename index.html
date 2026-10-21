@@ -131,6 +131,10 @@
         <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="false">Dark</button>
         <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
       </div>
+      <button type="button" class="sound-toggle" id="soundToggle" aria-pressed="false" aria-label="Sound" title="Sound">
+        <i data-lucide="volume-2"></i>
+        <span class="sr-only">Sound</span>
+      </button>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
         <span></span><span></span><span></span>
       </button>
@@ -160,6 +164,9 @@
       <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
     </div>
   </div>
+  <button type="button" class="sound-toggle" id="soundToggleDrawer" aria-pressed="false" aria-label="Sound" title="Sound">
+    <i data-lucide="volume-2"></i>
+  </button>
   <a href="https://api.whatsapp.com/send?phone=918091273525" target="_blank" rel="noopener noreferrer" class="mobile-drawer-cta">WhatsApp Us →</a>
 </nav>
 
@@ -614,7 +621,7 @@
       <a href="project.html?slug=chika" class="project-card reveal" style="transition-delay:.25s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#3a2410,#150e08);">
           <span class="tagpill">Desktop AI</span>
-          <img src="img/ProjectImage/ChikaImage.jpg" alt="CHIKA personal AI desktop companion preview" loading="lazy" decoding="async" width="1363" height="602">
+          <img src="img/ProjectImage/ChikaImage1.png" alt="CHIKA personal AI desktop companion preview" loading="lazy" decoding="async" width="1365" height="767">
         </div>
         <div class="project-body">
           <div class="project-title-row">
@@ -1199,5 +1206,7 @@
 <script src="js/main.js"></script>
 <script src="js/contact-ripples.js"></script>
 <script defer src="js/square-wave.js"></script>
+<script defer src="js/cursor-trail.js"></script>
+<script defer src="js/sound-engine.js"></script>
 </body>
 </html>
