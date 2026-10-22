@@ -4,6 +4,12 @@
     var yearEl = document.getElementById("year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    // Initialize sound engine (clicks, toggles, mute)
+    if (window.soundEngine) window.soundEngine.init();
+
+    // Initialize cursor trail (sparkle particles, reduced-motion aware)
+    if (window.cursorTrail) window.cursorTrail.enable();
+
     var nav = document.getElementById("siteNav");
 
     if (nav) {
@@ -74,11 +80,18 @@
         };
 
         hamburger.addEventListener("click", function () {
+            if (window.soundEngine) window.soundEngine.click();
             drawer.classList.contains("open") ? closeDrawer() : openDrawer();
         });
 
-        closeBtn.addEventListener("click", function () { closeDrawer(); });
-        backdrop.addEventListener("click", function () { closeDrawer(); });
+        closeBtn.addEventListener("click", function () {
+            if (window.soundEngine) window.soundEngine.click();
+            closeDrawer();
+        });
+        backdrop.addEventListener("click", function () {
+            if (window.soundEngine) window.soundEngine.click();
+            closeDrawer();
+        });
 
         drawer.querySelectorAll("a").forEach(function (link) {
             link.addEventListener("click", function () { closeDrawer(false); });
@@ -243,6 +256,7 @@
             });
 
             toggle.addEventListener("click", function () {
+                if (window.soundEngine) window.soundEngine.click();
                 var shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
 
                 featureItems.forEach(function (currentItem) {
@@ -318,36 +332,38 @@
         }
     }
 
-    // Theme toggle checkbox — syncs with existing theme.js system
-    var themeCheckbox = document.getElementById("theme");
-    if (themeCheckbox) {
-        function syncCheckbox() {
-            var currentTheme = document.documentElement.getAttribute("data-theme");
-            themeCheckbox.checked = currentTheme === "dark";
-        }
-
-        syncCheckbox();
-
-        themeCheckbox.addEventListener("change", function () {
-            var html = document.documentElement;
-            if (themeCheckbox.checked) {
-                html.setAttribute("data-theme", "dark");
-                html.setAttribute("data-theme-preference", "dark");
-                try { window.localStorage.setItem("dweb-theme", "dark"); } catch (e) {}
+    // Sound toggle button (desktop nav + mobile drawer)
+    var soundToggles = document.querySelectorAll(".sound-toggle");
+    soundToggles.forEach(function (btn) {
+        var updateIcon = function () {
+            var isMuted = window.soundEngine.isMuted();
+            btn.setAttribute("aria-pressed", String(!isMuted));
+            btn.classList.toggle("muted", isMuted);
+            var volIcon = btn.querySelector('i[data-lucide="volume-2"]');
+            var offIcon = document.createElement("i");
+            offIcon.setAttribute("data-lucide", "volume-x");
+            offIcon.setAttribute("aria-hidden", "true");
+            if (isMuted) {
+                if (volIcon) volIcon.style.display = "none";
+                if (!btn.querySelector('i[data-lucide="volume-x"]')) btn.appendChild(offIcon);
             } else {
-                html.setAttribute("data-theme", "light");
-                html.setAttribute("data-theme-preference", "light");
-                try { window.localStorage.setItem("dweb-theme", "light"); } catch (e) {}
+                if (volIcon) volIcon.style.display = "inline-block";
+                var xIcon = btn.querySelector('i[data-lucide="volume-x"]');
+                if (xIcon) xIcon.style.display = "none";
             }
-            // Re-render Lucide icons so colors update
-            if (window.lucide) window.lucide.createIcons();
+            if (window.lucide) window.lucide.createIcons({ nodes: btn });
+        };
+
+        btn.addEventListener("click", function () {
+            if (window.soundEngine) {
+                var nowMuted = window.soundEngine.toggle();
+                if (nowMuted) window.soundEngine.toggleOff(); else window.soundEngine.toggleOn();
+            }
+            updateIcon();
         });
 
-        // Listen for theme changes from other controls (theme buttons, system switch)
-        window.addEventListener("storage", syncCheckbox);
-        document.addEventListener("themechanged", syncCheckbox);
-    }
-
+        updateIcon();
+    });
 })();
 
 function initLucideIcons() {

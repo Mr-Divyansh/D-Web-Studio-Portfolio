@@ -7,16 +7,20 @@
     --muted: #AFBED2;
     --muted-2: #8798B0;
     --nav-link-hover: #A6B5C9;
+
     --blue: #2268E6;
     --blue-rgb: 34, 104, 230;
     --blue-light: #6FB2FF;
     --blue-deep: #1A57CF;
+
     --gold: #E3BE78;
     --gold-rgb: 227, 190, 120;
+
     --live: #4ADE9A;
     --live-rgb: 74, 222, 154;
     --danger: #FF8A8A;
     --danger-rgb: 255, 138, 138;
+
     --line: rgba(244, 241, 234, 0.10);
     --line-strong: rgba(244, 241, 234, 0.18);
     --wash-1: rgba(244, 241, 234, 0.055);
@@ -31,6 +35,8 @@
     --pill-line: rgba(244, 241, 234, 0.22);
     --hero-heading: #F2F6FD;
     --wave-cursor-fill: rgba(233, 236, 242, 0.22);
+
+    /* ---------- Hero cube ---------- */
     --cube-face-line: rgba(147, 197, 253, 0.34);
     --cube-face-bg: linear-gradient(135deg, rgba(111, 178, 255, 0.14), rgba(34, 104, 230, 0.06) 55%, rgba(111, 178, 255, 0.04));
     --cube-face-inner: rgba(76, 154, 255, 0.14);
@@ -38,18 +44,49 @@
     --cube-orbit-accent: rgba(122, 182, 255, 0.62);
     --cube-orbit-2-line: rgba(111, 178, 255, 0.09);
     --cube-orbit-2-accent: rgba(76, 154, 255, 0.42);
+
+    /* ---------- Elevation ----------
+       A dark-mode surface is defined by a lighter patch; a light-mode surface
+       has to be lifted off the page, because the page and the card are both
+       near-white. `--card-shadow` is the only pair of values that separates a
+       white card from a white page, and it is defined per theme because a
+       0.3-alpha black shadow that reads as depth on near-black reads as a
+       smudge on white. */
     --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.32), 0 10px 26px -18px rgba(0, 0, 0, 0.66);
     --card-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.38), 0 22px 44px -22px rgba(0, 0, 0, 0.78);
+
     --grad-brand: linear-gradient(100deg, var(--silver), var(--blue));
+    /* The dark accent used to run #E9ECF2 -> #9CC8FF: bright silver into light
+       blue. Against the near-white h1 (--paper, #F4F1EA) the silver start came
+       out at 1.05:1 - indistinguishable - so the first half of every gradient
+       span was the same colour as the words beside it and the accent only
+       arrived late in the ramp. Contrast was never the problem (16:1 and up
+       against the page surface); the accent simply had nothing to separate it
+       from, which is the same failure the light theme had and gets the same
+       fix.
+
+       Both stops are now blues that stay clear of the heading at either end
+       while still reading on every dark surface. Against #F4F1EA: 2.61:1 at
+       the start, 3.66:1 at the end - a hue shift you can actually see. On the
+       surfaces the span lands on: 6.56:1 / 5.98:1 / 5.29:1 over --ink,
+       --ink-2 and --ink-3 at the start, and 4.69:1 / 4.27:1 / 3.78:1 at the
+       end, so large heading text clears 3:1 everywhere it can appear. */
+
     --font: "Plus Jakarta Sans", sans-serif;
+
     --edge: clamp(20px, 5vw, 64px);
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 22px;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
     color-scheme: dark;
 }
 
+/* ---------- Light theme ----------
+   The light palette is not a dimmed copy of the dark one. Every value below was
+   picked against the light page and checked at 4.5:1 (body text) and 1.08:1
+   (surface-to-surface) - see the theme block at the end of tests/contract.mjs. */
 :root[data-theme="light"] {
     --ink: #F1F5FB;
     --ink-2: #FFFFFF;
@@ -59,10 +96,15 @@
     --muted: #455875;
     --muted-2: #576A86;
     --nav-link-hover: #394A64;
+
     --blue: #2563EB;
+    /* Redeclared, not inherited: the light --blue is a slightly different blue
+       (#2563EB vs the dark #2268E6), so inheriting the dark triplet would tint
+       every blue wash on the light page with a hue that no longer exists. */
     --blue-rgb: 37, 99, 235;
     --blue-light: #1D4ED8;
     --blue-deep: #1A57CF;
+
     --gold: #8A5A0B;
     --gold-rgb: 138, 90, 11;
 
@@ -5406,163 +5448,115 @@ body.menu-open .hamburger.active {
     display: none;
 }
 
+/* ==========================================================================
+   ORBIT-X inspired enhancements (premium adaptation)
+   Sparkle cursor trail + sound toggle + performance polish.
+   ========================================================================== */
+
+/* ---------- Sparkle cursor trail canvas ---------- */
+.cursor-trail-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+}
+
+/* ---------- Sound toggle button ---------- */
+.sound-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    background: var(--ink-2);
+    color: var(--paper);
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+}
+
+.sound-toggle:hover {
+    border-color: var(--blue-light);
+    background: var(--ink-3);
+    transform: translateY(-1px);
+}
+
+.sound-toggle:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 2px;
+}
+
+.sound-toggle i[data-lucide] {
+    width: 18px;
+    height: 18px;
+}
+
+.sound-toggle[aria-pressed="true"] i[data-lucide="volume-2"],
+.sound-toggle.muted i[data-lucide="volume-2"] {
+    display: none;
+}
+
+.sound-toggle.muted i[data-lucide="volume-x"],
+.sound-toggle i[data-lucide="volume-x"] {
+    display: inline-block;
+}
+
+.sound-toggle i[data-lucide="volume-x"] {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .sound-toggle {
+        width: 36px;
+        height: 36px;
+        margin-left: 8px;
+    }
+    .sound-toggle i[data-lucide] {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* ---------- Performance: smoother animations ---------- */
+.reveal.in {
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+/* Ensure images don't cause layout shift */
+img[loading="lazy"] {
+    contain: content;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .cursor-trail-canvas {
+        display: none !important;
+    }
+    .reveal.in {
+        transition-duration: 0.001s !important;
+    }
+}
+
+/* ---------- Smooth page transitions ---------- */
+html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #2C333F var(--ink);
+}
+
+body {
+    /* Hardware-accelerated compositing for smoother scrolling */
+    transform: translateZ(0);
+}
 
 .nav-link:active {
     color: var(--blue-light);
-}
-
-/* ==========================================================================
-   Theme Toggle (checkbox-based, light/dark)
-   ========================================================================== */
-.theme-toggle-checkbox {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-.theme-toggle {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    padding: 1rem;
-    display: grid;
-    place-items: center;
-    transition: outline 150ms ease-in-out;
-    cursor: pointer;
-    border-radius: 50%;
-    outline: 1px solid var(--theme-toggle-border);
-    color: var(--theme-toggle-icon);
-    background: transparent;
-    border: none;
-    z-index: 10;
-}
-
-.theme-toggle::before {
-    content: var(--toggle-label-txt);
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    translate: -50% var(--toggle-label-y, -10px);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    opacity: var(--toggle-label-opacity, 0);
-    transition-property: opacity, translate;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-    color: var(--paper);
-}
-
-#theme:focus-within ~ .theme-toggle,
-.theme-toggle:hover {
-    outline-width: 10px;
-    --toggle-label-y: 20px;
-    --toggle-label-opacity: 1;
-}
-
-.theme-toggle > svg {
-    grid-area: 1/1;
-    transition: scale 300ms ease-in-out, rotate 500ms ease-in-out;
-    width: 100%;
-    height: 100%;
-    scale: var(--theme-toggle-dark-scale, 1);
-    rotate: var(--theme-toggle-rotate, 0turn);
-    color: var(--theme-toggle-icon);
-}
-
-.theme-toggle > svg:first-child {
-    scale: var(--theme-toggle-light-scale, 0);
-}
-
-/* Theme toggle variables based on data-theme */
-html[data-theme="dark"] {
-    --clr-bg: #0B0E13;
-    --clr-txt: #F4F1EA;
-    --theme-bg-clr: #0B0E13;
-    --theme-toggle-icon: #F4F1EA;
-    --theme-toggle-border: rgba(255, 255, 255, 0.25);
-    --theme-toggle-light-scale: 0;
-    --theme-toggle-dark-scale: 1;
-    --theme-toggle-rotate: 0turn;
-    --theme-bg-scale: 1;
-    --toggle-label-txt: "dark";
-}
-
-html[data-theme="light"] {
-    --clr-bg: #F1F5FB;
-    --clr-txt: #0E1B31;
-    --theme-bg-clr: #F1F5FB;
-    --theme-toggle-icon: #0E1B31;
-    --theme-toggle-border: rgba(0, 0, 0, 0.25);
-    --theme-toggle-light-scale: 1;
-    --theme-toggle-dark-scale: 0;
-    --theme-toggle-rotate: 1turn;
-    --theme-bg-scale: 1.25;
-    --toggle-label-txt: "light";
-}
-
-/* ==========================================================================
-   Background Video (responsive, mobile-friendly)
-   ========================================================================== */
-.video-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.video-background video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.video-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        135deg,
-        rgba(11, 14, 19, 0.75) 0%,
-        rgba(11, 14, 19, 0.45) 50%,
-        rgba(11, 14, 19, 0.75) 100%
-    );
-    z-index: -1;
-    pointer-events: none;
-}
-
-html[data-theme="light"] .video-overlay {
-    background: linear-gradient(
-        135deg,
-        rgba(241, 245, 251, 0.85) 0%,
-        rgba(241, 245, 251, 0.55) 50%,
-        rgba(241, 245, 251, 0.85) 100%
-    );
-}
-
-/* Reduce motion - disable video background */
-@media (prefers-reduced-motion: reduce) {
-    .video-background {
-        display: none;
-    }
-    .video-overlay {
-        background: var(--ink);
-    }
-    html[data-theme="light"] .video-overlay {
-        background: var(--ink-2);
-    }
 }
 
