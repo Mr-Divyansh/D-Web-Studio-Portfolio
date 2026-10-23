@@ -61,6 +61,12 @@
 </script>
 </head>
 <body>
+<div class="video-background">
+  <video autoplay muted loop playsinline preload="none" poster="img/logo.jpg">
+    <source src="https://cdn.pixabay.com/video/2021/08/09/102391-713350832_small.mp4" type="video/mp4">
+  </video>
+</div>
+<div class="video-overlay"></div>
 <header>
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <nav class="site-nav" id="siteNav" aria-label="Main navigation">
@@ -80,6 +86,18 @@
       <button type="button" class="theme-option" data-theme-choice="dark" aria-pressed="false">Dark</button>
       <button type="button" class="theme-option" data-theme-choice="system" aria-pressed="true">System</button>
     </div>
+    <input class="theme-toggle-checkbox sr-only" id="theme" type="checkbox" />
+    <label for="theme" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+      <svg id="light" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+        <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+      </svg>
+      <svg id="dark" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+      </svg>
+    </label>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
       <span></span><span></span><span></span>
     </button>
@@ -131,6 +149,24 @@
 <section id="projects">
   <div class="container">
     <div class="projects-grid">
+      <a href="project.html?slug=orbit-x" class="project-card reveal" style="transition-delay:.04s;">
+        <div class="project-thumb" style="background:linear-gradient(150deg,#1a1a2e,#0d0d1a);">
+          <span class="tagpill">ORBIT-X</span>
+          <img src="img/ProjectImage/gallery/ORBIT-X1.png" alt="ORBIT-X project preview" loading="lazy" decoding="async">
+        </div>
+        <div class="project-body">
+          <div class="project-title-row">
+            <h3>ORBIT-X <span class="arrow" aria-hidden="true">↗</span></h3>
+            <span class="status-tag status-tag--live">Live</span>
+          </div>
+          <p>A next-generation platform showcasing cutting-edge features and design.</p>
+          <div class="tech-row">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Vite</span>
+            <span class="tech-tag">TypeScript</span>
+          </div>
+        </div>
+      </a>
       <a href="project.html?slug=olive-atelier" class="project-card reveal" style="transition-delay:.04s;">
         <div class="project-thumb" style="background:linear-gradient(150deg,#2a3120,#0f130b);">
           <span class="tagpill">Restaurant &amp; Café</span>
